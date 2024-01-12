@@ -1,0 +1,4 @@
+﻿Unit Tests:
+
+This folder contains unit tests for various components of the application.
+We can write tests for controllers, services, and domain logic to ensure the application behaves correctly.

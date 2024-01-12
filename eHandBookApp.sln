@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rsc", "rsc", "{EDEFA6A1-370A-4BAC-915A-9DD0BCCDD2A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook.api", "eHandbook.api", "{90DC800E-99BA-4A26-A210-B35E794D978B}"
+	ProjectSection(SolutionItems) = preProject
+		eHandbook.api.txt = eHandbook.api.txt
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F3AB1291-54B6-46AC-A512-F61826D7C83A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.api", "rsc\eHandbook.api\eHandbook.api.csproj", "{C8417173-1441-4F3C-80D2-D12DE2A34E22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook.core", "eHandbook.core", "{62684FF9-C940-49BD-ABA7-E2BD91A63816}"
+	ProjectSection(SolutionItems) = preProject
+		eHandbook.Core.txt = eHandbook.Core.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook.Infrastructure", "eHandbook.Infrastructure", "{927F8034-84B7-4B27-BA15-D5066C8E8CB8}"
+	ProjectSection(SolutionItems) = preProject
+		eHandbook.Infrastructure.txt = eHandbook.Infrastructure.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook.Modules", "eHandbook.Modules", "{E1A13E4C-E197-468F-9660-53F0F2017D84}"
+	ProjectSection(SolutionItems) = preProject
+		eHandbook.Modules.txt = eHandbook.Modules.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.modules.ManualManagement", "rsc\eHandbook.Modules\eHandbook.modules.Manual\eHandbook.modules.ManualManagement.csproj", "{1D014F4B-F2C0-4FE5-BCCA-8EB128744629}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.Modules.UserManagement", "rsc\eHandbook.Modules\eHandbook.Modules.Users\eHandbook.Modules.UserManagement.csproj", "{85644869-A22D-42DC-A3B6-C576D704FC6C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.Infrastructure", "rsc\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj", "{4F673366-E945-48CD-BED7-75644AEA79AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.Core", "rsc\eHandbook.Core\eHandbook.Core.csproj", "{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{007E30B6-D57B-4F60-89D4-62A062CF5B85}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		ISP SOLID principle of OOP.txt = ISP SOLID principle of OOP.txt
+		Project Structure.txt = Project Structure.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3AB1291-54B6-46AC-A512-F61826D7C83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AB1291-54B6-46AC-A512-F61826D7C83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3AB1291-54B6-46AC-A512-F61826D7C83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3AB1291-54B6-46AC-A512-F61826D7C83A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8417173-1441-4F3C-80D2-D12DE2A34E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8417173-1441-4F3C-80D2-D12DE2A34E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8417173-1441-4F3C-80D2-D12DE2A34E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8417173-1441-4F3C-80D2-D12DE2A34E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D014F4B-F2C0-4FE5-BCCA-8EB128744629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D014F4B-F2C0-4FE5-BCCA-8EB128744629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D014F4B-F2C0-4FE5-BCCA-8EB128744629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D014F4B-F2C0-4FE5-BCCA-8EB128744629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85644869-A22D-42DC-A3B6-C576D704FC6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85644869-A22D-42DC-A3B6-C576D704FC6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85644869-A22D-42DC-A3B6-C576D704FC6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85644869-A22D-42DC-A3B6-C576D704FC6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F673366-E945-48CD-BED7-75644AEA79AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F673366-E945-48CD-BED7-75644AEA79AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F673366-E945-48CD-BED7-75644AEA79AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F673366-E945-48CD-BED7-75644AEA79AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90DC800E-99BA-4A26-A210-B35E794D978B} = {EDEFA6A1-370A-4BAC-915A-9DD0BCCDD2A8}
+		{C8417173-1441-4F3C-80D2-D12DE2A34E22} = {90DC800E-99BA-4A26-A210-B35E794D978B}
+		{62684FF9-C940-49BD-ABA7-E2BD91A63816} = {EDEFA6A1-370A-4BAC-915A-9DD0BCCDD2A8}
+		{927F8034-84B7-4B27-BA15-D5066C8E8CB8} = {EDEFA6A1-370A-4BAC-915A-9DD0BCCDD2A8}
+		{E1A13E4C-E197-468F-9660-53F0F2017D84} = {EDEFA6A1-370A-4BAC-915A-9DD0BCCDD2A8}
+		{1D014F4B-F2C0-4FE5-BCCA-8EB128744629} = {E1A13E4C-E197-468F-9660-53F0F2017D84}
+		{85644869-A22D-42DC-A3B6-C576D704FC6C} = {E1A13E4C-E197-468F-9660-53F0F2017D84}
+		{4F673366-E945-48CD-BED7-75644AEA79AC} = {927F8034-84B7-4B27-BA15-D5066C8E8CB8}
+		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A} = {62684FF9-C940-49BD-ABA7-E2BD91A63816}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F1D9803-C70D-4B63-9F6F-91B8BB6A5E00}
+	EndGlobalSection
+EndGlobal

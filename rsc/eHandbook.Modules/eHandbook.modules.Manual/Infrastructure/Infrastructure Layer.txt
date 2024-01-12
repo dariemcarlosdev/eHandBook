@@ -1,0 +1,6 @@
+﻿Infrastructure Layer:
+
+This layer is responsible for infrastructure concerns.
+It includes and handles DAL (Data Access layer or Persistence Layer), where you define the database context (ManualDbContext),repositories (e.g., ManualRepository) for data access and manage database migrations.
+This layer might also include external dependencies, service integrations, logging, and other infrastructure concerns.
+

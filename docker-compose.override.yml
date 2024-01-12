@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  ehandbookapp.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+# -Volumen mapping log folder inside of the container to log folder in project file system to have access to log output from Serilog.   
+      - ./.containers/logs:/logs 

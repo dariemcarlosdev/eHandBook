@@ -1,0 +1,21 @@
+﻿In software architecture, Minimal APIs in ASP.NET Core primarily align with the Service Layer or the API Layer.
+
+Service Layer: Minimal APIs are often used to create lightweight services that expose functionalities to clients. 
+They handle incoming HTTP requests and process them to perform specific tasks, such as retrieving data from a database, manipulating data, or performing some business logic. 
+These APIs essentially represent a service layer responsible for handling external requests and providing responses.
+
+API Layer: Considering that Minimal APIs focus on creating HTTP-based endpoints for interaction, they can be seen as a part of the API Layer.
+This layer encompasses the components responsible for exposing endpoints, defining contracts, handling requests, and returning appropriate responses.
+The API Layer is the interface through which external systems or clients interact with the application.
+
+However, it's important to note that while Minimal APIs fit within these layers, they might not strictly adhere to the full architectural patterns commonly associated with them, 
+especially regarding the separation of concerns seen in more traditional service layers or comprehensive API architectures.
+
+In a more comprehensive software architecture, Minimal APIs could serve as the entry point or the interface for external interactions, and within a larger system, 
+they might interact with other layers such as:
+
+Business Logic Layer: This layer contains the core business rules and logic of the application. While Minimal APIs can encapsulate some logic, more complex or domain-specific logic might reside in separate components or services within this layer.
+
+Data Access Layer: For applications that require interaction with databases or external data sources, the Minimal APIs might communicate with components responsible for data retrieval, storage, or manipulation, which are typically part of the Data Access Layer.
+
+In Overall, Minimal APIs provide a lightweight and efficient way to expose functionality over HTTP, but in larger systems, they often collaborate with other layers to handle different aspects of an application's functionality.

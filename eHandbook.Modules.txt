@@ -1,0 +1,2 @@
+eHandbook.Modules: This folder contains class library projects for individual modules (e.g., UserManagement, ManualManagement). 
+Each module follows the Vertical Slice Architecture pattern, with its own controllers, views, models, services, data access, and view models.

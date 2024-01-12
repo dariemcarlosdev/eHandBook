@@ -1,0 +1,3 @@
+﻿eHandbook.Infrastructure (Shared Cross-cuttig concerns):
+
+Here is where you would want your middlewares, utilities and specify which Database Provider to use for the entire application.

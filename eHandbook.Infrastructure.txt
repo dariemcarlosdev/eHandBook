@@ -1,0 +1,1 @@
+eHandbook.Infrastructure: Infrastructure-related code, such as data access configurations, migrations, logging, and other cross-cutting concerns. is placed here.

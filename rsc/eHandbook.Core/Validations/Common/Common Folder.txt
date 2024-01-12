@@ -1,0 +1,1 @@
+﻿•	Common: This subfolder contains common validation logic or validation result classes that can be used by multiple modules.

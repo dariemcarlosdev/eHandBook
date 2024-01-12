@@ -1,0 +1,2 @@
+﻿•Common: 
+This subfolder includes services that are used throughout the application and not tied to any specific feature.

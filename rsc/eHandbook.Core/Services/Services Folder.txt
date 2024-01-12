@@ -1,0 +1,3 @@
+﻿The Services folder holds core business logic services: 
+
+Some services might be specific to a module, while others serve common functionality that is used by multiple modules.

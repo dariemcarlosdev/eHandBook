@@ -1,0 +1,6 @@
+eHandbook.api(Web API layer): This is the main web application project. It contains the startup configuration, controllers, views, and other UI-related components.
+
+
+This layer contains the entry point to the application. It contains controllers that route HTTP requests to the appropriate feature/module controllers within the eHandbook.Modules namespace.
+It includes controllers for handling HTTP requests and delivering responses.
+It's responsible for mapping HTTP requests to application service methods.

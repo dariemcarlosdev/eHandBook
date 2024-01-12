@@ -1,0 +1,34 @@
+﻿Core Domain Layer:
+
+This layer is where the core business rules/logic reside and hold domain entities.(e.g., Manual) and use cases (e.g., CreateManual, GetManual)an as plain C# classes.  case consists of a command (input), command handler (logic), d response (output).
+In this example, it contains the Manual entity, representing a Manual and all their related data.
+Business rules, validations and domain logic related to Manual items should be defined here.
+
+Core Domain Layer:
+
+1. Domain Logic:
+
+- Purpose: Represents the heart of the application, encapsulating business rules, entities, value objects, and domain-specific logic.
+- Responsibility: Focuses on modeling the problem domain, containing concepts and behaviors specific to the business domain.
+- Abstraction: Shields the rest of the application from implementation details, concentrating on expressing the essential business logic.
+
+2. Independence from Infrastructure:
+
+- Dependence: Should not have direct dependencies on infrastructure concerns such as databases, frameworks, or external services.
+- Purity: Aims for purity in terms of business logic, free from technical details or concerns.
+
+3. Complexity and Depth:
+
+- Depth of Logic: Often contains more complex and intricate business logic or algorithms.
+- Evolution: This layer is relatively stable and changes only when the business rules evolve.
+
+Key Differences with Application Layer:
+
+Focus: Core Domain concentrates on representing the business domain, while the Application Layer focuses on managing interactions and coordinating the use of domain logic.
+Dependency Direction: Core Domain should not depend on infrastructure, while the Application Layer orchestrates the integration of domain logic with external systems.
+Complexity Level: Core Domain often deals with deeper and more complex business rules, while the Application Layer manages the flow and coordination of these rules.
+
+Relationship:
+The Application Layer relies on the Core Domain layer to provide the necessary domain models and logic for execution.
+Changes in the business rules or domain logic often require modifications in the Core Domain layer, while the Application Layer remains more susceptible to changes in user interfaces, external integrations, or system orchestration.
+Both layers complement each other, with the Core Domain focusing on the essence of the business problem and the Application Layer handling how that problem is interacted with and executed in the system.

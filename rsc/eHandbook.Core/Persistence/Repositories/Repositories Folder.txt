@@ -1,0 +1,3 @@
+﻿The Repositories folder
+
+contains repository classes that handle data access. Repositories may be specific to certain modules or serve common data access needs.

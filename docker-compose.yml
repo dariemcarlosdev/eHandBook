@@ -1,0 +1,7 @@
+services:
+  ehandbookapp.api:
+    image: ${DOCKER_REGISTRY-}ehandbookappapi
+    container_name: eHandBookApp-Container
+    build:
+      context: .
+      dockerfile: rsc/eHandbook.api/Dockerfile

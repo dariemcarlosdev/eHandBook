@@ -1,0 +1,1 @@
+﻿UserManagement Module: Responsible for user registration, authentication, and profile management.

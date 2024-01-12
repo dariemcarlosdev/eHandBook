@@ -1,0 +1,3 @@
+﻿Validation folder 
+
+Can include validation classes, such as validators for entities, that are needed across different modules.

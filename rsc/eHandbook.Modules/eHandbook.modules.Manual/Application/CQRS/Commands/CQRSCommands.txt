@@ -1,0 +1,1 @@
+﻿In CQRS, Command represents the intent to perform an action or modify the state of the system.

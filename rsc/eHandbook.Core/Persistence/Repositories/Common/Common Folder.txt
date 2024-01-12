@@ -1,0 +1,2 @@
+﻿•	Common: 
+This subfolder includes a base repository and an interface for repositories that can be used across the application.

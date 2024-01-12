@@ -1,0 +1,72 @@
+﻿We can implement the CQRS pattern within the application layer of a modular monolithic .NET Core application. 
+In this context, the application layer handles the orchestration of commands and queries without strictly separating them into dedicated layers.
+
+Here's an example how we might structure the CQRS pattern within the application layer of our modular monolithic app:
+
+* Application Layer Structure:
+
+Commands and Queries:
+. Define commands and queries specific to each module or feature within the application layer.
+. Commands represent actions that change the state of the system, while queries retrieve data without altering the state.
+
+Command Handlers and Query Handlers:
+. Implement handlers to process commands and queries within the application layer.
+. Handlers encapsulate the logic to execute the commands or process the queries.
+
+Mediator/Dispatcher:
+. Utilize a mediator or dispatcher pattern to dispatch commands and queries to their respective handlers.
+. This could be a service or a dedicated class responsible for routing commands and queries to the appropriate handlers.
+
+Example Structure:
+
+- Modules
+    - ProductModule
+    - OrderModule
+    - OtherModules...
+- ApplicationLayer
+    - Commands
+        - CreateProductCommand.cs
+        - UpdateProductCommand.cs
+        - CreateOrderCommand.cs
+        - UpdateOrderCommand.cs
+    - Queries
+        - GetProductQuery.cs
+        - ListProductsQuery.cs
+        - GetOrderQuery.cs
+        - ListOrdersQuery.cs
+    - Handlers
+        - CreateProductCommandHandler.cs
+        - UpdateProductCommandHandler.cs
+        - CreateOrderCommandHandler.cs
+        - UpdateOrderCommandHandler.cs
+        - GetProductQueryHandler.cs
+        - ListProductsQueryHandler.cs
+        - GetOrderQueryHandler.cs
+        - ListOrdersQueryHandler.cs
+    - Dispatcher.cs (or Mediator)
+
+* Workflow:
+
+Command/Query Reception:
+
+Controllers or services within modules send commands or queries to the application layer.
+
+Dispatcher/Mediator Handling:
+
+The dispatcher or mediator in the application layer routes commands to the respective command handlers and queries to the query handlers.
+
+Handler Execution:
+
+Command handlers perform actions like creating/updating data.
+Query handlers retrieve data without modifying the state.
+
+* Benefits:
+
+Simplification of Layers: In a modular monolith, this approach simplifies the organization by consolidating CQRS-related logic within the application layer.
+Flexibility: It allows for efficient management of commands and queries specific to each module while keeping them within the application's boundaries.
+
+Considerations:
+
+Ensure proper organization of commands, queries, and handlers within the application layer to maintain code readability and manageability.
+Implement proper error handling and validation logic within the handlers to ensure the robustness of command execution and query processing.
+This approach provides the benefits of CQRS while accommodating the modular structure of your monolithic application.

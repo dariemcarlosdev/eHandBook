@@ -1,0 +1,1 @@
+﻿Data Access or Pesistence Layer: Manage data access using repositories or data access objects (DAOs). Ensure that this layer abstracts away the database specifics.

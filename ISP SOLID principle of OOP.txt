@@ -1,0 +1,39 @@
+The Interface Segregation Principle (ISP) is one of the SOLID principles of object-oriented design and is not specific to ASP.NET Core or any particular project type. ISP states that clients should not be forced to depend on interfaces they do not use. In other words, it suggests that you should design your interfaces in a way that is specific to the needs of the clients that use them, rather than creating large, monolithic interfaces that contain methods that may not be relevant to all clients.
+
+When it comes to applying ISP in a modular monolithic ASP.NET Core project, you can follow these guidelines:
+
+1.Identify Modules: In a modular monolithic project, you likely have different modules or components responsible for various functionalities. Start by identifying these modules.
+
+2.Define Interfaces Based on Modules: For each module, define interfaces that are specific to the functionality of that module. These interfaces should include only the methods and properties that are necessary for the module's functionality.
+
+3.Avoid Bloated Interfaces: Make sure your interfaces are not bloated with methods that are unrelated to the module they represent. Keep them focused on a single responsibility.
+Implement Interfaces: In each module, implement the interfaces that are relevant to that module. This allows you to enforce the contract defined by the interface for that specific module.
+
+4.Client Code: In your client code, depend on the interfaces rather than concrete implementations. This allows you to switch implementations easily if needed, and it ensures that client code is not forced to depend on methods it doesn't use.
+
+Here's a simple example in ASP.NET Core:
+
+Suppose you have a monolithic ASP.NET Core application with two modules: UserManagement and ProductManagement. You can define interfaces specific to each module:
+
+csharp
+Copy code
+// IUserService.cs
+public interface IUserService
+{
+    User GetUserById(int userId);
+    void CreateUser(User user);
+    void UpdateUser(User user);
+    void DeleteUser(int userId);
+}
+
+// IProductService.cs
+public interface IProductService
+{
+    Product GetProductById(int productId);
+    void CreateProduct(Product product);
+    void UpdateProduct(Product product);
+    void DeleteProduct(int productId);
+}
+Each module would then implement its respective interface (IUserService or IProductService) with the methods specific to that module.
+
+By following ISP in this way, you ensure that each module has its own well-defined interface and that client code only depends on the interfaces it needs, promoting modularity and maintainability in your ASP.NET Core project.
