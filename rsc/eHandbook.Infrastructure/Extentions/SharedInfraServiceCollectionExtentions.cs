@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using System;
+using Microsoft.IdentityModel.Tokens;
+using Azure.Core;
 
 namespace eHandbook.Infrastructure.Extentions
 {
@@ -21,11 +23,10 @@ namespace eHandbook.Infrastructure.Extentions
             // Adding shared services to the DI container.
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //register MediatR and provide default configuration to the constructor.
+            //With AddValidatorsFromAssembly(), all the validators defined in the executing assembly will be automatically registered,
+            //eliminating the need to manually register each validator. This approach ensures that all validators are available for request validation within our project.
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionLoggingBehavior<,>));
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
             return services;
         }
