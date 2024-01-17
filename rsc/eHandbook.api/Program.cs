@@ -3,15 +3,17 @@ using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Health;
 using eHandbook.Infrastructure.Middlewares;
 using eHandbook.Infrastructure.Options;
-using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
+using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +22,16 @@ var builder = WebApplication.CreateBuilder(args);
 // (First Component) Registering my Middleware for Global Exception Error Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
 // at the runtime our middleware is going to be resolved from the IMiddleware factory
 
-builder.Services.AddTransient<MyGlobalExceptionHandlerMiddleware>();
+builder.Services.AddTransient<SharedGlobalExceptionHandlerMiddleware>();
 
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
 builder.Services
     .AddManualModuleServiceCollection()
-    .AddSharedInfraServices();
+.AddSharedInfraServices();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
 
 //Add Entity framework services.
 builder.Services.ConfigureOptions<DataBaseOptionsSetUp>();
@@ -124,6 +130,11 @@ if (app.Environment.IsDevelopment())
         //options.DisplayRequestDuration();
 
     });
+
+    //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
+    app.UseMiddleware<SharedGlobalExceptionHandlerMiddleware>();
+    
+    app.UseTiming();
 }
 
 else
@@ -160,8 +171,9 @@ app.MapHealthChecks(
 
 app.UseAuthorization();
 
-//(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>();
+
+
+
 
 //First approach.Global error Handler Defining Middleware
 //app.Use(async(context, next) =>
