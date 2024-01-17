@@ -1,4 +1,6 @@
 using eHandbook.api.EndPoints;
+using eHandbook.api.Middlewares;
+using eHandbook.Core.Application.Business.Contracts;
 using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Health;
 using eHandbook.Infrastructure.Middlewares;
@@ -131,6 +133,9 @@ if (app.Environment.IsDevelopment())
         //options.DisplayRequestDuration();
 
     });
+
+    //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
+    app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>().UseMiddleware<TimingMiddleware>();
 }
 
 else
