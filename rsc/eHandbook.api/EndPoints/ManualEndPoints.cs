@@ -4,7 +4,6 @@ using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 namespace eHandbook.api.EndPoints
 {
