@@ -7,7 +7,7 @@ using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Application.Service;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
-using eHandbook.modules.ManualManagement.CoreDomain.Validations;
+using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
 using FluentValidation;
