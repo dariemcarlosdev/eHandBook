@@ -132,7 +132,9 @@ if (app.Environment.IsDevelopment())
     });
 
     //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-    app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>().UseMiddleware<TimingMiddleware>();
+    app.UseMiddleware<SharedGlobalExceptionHandlerMiddleware>();
+    
+    app.UseTiming();
 }
 
 else
