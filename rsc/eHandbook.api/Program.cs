@@ -1,4 +1,6 @@
 using eHandbook.api.EndPoints;
+using eHandbook.api.Middlewares;
+using eHandbook.Core.Application.Business.Contracts;
 using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Health;
 using eHandbook.Infrastructure.Middlewares;
