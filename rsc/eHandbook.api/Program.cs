@@ -1,4 +1,6 @@
 using eHandbook.api.EndPoints;
+using eHandbook.api.Middlewares;
+using eHandbook.Core.Application.Business.Contracts;
 using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Health;
 using eHandbook.Infrastructure.Middlewares;
@@ -7,11 +9,14 @@ using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
+using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +30,11 @@ builder.Services.AddTransient<MyGlobalExceptionHandlerMiddleware>();
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
 builder.Services
     .AddManualModuleServiceCollection()
-    .AddSharedInfraServices();
+.AddSharedInfraServices();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
 
 //Add Entity framework services.
 builder.Services.ConfigureOptions<DataBaseOptionsSetUp>();
@@ -124,6 +133,9 @@ if (app.Environment.IsDevelopment())
         //options.DisplayRequestDuration();
 
     });
+
+    //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
+    app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>().UseMiddleware<TimingMiddleware>();
 }
 
 else
@@ -160,8 +172,9 @@ app.MapHealthChecks(
 
 app.UseAuthorization();
 
-//(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>();
+
+
+
 
 //First approach.Global error Handler Defining Middleware
 //app.Use(async(context, next) =>
