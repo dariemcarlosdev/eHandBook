@@ -11,6 +11,9 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     /// </summary>
     public class GetManualByIdQuery : IRequest<ServiceResponse<ManualDto>>
     {
+
         public  Guid Id { get; set; }
     }
+
+    public record GetManualByIdQueryRec(Guid Id) : IRequest<ServiceResponse<ManualDto>>;
 }
