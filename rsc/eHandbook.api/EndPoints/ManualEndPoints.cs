@@ -1,8 +1,10 @@
 ﻿using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 namespace eHandbook.api.EndPoints
 {
@@ -23,13 +25,19 @@ namespace eHandbook.api.EndPoints
             //Setting a Minimal Api for Service and Data Access Layer testing purpose. Learn more about Minimal API at https://tinyurl.com/MinimalAPI
 
             //Get manual by given id using CQRS 
-            app.MapGet("api/V2/manual/{ManualId}", async ([FromRoute]Guid ManualId, IMediator mediator) =>
+            app.MapGet("api/V2/manual/{ManualId}", async (Guid ManualId, IMediator mediator) =>
             {
-                var getManual = new GetManualByIdQuery { Id = ManualId };
                 
-                var manual = await mediator.Send(getManual);
+                var getManual = new GetManualByIdQuery { Id = ManualId };
 
-                return TypedResults.Ok(manual);
+                //using Records Querry
+                GetManualByIdQueryRec GetManualRecord = new GetManualByIdQueryRec(ManualId);
+               
+
+                var manual = await mediator.Send(getManual);
+                var manualrec = await mediator.Send(GetManualRecord);
+
+                return TypedResults.Ok(manualrec);
             })
                 .WithName("GetManualByIdV2")
                 .WithOpenApi(generatedOperation =>
