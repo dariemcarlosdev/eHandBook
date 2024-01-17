@@ -32,24 +32,5 @@
         <member name="M:eHandbook.api.Health.DatabaseServiceCustomHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="T:eHandbook.api.Middlewares.GlobalExceptionHandlerMiddleware">
-            <summary>
-            Defining Custom MiddleWare by convention for Global Error Handling.
-            </summary>
-        </member>
-        <member name="M:eHandbook.api.Middlewares.GlobalExceptionHandlerMiddleware.#ctor(Microsoft.Extensions.Logging.ILogger{eHandbook.api.Middlewares.GlobalExceptionHandlerMiddleware})">
-            <summary>
-            Ctor.
-            </summary>
-            <param name="logger"></param>
-        </member>
-        <member name="M:eHandbook.api.Middlewares.GlobalExceptionHandlerMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Http.RequestDelegate)">
-            <summary>
-            following converntion inside of the framework defining apublic async method that return a task, have a name InvokeAsync accepting http context argument.
-            </summary>
-            <param name="context"></param>
-            <param name="next" ></param>
-            <returns></returns>
-        </member>
     </members>
 </doc>
