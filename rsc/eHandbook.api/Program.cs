@@ -3,7 +3,7 @@ using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Health;
 using eHandbook.Infrastructure.Middlewares;
 using eHandbook.Infrastructure.Options;
-using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
+using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
+using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -130,9 +131,6 @@ if (app.Environment.IsDevelopment())
         //options.DisplayRequestDuration();
 
     });
-
-    //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-    app.UseMiddleware<MyGlobalExceptionHandlerMiddleware>().UseMiddleware<TimingMiddleware>();
 }
 
 else
