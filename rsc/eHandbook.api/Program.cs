@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
-using static eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation.ManualRequestValidatorsContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
