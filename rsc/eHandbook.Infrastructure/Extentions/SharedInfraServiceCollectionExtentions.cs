@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using System;
 using Microsoft.IdentityModel.Tokens;
 using Azure.Core;
+using eHandbook.Infrastructure.Filters;
 
 namespace eHandbook.Infrastructure.Extentions
 {
@@ -22,11 +23,11 @@ namespace eHandbook.Infrastructure.Extentions
         {
             // Adding shared services to the DI container.
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             //With AddValidatorsFromAssembly(), all the validators defined in the executing assembly will be automatically registered,
             //eliminating the need to manually register each validator. This approach ensures that all validators are available for request validation within our project.
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
+            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+            .AddScoped<MyCustomEndPointFilters>();
 
             return services;
         }

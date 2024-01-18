@@ -8,9 +8,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.EndPointFilterValidation
+namespace eHandbook.Infrastructure.Filters
 {
-    public class ValidationFilter<T> : IEndpointFilter
+    /// <summary>
+    /// Custom validation filter according parameter type pased through out URI http request.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class MyCustomEndPointValidationFilter<T> : IEndpointFilter
     {
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {

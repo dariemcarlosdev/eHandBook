@@ -1,4 +1,5 @@
-﻿using eHandbook.modules.ManualManagement.Application.Contracts;
+﻿using eHandbook.Infrastructure.Filters;
+using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using FluentValidation;
@@ -26,26 +27,27 @@ namespace eHandbook.api.EndPoints
             //Get manual by given id using CQRS 
             app.MapGet("api/V2/manual/{ManualId}", async (Guid ManualId, IMediator mediator) =>
             {
+
+                //var getManual = new GetManualByIdQuery { Id = ManualId };
+                //var manual = await mediator.Send(getManual);
                 
-                var getManual = new GetManualByIdQuery { Id = ManualId };
-
-                //using Records Querry
+                //Now here I am using defined Records Querry
                 GetManualByIdQueryRec GetManualRecord = new GetManualByIdQueryRec(ManualId);
-               
+                var manual = await mediator.Send(GetManualRecord);
 
-                var manual = await mediator.Send(getManual);
-                var manualrec = await mediator.Send(GetManualRecord);
-
-                return TypedResults.Ok(manualrec);
+                return TypedResults.Ok(manual);
             })
+                //API Enpoint document. in Swagger.
                 .WithName("GetManualByIdV2")
                 .WithOpenApi(generatedOperation =>
-                {
+                {                 
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The id associated with Manual.";
                     generatedOperation.Summary = "MInimal API Endpoint using CQRS  + MediatR Patterns.";
                     return generatedOperation;
-                });
+                })
+                //adding IEnpointFilters defined in Shared Infrastructure Filters.
+                .<MyCustomEndPointFilters>().AddEndpointFilter<MyCustomEndPointValidationFilter<string>>();
             
 
             //Get manual by given id
@@ -61,7 +63,7 @@ namespace eHandbook.api.EndPoints
                 {
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The id associated with Manual.";
-                    generatedOperation.Summary = "Minimal API Endpoint.";
+                    generatedOperation.Summary = "Minimal API Endpoint calling Service Layer.";
                     return generatedOperation;
                 });
 
