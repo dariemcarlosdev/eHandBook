@@ -47,7 +47,7 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 })
                 //adding IEnpointFilters defined in Shared Infrastructure Filters.
-                .<MyCustomEndPointFilters>().AddEndpointFilter<MyCustomEndPointValidationFilter<string>>();
+                .AddEndpointFilter<MyCustomEndPointFilters>().AddEndpointFilter<MyCustomEndPointValidationFilter<string>>();
             
 
             //Get manual by given id
