@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 
-namespace eHandbook.api.Health
+namespace eHandbook.Infrastructure.CrossCutting.HealthCheck
 {
     /// <summary>
     /// Checking DataBase Conection Health
