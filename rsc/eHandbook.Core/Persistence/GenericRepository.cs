@@ -273,7 +273,7 @@ namespace eHandbook.Core.Persistence
         public async Task<bool> DoesEntityExist(TEntity entity)
         {
 
-            var result = await _dbSet.AsNoTracking().AnyAsync(e => e == (TEntity)entity);
+            var result = await _dbSet.AsNoTracking().AnyAsync(e => e == entity);
             return result;
 
         }

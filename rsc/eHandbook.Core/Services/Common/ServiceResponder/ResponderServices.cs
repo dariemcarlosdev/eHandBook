@@ -1,10 +1,10 @@
-﻿namespace eHandbook.modules.ManualManagement.Application.Service.ServiceResponder
+﻿namespace eHandbook.Core.Services.Common.ServiceResponder
 {
     /// <summary>
     /// Generic wrapper for web api response.       
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ServiceResponse<T>
+    public class ResponderService<T>
     {
         /// <summary>
         /// Generic wrapper for web api response.       

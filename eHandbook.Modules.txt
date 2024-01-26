@@ -1,2 +1,10 @@
-eHandbook.Modules: This folder contains class library projects for individual modules (e.g., UserManagement, ManualManagement). 
-Each module follows the Vertical Slice Architecture pattern, with its own controllers, views, models, services, data access, and view models.
+eHandbook.Modules: This folder contains class library projects for individual modular components where each module corresponds to a specific business domain or feature.(e.g., UserManagement, ManualManagement). 
+Each module can then be implemented using the vertical slice architecture, ensuring that all layers are involved in providing a cohesive feature, with its own controllers, views, models, services, data access, and view models.
+
+Applying Clean Architecture principles Within each Modules:
+Within each module, we can apply clean architecture principles. The outer layers (UI, infrastructure) depend on the inner layers (application, domain) and the core business logic resides in the domain layer.
+
+How can we communicate modules with each other?
+
+Modules can communicate with each other through well-defined interfaces by exammple (synchronic communication), avoiding direct dependencies between them.
+This modular structure allows for better maintainability and scalability, and it aligns with the principles of clean architecture.

@@ -1,0 +1,44 @@
+﻿Application Layer(Business Layer):
+
+This layer contains application-specific business logic.
+It defines interfaces for services (e.g., IManualService) that the API layer can use, and implementations of these services (e.g., ManualService) that orchestrate interactions between the API  and the core domain layer,
+responsable for business logic.
+The application layer also orchestrates the interaction between the core logic(Core Domain Layer) and the infrastructure layer. 
+
+It includes mappings (e.g., ManualProfileMap) for mapping between entities and DTOs.
+
+Application Layer:
+
+1. Orchestration and Coordination:
+
+- Purpose: Orchestrates the flow of the application, handling external interactions, coordinating services, and managing requests/responses.
+ 
+- Responsibility: Focuses on coordinating domain logic, translating external inputs into operations for the core domain layer.
+
+- Interfacing with Infrastructure: Integrates with external systems, databases, and services.
+
+2. Use of Domain Logic:
+
+Usage: Utilizes the domain models and services from the Core Domain layer to fulfill application-specific requirements.
+
+- Transformation and Adaptation: Adapts domain logic for use by external systems or user interactions.
+
+3. Presentation and Interface:
+
+- Controllers/Services: Contains controllers, APIs, or services exposed to interact with the outside world (e.g., HTTP requests, UI interactions).
+
+- Response Handling: Handles responses, formatting data, and returning results to the external requesters.
+
+Key Differences with Domain Layer:
+
+Focus: Core Domain concentrates on representing the business domain, while the Application Layer focuses on managing interactions and coordinating the use of domain logic.
+
+Dependency Direction: Core Domain should not depend on infrastructure, while the Application Layer orchestrates the integration of domain logic with external systems.
+
+Complexity Level: Core Domain often deals with deeper and more complex business rules, while the Application Layer manages the flow and coordination of these rules.
+
+Relationship:
+
+The Application Layer relies on the Core Domain layer to provide the necessary domain models and logic for execution.
+Changes in the business rules or domain logic often require modifications in the Core Domain layer, while the Application Layer remains more susceptible to changes in user interfaces, external integrations, or system orchestration.
+Both layers complement each other, with the Core Domain focusing on the essence of the business problem and the Application Layer handling how that problem is interacted with and executed in the system.

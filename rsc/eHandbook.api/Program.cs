@@ -1,42 +1,50 @@
 using eHandbook.api.EndPoints;
-using eHandbook.Infrastructure.Extentions;
-using eHandbook.Infrastructure.Health;
-using eHandbook.Infrastructure.Middlewares;
-using eHandbook.Infrastructure.Options;
+using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
+using eHandbook.Infrastructure.CrossCutting.Extentions;
+using eHandbook.Infrastructure.CrossCutting.HealthCheck;
+using eHandbook.Infrastructure.CrossCutting.Middlewares;
+using eHandbook.Infrastructure.CrossCutting.Options;
 using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
+
+//With AddValidatorsFromAssembly(),all the validators defined in the executing assembly will be automatically registered, eliminating the need to manually register each validator. This approach ensures that all validators are available for request validation within our project.
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
 // Add services to the container.
 
-// (First Component) Registering my Middleware for Global Exception Error Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
+// (First Component) Registering my Middleware Service for Global Errrors Exception Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
 // at the runtime our middleware is going to be resolved from the IMiddleware factory
 
-builder.Services.AddTransient<SharedGlobalExceptionHandlerMiddleware>();
+builder.Services.AddTransient<GlobalExceptionErrorHandlerMiddleware>(); // middleware working
 
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
 builder.Services
     .AddManualModuleServiceCollection()
-.AddSharedInfraServices();
+    .AddSharedInfraServices();
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
+
+//--- Include in eHandbook.modules.ManualManagement.Infrastructure.Extensions.ManualModuleExtentions
+
+//builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
 
 //Add Entity framework services.
 builder.Services.ConfigureOptions<DataBaseOptionsSetUp>();
 
-
+//Probably to improve app arquitecture it needs to be include in shared Infrastructure.
 builder.Services.AddSingleton<UpdateMyAuditableEntitiesInterceptor>();
 
 
@@ -117,46 +125,45 @@ app.UseSerilogRequestLogging(options =>
 
 if (app.Environment.IsDevelopment())
 {
-    app.SeedSqlServer();
-    
+    app.SeedSqlServer()
+
     // Enable middleware to serve generated Swagger as a JSON endpoint.    
-    app.UseSwagger();
+    .UseSwagger()
     // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
     // specifying the Swagger JSON endpoint.
-    app.UseSwaggerUI(options =>
+    .UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        //options.RoutePrefix = string.Empty;
-        //options.DisplayRequestDuration();
 
     });
 
     //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-    app.UseMiddleware<SharedGlobalExceptionHandlerMiddleware>();
-    app.UseTiming();
+
+    //Minimal APIs for Manual Service call.
+    app.MapManualEndPoints();
+    app.UseMiddleware<GlobalExceptionErrorHandlerMiddleware>()
+    .UseTiming();
 }
 
 else
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Error")
 
     //security feauture
     //This method tell a browser when we return a response to use HTTPS 
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    .UseHsts()
 
     //Cors Policy defination. Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
     //for now we are allowing all origins
-    app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    .UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 
-//Minimal APIs for Manual Service call.
-ManualEndPoints.MapManualEndPoints(app);
 
 //enable static file middleware for using wwwroot with static files.
-app.UseStaticFiles();
+app.UseStaticFiles()
 
-app.UseHttpsRedirection();
+.UseHttpsRedirection();
 
 //add healthCheck middleware to response at the specified URL with Formatting Health Checks Response.
 app.MapHealthChecks(
@@ -165,13 +172,10 @@ app.MapHealthChecks(
     {
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     })
-    //for Limiting who can call this endpoint.Leak of implementation.
+    //--- For Limiting who can call this endpoint.Leak of implementation.
     /*.RequireAuthorization().RequireHost().RequireCors()*/;
 
 app.UseAuthorization();
-
-
-
 
 
 //First approach.Global error Handler Defining Middleware

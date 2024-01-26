@@ -1,4 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.Application.Service.ServiceResponder;
+﻿using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 
 namespace eHandbook.modules.ManualManagement.Application.Contracts
@@ -12,50 +12,50 @@ namespace eHandbook.modules.ManualManagement.Application.Contracts
         /// </summary>
         /// <param name="manual"></param>
         /// <returns>ManualDto</returns>       
-        Task<ServiceResponse<ManualDto>> AddNewManualAsync(CreateManualDto manualCreateDtoRequest);
+        Task<ResponderService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest);
 
         /// <summary>
         /// Async Service Get Manual found by Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ServiceResponse<ManualDto>> GetManualByIdAsync(Guid id);
+        Task<ResponderService<ManualDto>> GetManualByIdAsync(Guid id);
 
         /// <summary>
         /// Async Service to Get All Manual Entities which are not marked as deleted.
         /// </summary>
         /// <returns>List of ManualDto</returns>
-        Task<ServiceResponse<IEnumerable<ManualDto>>> GetAllManualsAsync();
+        Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync();
 
         /// <summary>
         /// Service for Update a Manual Entity in DataBase. Set entity IsUpdated to True.
         /// </summary>
         /// <param name="manualToUpdateDtoRequest"></param>
         /// <returns>ManualDto</returns>
-        Task<ServiceResponse<ManualDto>> UpdateManualAsyn(UpdateManualDto manualToUpdateDtoRequest);
+        Task<ResponderService<ManualDto>> UpdateManualAsyn(ManualToUpdateDto manualToUpdateDtoRequest);
 
         /// <summary>
         /// Service for delete a Manual Entity from DataBase.
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns>string</returns>
-        Task<ServiceResponse<string>> DeleteManualAsync(DeleteManualDto manualToDeleteDtoRequest);
+        Task<ResponderService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest);
 
         /// <summary>
         /// DeleteManual() method overloading. This Service delete a Manual Entity found by Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ServiceResponse<ManualDto>> DeleteManualAsync(Guid id);
+        Task<ResponderService<ManualDto>> DeleteManualAsync(Guid id);
 
         /// <summary>
         /// Service to change prop. IsDeleted to tru in Manual Entity, no hard delete.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ServiceResponse<ManualDto>> SoftDeleteManualAsync(Guid id);
+        Task<ResponderService<ManualDto>> SoftDeleteManualAsync(Guid id);
 
-        Task<ServiceResponse<ManualDto>> SoftDeleteManualAsync(DeleteManualDto manualToDeleteDtoRequest);
+        Task<ResponderService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest);
 
         #endregion
     }

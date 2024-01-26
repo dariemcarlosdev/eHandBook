@@ -6,8 +6,8 @@
     <members>
         <member name="T:eHandbook.api.EndPoints.ManualEndPoints">
             <summary>
-            Manual Minimal APIs endpoints. Used to create lightweight services that expose functionalities to clients.
-            They handle incoming HTTP requests and process them to perform specific tasks, such as retrieving data, manipulating data, or performing some business logic.
+            My EndPoints definitions for ManualManagement, using Minimal APIs approach. Used to create lightweight services that expose functionalities to clients.
+            They'll handle incoming HTTP requests and process them to perform specific tasks, such as retrieving data, manipulating data, or performing some business logic.
             These APIs essentially represent a service layer responsible for handling external requests and providing responses.
             </summary>
         </member>

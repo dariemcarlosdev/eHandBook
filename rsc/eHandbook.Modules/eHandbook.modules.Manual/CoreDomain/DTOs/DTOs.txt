@@ -1,0 +1,3 @@
+﻿I'am using a Data Transfer Object(DTOs) classes to send data back and forth, it encapsulates only the data we need from the domain class.
+
+DTOs extend Documentation:

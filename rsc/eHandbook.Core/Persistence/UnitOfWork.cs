@@ -69,7 +69,7 @@ namespace eHandbook.Core.Persistence
     }
 
     //This Rollback method it's not necessary for now.
-    
+
     //public void Rollback()
     //{
     //    throw new NotImplementedException();

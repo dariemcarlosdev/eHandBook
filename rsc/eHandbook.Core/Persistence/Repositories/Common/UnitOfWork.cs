@@ -54,7 +54,7 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         //we are not extending Dispose() method from IDisposable Iterface,  since as a general rule, if the Dependency Injection container creates an instance of the disposable object(ManualDbContext),
         //it will clean up when the instance lifetime (transient, scoped or singleton) expires (E.g. for scoped instances in ASP.NET Core,
         //this will be at the end of the request/response lifetime but for singletons, it is when the container itself is disposed).
-        
+
         //public void Dispose()
         //{
         //    Dispose(true);

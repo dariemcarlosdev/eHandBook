@@ -1,10 +1,5 @@
 ﻿using eHandbook.Core.Persistence.Contracts;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence.Repository
 {

@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Application\CQRS\Queries\GetManualsWithFilters\" />
-    <Folder Include="Application\CQRS\Queries\GetManuals\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 

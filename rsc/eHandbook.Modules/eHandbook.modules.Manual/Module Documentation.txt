@@ -1,1 +1,1 @@
-﻿ManualManagement Module: Manages Manuals, categories, and Manual Details.
+﻿ManualManagement Module: Manages Manuals, categories, and Manual Details.This modular component corresponds to a specific business domain or feature (Manual Management.).

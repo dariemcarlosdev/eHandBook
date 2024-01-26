@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using eHandbook.Core.Persistence.Repositories.Common;
+using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
-using eHandbook.modules.ManualManagement.Application.Service.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace eHandbook.modules.ManualManagement.Application.Service
 {
@@ -16,7 +15,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
         //Use it if you dont want to use Unit of Work Pattern.
         private readonly IManualRepository _manualRepository;
-        private readonly ILogger<ManualServices> _logger;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -28,11 +26,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         #endregion
 
         #region ctor
-        public ManualServices(ILogger<ManualServices> logger,IUnitOfWork<ManualEntity> unitOfWork, IMapper mapper)
+        public ManualServices(IUnitOfWork<ManualEntity> unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            logger = logger;
         }
         #endregion
 
@@ -41,11 +38,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         #region Methods Implementation using UoW with Generic Repository.
 
         //Status: Implemented.Completed and Tested.
-        public async Task<ServiceResponse<ManualDto>> AddNewManualAsync(CreateManualDto manualCreateDtoRequest)
+        public async Task<ResponderService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest)
 
         {
-            _logger.LogInformation("Add Manual Services called.");
-            ServiceResponse<ManualDto> _response = new();
+            ResponderService<ManualDto> _response = new();
 
             var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(e => e.Description == manualCreateDtoRequest.Description)!.FirstOrDefaultAsync();
 
@@ -90,7 +86,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error Response.";
@@ -108,10 +103,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ServiceResponse<ManualDto>> GetManualByIdAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> GetManualByIdAsync(Guid id)
         {
-            
-            ServiceResponse<ManualDto> _response = new();
+
+            ResponderService<ManualDto> _response = new();
 
             try
             {
@@ -134,7 +129,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error";
@@ -197,10 +191,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name=""></param>
         /// <returns>IEnumerableManualDto</returns>
-        public async Task<ServiceResponse<IEnumerable<ManualDto>>> GetAllManualsAsync()
+        public async Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync()
         {
-            _logger.LogInformation("Get AllManual Service called.");
-            ServiceResponse<IEnumerable<ManualDto>> _response = new();
+            ResponderService<IEnumerable<ManualDto>> _response = new();
             try
             {
                 var manuals = await _unitOfWork.GetRepository.GetAllEntitiesAsync();
@@ -219,7 +212,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error Response fetching all manuals.";
@@ -236,11 +228,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToUpdateDtoRequest"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ServiceResponse<ManualDto>> UpdateManualAsyn(UpdateManualDto manualToUpdateDtoRequest)
+        public async Task<ResponderService<ManualDto>> UpdateManualAsyn(ManualToUpdateDto manualToUpdateDtoRequest)
         {
-            _logger.LogInformation("Update Manual Services called.");
             //Create a empty response object.
-            var _response = new ServiceResponse<ManualDto>();
+            var _response = new ResponderService<ManualDto>();
 
             try
             {
@@ -279,7 +270,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error updating Manual.";
@@ -295,10 +285,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns>string</returns>
-        public async Task<ServiceResponse<string>> DeleteManualAsync(DeleteManualDto manualToDeleteDtoRequest)
+        public async Task<ResponderService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest)
         {
-            _logger.LogInformation("Delete Manual Services called.");
-            ServiceResponse<string> _response = new();
+            ResponderService<string> _response = new();
 
             //mapping ManualDto to Delete to ManualEntity class to delete.
             //ManualEntity _deleteManual = _mapper.Map<ManualEntity>(manualToDeleteDtoRequest);
@@ -333,7 +322,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error deleting Manual.";
@@ -350,10 +338,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ServiceResponse<ManualDto>> DeleteManualAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> DeleteManualAsync(Guid id)
         {
-            _logger.LogInformation("Delete Manual by Id Services called.");
-            ServiceResponse<ManualDto> _response = new();
+            ResponderService<ManualDto> _response = new();
 
             try
             {
@@ -383,7 +370,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error deleting Manual.";
@@ -399,10 +385,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ServiceResponse<ManualDto>> SoftDeleteManualAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualAsync(Guid id)
         {
-            _logger.LogInformation("Si Manual Services called.");
-            ServiceResponse<ManualDto> _response = new();
+            ResponderService<ManualDto> _response = new();
 
             try
             {
@@ -438,7 +423,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error";
@@ -453,10 +437,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns></returns>
-        public async Task<ServiceResponse<ManualDto>> SoftDeleteManualAsync(DeleteManualDto manualToDeleteDtoRequest)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest)
         {
-            ServiceResponse<ManualDto> _response = new();
-            _logger.LogInformation("Soft Delete Service called.");
+            ResponderService<ManualDto> _response = new();
             try
             {
                 //check if record exist
@@ -489,7 +472,6 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Convert.ToString(ex.Message));
                 _response.Success = false;
                 _response.Data = null;
                 _response.Message = "Error";

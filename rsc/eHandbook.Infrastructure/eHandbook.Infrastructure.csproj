@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Caching\" />
+    <Folder Include="CrossCutting\Caching\" />
   </ItemGroup>
 
 </Project>

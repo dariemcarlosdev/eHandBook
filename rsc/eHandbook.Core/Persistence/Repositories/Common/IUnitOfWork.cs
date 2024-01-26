@@ -4,7 +4,7 @@
     /// It has to receive a Typeof IRepositoryName.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IUnitOfWork<T>  where T : class
+    public interface IUnitOfWork<T> where T : class
     {
 
         public GenericBaseRepository<T> GetRepository { get; }

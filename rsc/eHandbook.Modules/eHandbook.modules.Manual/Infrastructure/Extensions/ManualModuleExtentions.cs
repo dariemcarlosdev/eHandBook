@@ -1,17 +1,14 @@
 ﻿using eHandbook.Core.Domain.Common;
 using eHandbook.Core.Persistence.Repositories.Common;
-using eHandbook.Infrastructure.Logging;
-using eHandbook.Infrastructure.Logging.Contracts;
-using eHandbook.Infrastructure.Options;
+using eHandbook.Infrastructure.CrossCutting.Logging;
+using eHandbook.Infrastructure.CrossCutting.Logging.Contracts;
+using eHandbook.Infrastructure.CrossCutting.Options;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Application.Service;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
-using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +32,7 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        
+
         public static IServiceCollection AddManualModuleServiceCollection(this IServiceCollection services)
 
         {
@@ -47,25 +44,25 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
 
 
             //Registering Interceptor service.
-            services.AddSingleton<UpdateMyAuditableEntitiesInterceptor>();
+            services.AddSingleton<UpdateMyAuditableEntitiesInterceptor>()
 
-            services.AddSingleton<IAuditableEntity, ManualEntity>();
+            .AddSingleton<IAuditableEntity, ManualEntity>()
 
             //inject Service layer  inside  Manual Module the .NET Core’s IOC container
-            services.AddScoped<IManualService, ManualServices>();
+            .AddScoped<IManualService, ManualServices>()
 
             //Adding the logger service  inside Manual Module the .NET Core’s IOC container
-            services.AddScoped<ILoggerManager, LoggerManager>();
+            .AddScoped<ILoggerManager, LoggerManager>()
             //Implementation here.
 
             //services.AddTransient<IMapper, ManualMapper>();
-            services.AddSingleton<DbContext, ManualDbContext>();
+            .AddSingleton<DbContext, ManualDbContext>()
             //Registering DI using generics types.
             //https://stackoverflow.com/questions/56271832/how-to-register-dependency-injection-with-generic-types-net-core
-            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
 
             //register MediatR and provide default configuration to the constructor.
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetManualByIdQuery)));
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetManualByIdQueryRec)))
 
             //Use DbContext Pooling.
             /*
@@ -73,7 +70,7 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
             Here’s exactly where DbContext pooling helps.When a newly created instance is requested, it is returned from the pool rather than being created from scratch. With context pooling, context setup costs are only incurred once at the program startup time rather than every time the application runs. When using context pooling, EF Core resets the state of the context instance and places it in the pool when you dispose of an instance.
             You can leverage the built-in support for DbContext pooling in EF Core to enhance performance. Using this feature, you can reuse previously generated DbContext instances rather than building them repeatedly. DbContext pooling, in other words, enables you to reuse pre-created instances to achieve a speed benefit.
              */
-            services.AddDbContextPool<ManualDbContext>(
+            .AddDbContextPool<ManualDbContext>(
                 (serviceProvider, options) =>
                 {   //Register Interceptor and inject to DbContext configurations
                     var auditableInterceptor = serviceProvider.GetService<UpdateMyAuditableEntitiesInterceptor>()!;
@@ -93,14 +90,16 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
 
                 });
 
-            // Before
-            //Depredicated
-            //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManualEntityValidator>());
-            
             // After migration:
-            services.AddFluentValidationAutoValidation();
-            services.AddFluentValidationClientsideAdapters();
-            services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
+            //use of the FluentValidation.DependencyInjectionExtensions package which can be used to automatically find and register all the validators in a specific assembly
+            //using extension method AddValidatorsFromAssemblyContaining.By default, these will be registered as Scoped, but you can optionally use Singleton or Transient instead:
+            //e.g services.AddValidatorsFromAssemblyContaining<AnyValidator>(ServiceLifetime.Transient);
+
+            //not bein registered here.
+            //.AddValidatorsFromAssemblyContaining(typeof(RequestManualValidator));//Singleton class lifetime ensures that only one instance of a service is created and shared throughout the application's lifetime.
+
+            //to exclude some validators from automatic registration.For example, to register all validators except the CustomerValidator you could write the following:
+            //services.AddValidatorsFromAssemblyContaining<MyValidator>(ServiceLifetime.Scoped, filter => filter.ValidatorType != typeof(CustomerValidator));
 
             return services;
         }
