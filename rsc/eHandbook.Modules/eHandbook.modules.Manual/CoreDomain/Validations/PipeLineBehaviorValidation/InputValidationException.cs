@@ -5,7 +5,7 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.PipeLineBeha
     [Serializable]
     internal class InputValidationException : Exception
     {
-        private Dictionary<string, string[]> errors;
+        private readonly Dictionary<string, string[]> errors;
 
         public InputValidationException()
         {
