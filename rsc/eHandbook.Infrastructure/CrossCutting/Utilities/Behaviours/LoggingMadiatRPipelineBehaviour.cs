@@ -1,5 +1,4 @@
-﻿using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text.Json;
@@ -32,7 +31,7 @@ namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
 
-            
+
             var stopwatch = Stopwatch.StartNew();
             TResponse response;
 

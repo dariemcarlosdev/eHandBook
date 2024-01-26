@@ -11,4 +11,9 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifi
         public ManualDto manual { get; set; }
     }
 
+    public class ManualDeletedNotification : INotification
+    {
+        public  string deleteResponse { get; set; }
+    }
+
 }

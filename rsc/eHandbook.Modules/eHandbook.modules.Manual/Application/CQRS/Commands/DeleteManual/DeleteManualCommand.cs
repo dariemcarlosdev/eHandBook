@@ -1,6 +1,10 @@
-﻿namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual
+﻿using Azure;
+using eHandbook.Core.Services.Common.ServiceResponder;
+using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
+using MediatR;
+
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual
 {
-    internal class DeleteManualCommand
-    {
-    }
+    public sealed record DeleteManualCommand (ManualToDeleteDto manualToDelete) : IRequest<ResponderService<string>>;
+    
 }
