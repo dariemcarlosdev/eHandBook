@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.PipeLineBehaviorValidation
+namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.ValidationPipeLineBehavior
 {
     [Serializable]
     internal class InputValidationException : Exception

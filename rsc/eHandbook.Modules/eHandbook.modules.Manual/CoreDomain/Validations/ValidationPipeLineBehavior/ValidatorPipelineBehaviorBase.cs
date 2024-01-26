@@ -1,7 +1,8 @@
-﻿using FluentValidation;
+﻿using eHandbook.modules.ManualManagement.CoreDomain.Validations.PipeLineBehaviorValidation;
+using FluentValidation;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.PipeLineBehaviorValidation
+namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.ValidationPipeLineBehavior
 {
     public class ValidatorPipelineBehaviorBase<TRequest, TResponse>
     {
