@@ -1,5 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.CoreDomain.Validations.PipeLineBehaviorValidation;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.ValidationPipeLineBehavior
