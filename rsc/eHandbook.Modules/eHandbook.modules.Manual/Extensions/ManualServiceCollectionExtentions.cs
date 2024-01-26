@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using eHandbook.Infrastructure.Logging.Contracts;
-using eHandbook.Infrastructure.Logging;
 using eHandbook.modules.ManualManagement.Application.Service;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
-using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Repository;
+using eHandbook.Infrastructure.CrossCutting.Logging;
+using eHandbook.Infrastructure.CrossCutting.Logging.Contracts;
 
 namespace eHandbook.modules.ManualManagement.Extensions
 {
