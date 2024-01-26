@@ -1,4 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.Application.Service.ServiceResponder;
+﻿using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
@@ -9,11 +9,10 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     /// It is used to retrieve data or perform read-only operations.Queries can be designed and optimized specifically for read-intensive operations
     /// ,such as data retrieval, filtering, sorting, and aggregating.
     /// </summary>
-    public class GetManualByIdQuery : IRequest<ServiceResponse<ManualDto>>
-    {
+    //internal sealed class GetManualByIdQuery : IRequest<ResponderService<ManualDto>>
+    //{
+    //    public Guid Id { get; set; }
+    //}
 
-        public  Guid Id { get; set; }
-    }
-
-    public record GetManualByIdQueryRec(Guid Id) : IRequest<ServiceResponse<ManualDto>>;
+    public sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
 }

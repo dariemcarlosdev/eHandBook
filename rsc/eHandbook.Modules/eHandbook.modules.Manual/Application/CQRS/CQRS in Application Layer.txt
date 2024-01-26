@@ -1,5 +1,4 @@
-﻿We can implement the CQRS pattern within the application layer of a modular monolithic .NET Core application. 
-In this context, the application layer handles the orchestration of commands and queries without strictly separating them into dedicated layers.
+﻿In this context, the application layer handles the orchestration of commands and queries without strictly separating them into dedicated layers.
 
 Here's an example how we might structure the CQRS pattern within the application layer of our modular monolithic app:
 
@@ -11,7 +10,7 @@ Commands and Queries:
 
 Command Handlers and Query Handlers:
 . Implement handlers to process commands and queries within the application layer.
-. Handlers encapsulate the logic to execute the commands or process the queries.
+. Handlers encapsulate the business logic to execute the commands or process the queries.
 
 Mediator/Dispatcher:
 . Utilize a mediator or dispatcher pattern to dispatch commands and queries to their respective handlers.
@@ -70,3 +69,9 @@ Considerations:
 Ensure proper organization of commands, queries, and handlers within the application layer to maintain code readability and manageability.
 Implement proper error handling and validation logic within the handlers to ensure the robustness of command execution and query processing.
 This approach provides the benefits of CQRS while accommodating the modular structure of your monolithic application.
+
+In simple terms, CQRS helps us to:
+
+Enforce single-responsibility principle (SRP) which states that every module, class or function in a computer program should have responsibility over a single part of that program’s functionality.
+Manage frequent changes to your application.
+Manage read heavy applications by introducing two databases, one for read and one for write.

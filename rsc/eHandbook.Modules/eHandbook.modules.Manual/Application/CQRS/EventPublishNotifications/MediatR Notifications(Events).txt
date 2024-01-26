@@ -1,0 +1,10 @@
+﻿ Some times, we required to publish events once operation successfully completed. Like Once order placed send email and send details to Order dispatch service.
+
+ On request can be handled by single handler. However, Single request can be handling by Multiple handler. 
+ Some independent operation needs to occur after some events.
+
+For example
+
+· Sending email
+
+· Audit logs after records added or edited

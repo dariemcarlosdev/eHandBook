@@ -1,32 +1,39 @@
-﻿using eHandbook.modules.ManualManagement.Application.Contracts;
-using eHandbook.modules.ManualManagement.Application.Service.ServiceResponder;
+﻿using eHandbook.Core.Services.Common.ServiceResponder;
+using eHandbook.modules.ManualManagement.Application.Contracts;
+using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual
 {
     /// <summary>
     /// This Command Handler, receives command CreateManualCommand, and contains the logic to handle the Command and create Manual entity accordingly.
     /// </summary>
-    public class CreateManualCommandHandler : IRequestHandler<CreateManualCommand, ServiceResponse<ManualDto>>
+    internal sealed class CreateManualCommandHandler : IRequestHandler<CreateManualCommand, ResponderService<ManualDto>>
     {
         private readonly IManualService _manualServices;
-        public CreateManualCommandHandler(IManualService manualServices) => _manualServices = manualServices ;
+        private readonly IMediator _mediator;
 
-        public async Task<ServiceResponse<ManualDto>> Handle(CreateManualCommand request, CancellationToken cancellationToken)
+        public CreateManualCommandHandler(IManualService manualServices, IMediator mediator)
         {
-            var manual = new CreateManualDto
-            { 
-                Description = request.Description,
-                Path = request.Path,
+            _manualServices = manualServices;
+            _mediator = mediator;
+        }
+
+        public async Task<ResponderService<ManualDto>> Handle(CreateManualCommand request, CancellationToken cancellationToken)
+        {
+            var newManual = new ManualToCreateDto
+            {
+                Description = request.manual.Description,
+                Path = request.manual.Path,
             };
 
-            return await _manualServices.AddNewManualAsync(manual);
+            var result = await _manualServices.AddNewManualAsync(newManual);
+
+            //Triggering Notifications, pushing manual once saved in db. 
+            await _mediator.Publish(new ManualCreatedNotification() { manual = result.Data! });
+
+            return result;
         }
     }
 }
