@@ -24,8 +24,8 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateMan
         {
             var newManual = new ManualToCreateDto
             {
-                Description = request.manual.Description,
-                Path = request.manual.Path,
+                Description = request.manualToCreate.Description,
+                Path = request.manualToCreate.Path,
             };
 
             var result = await _manualServices.AddNewManualAsync(newManual);
