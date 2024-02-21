@@ -14,7 +14,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifi
 
         public Task Handle(ManualCreatedNotification notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Email sent");
+            _logger.LogInformation("Email sent.");
             return Task.CompletedTask;
         }
     }

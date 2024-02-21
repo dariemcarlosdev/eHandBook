@@ -46,14 +46,14 @@ namespace eHandbook.modules.ManualManagement.Application.Contracts
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ResponderService<ManualDto>> DeleteManualAsync(Guid id);
+        Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id);
 
         /// <summary>
         /// Service to change prop. IsDeleted to tru in Manual Entity, no hard delete.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ResponderService<ManualDto>> SoftDeleteManualAsync(Guid id);
+        Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id);
 
         Task<ResponderService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest);
 

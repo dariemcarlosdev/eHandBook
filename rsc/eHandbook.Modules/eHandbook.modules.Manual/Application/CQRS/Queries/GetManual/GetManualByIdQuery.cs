@@ -14,5 +14,5 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     //    public Guid Id { get; set; }
     //}
 
-    public sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
+    internal sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
 }

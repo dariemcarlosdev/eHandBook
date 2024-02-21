@@ -1,6 +1,9 @@
 ﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
@@ -25,17 +28,24 @@ namespace eHandbook.api.EndPoints
         /// <param name="app"></param>
         public static void MapManualEndPoints(this IEndpointRouteBuilder app)
         {
-            // The MapGroup extension method help me to organize groups of similar endpoints with a common prefix. It reduces repetitive code and allows for customizing entire groups of endpoints with a single call to methods like RequireAuthorization and WithMetadata which add endpoint metadata.
-            // Bellow Here I add the same EndPointfilter and Filter Factory (MyCustomValidationFilterFactory) to all the endpoints created under rootEndPointsGroup group.
+            /* The MapGroup extension method help me to organize groups of similar endpoints with a common prefix.
+            It reduces repetitive code and allows for customizing entire groups of endpoints with a single call to methods like RequireAuthorization
+            and WithMetadata which add endpoint metadata. */
+
+
+            //-------Bellow Here I add the same EndPointfilter and Filter Factory (MyCustomValidationFilterFactory) to all the endpoints created under rootEndPointsGroup group.------
 
             //var rootEndPointsGroup = app.MapGroup("api/V2/manual/").WithTags("GetManualById");
             //rootEndPointsGroup
             //    .AddEndpointFilter<MyValidationFilters>() //adding customFilter
             //    .AddEndpointFilterFactory(MyValidationGenericFactoryFilter.ValidationFilterFactory); //Adding filter factory.
 
+
+
             //Setting MinimalApis EndPoints with logical handlers in each RuteHandlerBuilder ext. method(e. app.MapGet(), app.MapPut()..). Learn more about Minimal API at https://tinyurl.com/MinimalAPI
 
-            //Get Manual by ID End_Point_V1.
+            //-------------------------------------------Get Manual by ID End_Points.----------------------------------------------------------------------------------------
+
             //Use [Validate] attribute for using FilterFactory.
             app.MapGet("api/V2/manuals/{Id}", async (Guid Id, HttpRequest req, IMediator mediator) =>
             {
@@ -48,9 +58,16 @@ namespace eHandbook.api.EndPoints
 
                 //Now here I am using defined Records Querry
                 GetManualByIdQueryRec GetManualRecord = new GetManualByIdQueryRec(Id);
-                var manual = await mediator.Send(GetManualRecord);
 
-                return TypedResults.Ok(manual);
+                var response = await mediator.Send(GetManualRecord);
+
+                if (response == null)
+                {
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+
+                }
+
+                return Results.Ok(response);
             })
                 //API Enpoint document. in Swagger.
                 .WithName("GetManualById_V2")
@@ -87,9 +104,8 @@ namespace eHandbook.api.EndPoints
             //.AddEndpointFilterFactory(MyValidationGenericFactoryFilter.ValidationFilterFactory); //does not working
 
 
-            //Get manual by ID End_Point_V1.
             //Some parameters binding options: [parameter, BindingSource] = id:route value,page:query string,customHeader:header,service:Provided by dependency injection
-            app.MapGet("api/V1/manuals/{Id}", async ([FromRoute] Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade) =>
+            app.MapGet("api/V1/manuals/{Id}", async (Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade) =>
             {
                 var result = await manualService.GetManualByIdAsync(Id);
 
@@ -110,7 +126,8 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-            //Get all manuals End_Point_V1.
+            //--------------------------------------------Get all manuals End_Points.---------------------------------------------------------------------------------------
+
             app.MapGet("api/V1/manuals/", async ([FromServices] IManualService manualService) =>
             {
 
@@ -146,7 +163,7 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-            //Get all manuals End Point_V2.
+
             app.MapGet("api/V2/manuals/", async (IMediator mediator) =>
             {
                 var getManuals = new GetManualsQuery();
@@ -154,7 +171,7 @@ namespace eHandbook.api.EndPoints
 
                 if (response == null)
                 {
-                    return Results.NotFound($"EndPoint Response: Error fetching all manuals from Db.");
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
 
                 #region data members Not Used.
@@ -178,66 +195,70 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-            //Create a new manual EndPoint_V1.
+            //--------------------------------------------Create a new Manual EndPoints.---------------------------------------------------------------------------------------
+
             app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService) =>
-            {
+             {
 
-                var result = await manualService.AddNewManualAsync(manualCreateDto);
+                 var result = await manualService.AddNewManualAsync(manualCreateDto);
 
-                return TypedResults.Ok(result);
+                 return TypedResults.Ok(result);
 
 
-                //return result != null ? Results.Ok(result) : Results.Problem(
-                // statusCode: StatusCodes.Status400BadRequest,
-                // title: "Bad Request",
-                // //URI pointing to somewhere where api consumer can get more details about this failure
-                // type: "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-                // //create an extension object to extend problems details with arbitrary values, here I am creating a Dictionary extension object type.
-                // extensions: new Dictionary<string, object?>
-                // {
-                //       {"errors", new[] { result.Error} }
-                // });
-            })
-                .WithName("CreateManual")
-                .WithOpenApi(generatedOperation =>
-                {
-                    //var parameter1 = generatedOperation.Parameters[0];
-                    //var parameter2 = generatedOperation.Parameters[1];
-                    //parameter1.Description = "A description for Manual.";
-                    //parameter2.Description = "The path where Manual will be Storage.";
-                    generatedOperation.Summary = "Minimal API Endpoint to add a new Manual.";
-                    generatedOperation.Description = "Create a new Manual injecting Business.";
-                    generatedOperation.Tags = new List<OpenApiTag>() {
+                 //return result != null ? Results.Ok(result) : Results.Problem(
+                 // statusCode: StatusCodes.Status400BadRequest,
+                 // title: "Bad Request",
+                 // //URI pointing to somewhere where api consumer can get more details about this failure
+                 // type: "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                 // //create an extension object to extend problems details with arbitrary values, here I am creating a Dictionary extension object type.
+                 // extensions: new Dictionary<string, object?>
+                 // {
+                 //       {"errors", new[] { result.Error} }
+                 // });
+             })
+                 .WithName("CreateManual")
+                 .WithOpenApi(generatedOperation =>
+                 {
+                     //var parameter1 = generatedOperation.Parameters[0];
+                     //var parameter2 = generatedOperation.Parameters[1];
+                     //parameter1.Description = "A description for Manual.";
+                     //parameter2.Description = "The path where Manual will be Storage.";
+                     generatedOperation.Summary = "Minimal API Endpoint to add a new Manual.";
+                     generatedOperation.Description = "Create a new Manual injecting Business Layer.";
+                     generatedOperation.Tags = new List<OpenApiTag>() {
                         new() { Name = "CreateNewManual",Description="Adding new Manual" }
-                    };
-                    return generatedOperation;
-                })
-                //Here I am only going to construct and add a filter to the endpoint if the signature of the endpoint delegate contains the required argument type
-                //This approach still suffers from the fact that we need to call AddEndpointFilterFactory on each endpoint. to use our defined generic Filter.
-                .AddEndpointFilterFactory((filterFactoryContext, next) =>
-                {
-                    //cheking the MethodInfo of the endpoint and then attach new instance of generic MyCustomValidationFilter.
-                    var isTypeOf = filterFactoryContext.MethodInfo.GetParameters().Any(p => p.ParameterType == typeof(ManualToCreateDto));
-                    if (isTypeOf)
-                    {
-                        var myCustomValidationfilter = new MyValidationGenericFilter<ManualToCreateDto>();
-                        return invocationContext => myCustomValidationfilter.InvokeAsync(invocationContext, next);
-                    }
+                     };
+                     return generatedOperation;
+                 })
 
-                    //if the signature of the endpoint delegate does not contain the required argument type(CreateManualDto), pass - thru filter
-                    return invocationContext => next(invocationContext);
-                });
+                 //Here I am only going to construct and add a filter to the endpoint if the signature of the endpoint delegate contains the required argument type
+                 //This approach still suffers from the fact that we need to call AddEndpointFilterFactory on each endpoint. to use our defined generic Filter.
 
-            //Create a new manual EndPoint_V2.
+                 .AddEndpointFilterFactory((filterFactoryContext, next) =>
+                 {
+                     //cheking the MethodInfo of the endpoint and then attach new instance of generic MyCustomValidationFilter.
+                     var isTypeOf = filterFactoryContext.MethodInfo.GetParameters().Any(p => p.ParameterType == typeof(ManualToCreateDto));
+                     if (isTypeOf)
+                     {
+                         var myCustomValidationfilter = new MyValidationGenericFilter<ManualToCreateDto>();
+                         return invocationContext => myCustomValidationfilter.InvokeAsync(invocationContext, next);
+                     }
+
+                     //if the signature of the endpoint delegate does not contain the required argument type(CreateManualDto), pass - thru filter
+                     return invocationContext => next(invocationContext);
+                 });
+
+
             app.MapPost("api/V2/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, IMediator mediator) =>
             {
                 var newManual = new CreateManualCommand(manualCreateDto);
                 var response = await mediator.Send(newManual);
                 if (response == null)
                 {
-                    return Results.NotFound($"EndPoint Respose: Error adding new manual {manualCreateDto}");
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
-                return TypedResults.Ok(response);
+                //return Results.Created($"api/V2/manuals/create/{response.Data.Id}",response);
+                return Results.Ok(response);
 
 
                 //return result != null ? Results.Ok(result) : Results.Problem(
@@ -259,7 +280,7 @@ namespace eHandbook.api.EndPoints
                     //parameter1.Description = "A description for Manual.";
                     //parameter2.Description = "The path where Manual will be Storage.";
                     generatedOperation.Summary = "Minimal API Endpoint to add a new Manual.";
-                    generatedOperation.Description = "Create a new using with CQRS + Mediator Patterns" +
+                    generatedOperation.Description = "Create a new manual using with CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>() {
@@ -267,11 +288,14 @@ namespace eHandbook.api.EndPoints
                     };
                     return generatedOperation;
                 })
+
                 //Here I am only going to construct and add a filter to the endpoint if the signature of the endpoint delegate contains the required argument type
                 //This approach still suffers from the fact that we need to call AddEndpointFilterFactory on each endpoint. to use our defined generic Filter.
+
                 .AddEndpointFilterFactory((filterFactoryContext, next) =>
                 {
                     //cheking the MethodInfo of the endpoint and then attach new instance of generic MyCustomValidationFilter.
+
                     var isTypeOf = filterFactoryContext.MethodInfo.GetParameters().Any(p => p.ParameterType == typeof(ManualToCreateDto));
                     if (isTypeOf)
                     {
@@ -283,21 +307,22 @@ namespace eHandbook.api.EndPoints
                     return invocationContext => next(invocationContext);
                 });
 
+            //----------------------------------------------Update an exisitng Manual Endpoints-------------------------------------------------------------------------------------
 
-            //Update an exisitng manual Endpoint.
+
             app.MapPut("api/V1/manuals/update", async ([FromBody] ManualToUpdateDto manualUpdateDto, [FromServices] IManualService manualService) =>
             {
                 var response = await manualService.UpdateManualAsyn(manualUpdateDto);
 
                 if (response == null)
                 {
-                    return Results.NotFound($"EndPoint Response:Error updating Muanual resourse to Db.");
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
 
                 }
 
                 return Results.Ok(response);
             })
-                .WithName("UpdateManual")
+                .WithName("UpdateManual_v1")
                 .WithOpenApi(generatedOperation =>
                 {
                     //var parameter1 = generatedOperation.Parameters[0];
@@ -305,19 +330,27 @@ namespace eHandbook.api.EndPoints
                     //parameter1.Description = "A new description for Manual.";
                     //parameter2.Description = "The new path where Manual will be Storage.";
                     generatedOperation.Summary = "Minimal API Endpoint to update an exisiting Manual.";
-                    generatedOperation.Description = "Update an existing Manual using Aplication Business Service Layer from ManualManagement Module.";
-                    generatedOperation.Tags = new List<OpenApiTag>() { new() { Name = "UpdateManual" } };
+                    generatedOperation.Description = "Update an existing Manual uInjecting Business Service Layer from ManualManagement Module.";
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    { new() { Name = "UpdateManual" } };
                     return generatedOperation;
                 })
-                //This factory pattern is useful to register a filter that depends on the signature of the target endpoint handler.I wanted to verify that the handler an endpoint filter is attached to, has a first parameter that evaluates to a UpdateManualDto type.
+
+                //This factory pattern is useful to register a filter that depends on the signature of the target endpoint handler.I wanted to verify that the handler an endpoint filter
+                //is attached to, has a first parameter that evaluates to a UpdateManualDto type.
+
                 .AddEndpointFilterFactory((filterFactoryContext, next) =>
                 {
                     //EndpointFilterFactoryContext object provides access to the MethodInfo associated with the endpoint's handler and caching some of the information provided in the MethodInfo in a filter.
+
                     var param = filterFactoryContext.MethodInfo.GetParameters();
+
                     //The signature of the handler is examined by inspecting MethodInfo for the expected type signature.
+
                     if (param.Length > 0 && param[0].ParameterType == typeof(ManualToUpdateDto))
                     {
                         //If the expected signature is found(if evaluation is True), the validation filter is registered onto the endpoint. 
+
                         return async invocationContext =>
                         {
                             var updateManualParam = invocationContext.GetArgument<ManualToUpdateDto>(0);
@@ -329,62 +362,184 @@ namespace eHandbook.api.EndPoints
                             return await next(invocationContext);
                         };
                     }
+
                     //If a matching signature isn't found, then a pass-through filter is registered.
+
                     return invocationContext => next(invocationContext);
                 });
 
-            //SoftDelete an existing Manual EndPoint.
-            app.MapDelete("api/V1/manuals/delete/{Id}", async ([FromRoute] Guid id, [FromServices] IManualService manualService) =>
-            {
-                var response = await manualService.SoftDeleteManualAsync(id);
-                //var manual = await dbContext
-                //.Set<ManualEntity>()
-                //.AsNoTracking()
-                //.FirstOrDefaultAsync(m => m.Id == manualId);
 
+
+            app.MapPut("api/V2/manuals/update", async ([FromBody] ManualToUpdateDto manualToUpdateDto, IMediator mediator) =>
+            {
+                var manualToUpdate = new UpdateManualCommand(manualToUpdateDto);
+                var response = await mediator.Send(manualToUpdate);
                 if (response == null)
                 {
-                    return Results.NotFound($"EndPoint Response:Error Adding new Muanual Record to Db.");
-
-
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
-
-                #region data members Not Used.
-                //MinimalApiResponse helper class not used anymore.
-                // var helperResponder = new MinimalApiResponse(response.Data!.Id.ToString(), response.Data.Description!, response.Data.Path!);
-                #endregion
-
                 return Results.Ok(response);
+
             })
-                .WithName("SoftDeleteManual")
+                .WithName("UpdateManual_v2")
                 .WithOpenApi(generatedOperation =>
                 {
-                    var parameter1 = generatedOperation.Parameters[0];
-                    parameter1.Description = "The Manual Manual Id.";
-                    generatedOperation.Summary = "Minimal API Endpoint to update the prop. isDeleted to True.No hard delete a Manual from db.";
-                    generatedOperation.Description = "Soft Delete Manual by Id from Route using Aplication Business Service Layer from ManualManagement Module.";
-                    generatedOperation.Tags = new List<OpenApiTag>() { new() { Name = "SoftDeleteManual" } };
+
+                    generatedOperation.Summary = "Minimal API Endpoint to update an existing Manual.";
+                    generatedOperation.Description = "Update a manual using  CQRS + Mediator Patterns" +
+                                                     "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
+                                                     ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
+                    generatedOperation.Tags = new List<OpenApiTag>() {
+                        new() { Name = "UpdateManual",Description="Updating a Manual" }
+                    };
                     return generatedOperation;
                 });
 
-            //Delete an exisiting Manual EndPoint.
+
+            //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
+
+
+            app.MapDelete("api/V1/manuals/delete/{Id}", async (Guid id, [FromServices] IManualService manualService) =>
+            {
+                var response = await manualService.SoftDeleteManualByIdAsync(id);
+                if (response == null)
+                {
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                }
+
+                return Results.Ok(response);
+            })
+                .WithName("SoftDeleteManual_v1")
+                .WithOpenApi(generatedOperation =>
+                {
+                    var parameter1 = generatedOperation.Parameters[0];
+                    parameter1.Description = "The Manual Id.";
+                    generatedOperation.Summary = "Minimal API Endpoint to update the prop. isDeleted to True.No hard delete a Manual from db.";
+                    generatedOperation.Description = "Soft Delete Manual by Id from Route using Aplication Business Service Layer from ManualManagement Module.";
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        new() { Name = "SoftDeleteManual",Description = "marks a record as no longer active or valid without actually deleting it from the database" }
+                    };
+                    return generatedOperation;
+                });
+
+
+            app.MapDelete("api/V2/manuals/delete/{Id}", async (Guid id, IMediator mediator) =>
+            {
+                var manualToDelete = new DeleteManualByIdCommand(id);
+
+                var response = await mediator.Send(manualToDelete);
+                if (response == null)
+                {
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                }
+
+                return Results.Ok(response);
+            })
+                .WithName("SoftDeleteManual_v2")
+                .WithOpenApi(generatedOperation =>
+                {
+                    var parameter1 = generatedOperation.Parameters[0];
+                    parameter1.Description = "The Manual Id.";
+                    generatedOperation.Summary = "Minimal API Endpoint to soft delete(Logical) an existing Manual.";
+                    generatedOperation.Description = "Mark a manual as no active (IsDeleted) using CQRS + Mediator Patterns" +
+                                                     "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
+                                                     ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        new() { Name = "SoftDeleteManual", Description = "marks a manual as no longer active or valid without actually deleting it from the database." }
+                    };
+                    return generatedOperation;
+                });
+
+
+
+            //----------------------------------------------Delete an exisiting Manual EndPoints-------------------------------------------------------------------------------------
+
+
             app.MapDelete("api/V1/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, [FromServices] IManualService manualService) =>
             {
                 var response = await manualService.DeleteManualAsync(manualDeleteDto);
                 if (response == null)
                 {
-                    return Results.NotFound($"EndPoint Response: Error Adding new Muanual Record to Db.");
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
 
 
                 }
                 return Results.Ok(response);
             })
-                .WithName("HardDeleteManual")
+                .WithName("HardDeleteManual_v1")
                 .WithOpenApi(generatedOperation =>
                 {
                     generatedOperation.Summary = "Minimal API Endpoint to hard delete an existing Manual from db using ManualService Layer.";
                     generatedOperation.Description = "Delete Manual using Aplication Business Service Layer from ManualManagement Module.";
-                    generatedOperation.Tags = new List<OpenApiTag>() { new() { Name = "HardDeleteManual" } };
+                    generatedOperation.Tags = new List<OpenApiTag>() 
+                    { 
+                        new() { Name = "HardDeleteManual", Description = "Delete a Manual from data base permanently." } 
+                    };
+                    return generatedOperation;
+                });
+
+
+
+            app.MapDelete("api/V2/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, IMediator mediator) =>
+            {
+                var manualToDelete = new DeleteManualCommand(manualDeleteDto);
+                
+                var response = await mediator.Send(manualToDelete);
+
+                if (response == null)
+                {
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+
+
+                }
+                return Results.Ok(response);
+            })
+                .WithName("HardDeleteManual_v2")
+                .WithOpenApi(generatedOperation =>
+                {
+                    generatedOperation.Summary = "Minimal API Endpoint to hard delete(Physical) an existing Manual from data base.";
+                    generatedOperation.Description = "Delete a Manual Permanently using CQRS + Mediator Patterns" +
+                                                     "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
+                                                     ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
+
+                    generatedOperation.Tags = new List<OpenApiTag>() 
+                    {
+                        new() { Name = "HardDeleteManual", Description = "Delete a Manual from data base permanently." } 
+                    };
+                    return generatedOperation;
+                });
+
+            //----------------------------------------------Delete an exisiting Manual by Guid EndPoint_V2-------------------------------------------------------------------------------------
+
+
+            app.MapDelete("api/V2/manuals/deleteBy/{Id}", async (Guid id, IMediator mediator) =>
+            {
+                var manualToDelete = new DeleteManualByIdCommand(id);
+
+                var response = await mediator.Send(manualToDelete);
+
+                if (response == null)
+                {
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+
+
+                }
+                return Results.Ok(response);
+            })
+                .WithName("DeleteManualById")
+                .WithOpenApi(generatedOperation =>
+                {
+                    generatedOperation.Summary = "Minimal API Endpoint to hard delete(Physical) an existing Manual by Id from database.";
+                    generatedOperation.Description = "Delete a Manual given Id Permanently using CQRS + Mediator Patterns" +
+                                                     "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
+                                                     ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
+
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        new() { Name = "DeleteManualById_v2", Description = "Delete a Manual by a given Id from data base permanently." }
+                    };
                     return generatedOperation;
                 });
 

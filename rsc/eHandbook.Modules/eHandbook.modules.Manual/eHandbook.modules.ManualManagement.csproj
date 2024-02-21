@@ -56,5 +56,12 @@
     <ProjectReference Include="..\..\eHandbook.Core\eHandbook.Core.csproj" />
     <ProjectReference Include="..\..\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj" />
   </ItemGroup>
+  <!--anabling Internal members on this project assembly to eHandbook.api project-->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <!--This assembly attribute has one parameter which specified project that is supposed to be able to see internal members-->
+      <_Parameter1>eHandbook.api</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
 </Project>

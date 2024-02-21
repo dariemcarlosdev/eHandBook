@@ -99,7 +99,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
         //Status:implemented.Completed and Tested.
         /// <summary>
-        /// Get Manua lBy Id Service.
+        /// Get Manual by Id Service.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
@@ -118,6 +118,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
                     _response.Success = false;
                     _response.Message = "Manual Not Found.";
+                    _response.Data = null;
                     return _response;
                 }
 
@@ -338,7 +339,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> DeleteManualAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id)
         {
             ResponderService<ManualDto> _response = new();
 
@@ -385,7 +386,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> SoftDeleteManualAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id)
         {
             ResponderService<ManualDto> _response = new();
 

@@ -9,7 +9,7 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValida
     /// Each validator can contain a whole lot of Strongly Typed validation logic around your models.
     /// As the name suggest the validation style is fluent, meaning you can chain all the validation rules together.
     /// </summary>
-    public sealed class GetManualByIdReqQueryValidator : AbstractValidator<GetManualByIdQueryRec>
+    internal sealed class GetManualByIdReqQueryValidator : AbstractValidator<GetManualByIdQueryRec>
     {
         public GetManualByIdReqQueryValidator(ILogger<GetManualByIdReqQueryValidator> logger)
         {

@@ -5,6 +5,6 @@ using MediatR;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual
 {
-    public sealed record DeleteManualCommand (ManualToDeleteDto manualToDelete) : IRequest<ResponderService<string>>;
+    internal sealed record DeleteManualCommand (ManualToDeleteDto manualToDelete) : IRequest<ResponderService<string>>;
     
 }
