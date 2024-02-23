@@ -67,11 +67,29 @@ builder.Services.AddSwaggerGen(c =>
     //Configure annotations in Swagger documentation
     c.EnableAnnotations();
     //c.IncludeXmlComments(string.Format(@"{0}\EFCore.CodeFirst.WebApi.xml", System.AppDomain.CurrentDomain.BaseDirectory));
-    c.SwaggerDoc("v1", new OpenApiInfo
+    c.SwaggerDoc("V1", new OpenApiInfo
     {
-        Title = "eHandBook API",
-        Version = "v1",
-        Description = "An API to perform Employee operations",
+        Title = "eHandBook API V1",
+        Version = "V1.0",
+        Description = "An API to perform Manuals Management operations",
+        TermsOfService = new Uri("https://includeaurlfortermofservice.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "Dariem Macias Mora",
+            Email = "335286@dadeschools.net",
+            Url = new Uri("https://includeaurltocontact.com/"),
+        },
+        License = new OpenApiLicense
+        {
+            Name = "eHandBook API LICX",
+            Url = new Uri("https://ifapplicenedincludehere.com/license"),
+        }
+    });
+    c.SwaggerDoc("V2", new OpenApiInfo
+    {
+        Title = "eHandBook API V2",
+        Version = "V2.0",
+        Description = "An API to perform Manuals Management operations",
         TermsOfService = new Uri("https://includeaurlfortermofservice.com/terms"),
         Contact = new OpenApiContact
         {
@@ -133,7 +151,8 @@ if (app.Environment.IsDevelopment())
     // specifying the Swagger JSON endpoint.
     .UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        options.SwaggerEndpoint("/swagger/V1/swagger.json", "V1.0");
+        options.SwaggerEndpoint("/swagger/V2/swagger.json", "V2.0");
 
     });
 
@@ -141,6 +160,7 @@ if (app.Environment.IsDevelopment())
 
     //Minimal APIs for Manual Service call.
     app.MapManualEndPoints();
+    
     app.UseMiddleware<GlobalExceptionErrorHandlerMiddleware>()
     .UseTiming();
 }
