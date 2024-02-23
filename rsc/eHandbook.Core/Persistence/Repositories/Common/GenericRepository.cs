@@ -157,7 +157,7 @@ namespace eHandbook.Core.Persistence.Repositories.Common
                     queryResult = queryResult.AsQueryable()
                    .Where(expression);
 
-                    return queryResult;
+                    return queryResult.AsNoTracking();
                 }
 
                 return null;

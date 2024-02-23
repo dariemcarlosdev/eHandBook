@@ -56,7 +56,10 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
             //Implementation here.
 
             //services.AddTransient<IMapper, ManualMapper>();
-            .AddSingleton<DbContext, ManualDbContext>()
+
+            //BugUpdatingClassInstanceCannotBeTracked solved.This error indicates there are two different Db context instances. This error might be related to how the service scope is configured but this is only a guess since the community cannot see the relevant code.
+            //The solution was change the class lifetime instance to Scoped, it was Singleton.
+            .AddScoped<DbContext, ManualDbContext>()
             //Registering DI using generics types.
             //https://stackoverflow.com/questions/56271832/how-to-register-dependency-injection-with-generic-types-net-core
             .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
