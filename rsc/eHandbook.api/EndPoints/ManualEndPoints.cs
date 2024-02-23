@@ -1,4 +1,5 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
+﻿using Asp.Versioning.Conventions;
+using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
@@ -10,6 +11,7 @@ using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace eHandbook.api.EndPoints
@@ -28,6 +30,8 @@ namespace eHandbook.api.EndPoints
         /// <param name="app"></param>
         public static void MapManualEndPoints(this IEndpointRouteBuilder app)
         {
+
+
             /* The MapGroup extension method help me to organize groups of similar endpoints with a common prefix.
             It reduces repetitive code and allows for customizing entire groups of endpoints with a single call to methods like RequireAuthorization
             and WithMetadata which add endpoint metadata. */
@@ -73,6 +77,7 @@ namespace eHandbook.api.EndPoints
                 .WithName("GetManualById_V2")
                 .WithOpenApi(generatedOperation =>
                 {
+                   
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The Manual Id bound from request.";
                     parameter.AllowEmptyValue = false;
@@ -81,7 +86,7 @@ namespace eHandbook.api.EndPoints
                                                      ",we can achieve this injecting to delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container.This is how we use DI here." +
                                                      "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetManualById",Description="Get an existing Manual." }
+                        new() { Name = "GetManualById",Description="Get an existing Manual."}
                       };
                     return generatedOperation;
                 });
