@@ -303,7 +303,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 if (_deleteManual == null)
                 {
                     _response.Success = false;
-                    _response.Message = "Manual not exist";
+                    _response.Message = "Manual not exist, hence it cannot be deleted.";
                     return _response;
                 }
 
@@ -351,7 +351,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 if (_manualexist == null)
                 {
                     _response.Success = false;
-                    _response.Message = "Manual not exist";
+                    _response.Message = "Manual not exist, hence it cannot be deleted.";
                     return _response;
                 }
 
@@ -398,7 +398,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 if (_existingManual == null)
                 {
                     _response.Success = false;
-                    _response.Message = "Manual not exist.";
+                    _response.Message = "Manual not exist, hence it cannot be deleted.";
                     _response.Data = null;
                     return _response;
                 }

@@ -4,6 +4,7 @@ using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.SoftDeleteManualById;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals;
@@ -51,7 +52,8 @@ namespace eHandbook.api.EndPoints
             //-------------------------------------------Get Manual by ID End_Points.----------------------------------------------------------------------------------------
 
             //Use [Validate] attribute for using FilterFactory.
-            app.MapGet("api/V2/manuals/{Id}", async (Guid Id, HttpRequest req, IMediator mediator) =>
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            app.MapGet("api/V2/manuals/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid Id, HttpRequest req, IMediator mediator) =>
             {
                 //if (string.IsNullOrEmpty(Id.ToString().ToUpper()))
                 //{
@@ -81,12 +83,12 @@ namespace eHandbook.api.EndPoints
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The Manual Id bound from request.";
                     parameter.AllowEmptyValue = false;
-                    generatedOperation.Summary = "Minimal API Endpoint to get an existing Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to get an existing Manual resource.";
                     generatedOperation.Description = "Retrieve a Manual using using CQRS + Mediator Patterns to encapsulate and segregate http request/response" +
                                                      ",we can achieve this injecting to delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container.This is how we use DI here." +
                                                      "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetManualById",Description="Get an existing Manual."}
+                        new() { Name = "GetManualById",Description="Get an existing Manual." }
                       };
                     return generatedOperation;
                 });
@@ -110,6 +112,7 @@ namespace eHandbook.api.EndPoints
 
 
             //Some parameters binding options: [parameter, BindingSource] = id:route value,page:query string,customHeader:header,service:Provided by dependency injection
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
             app.MapGet("api/V1/manuals/{Id}", async (Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade) =>
             {
                 var result = await manualService.GetManualByIdAsync(Id);
@@ -123,10 +126,12 @@ namespace eHandbook.api.EndPoints
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The Manual Id bound from request.";
                     parameter.AllowEmptyValue = false;
-                    generatedOperation.Summary = "Minimal API Endpoint to get an existing Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to get an existing Manual Resource.";
                     generatedOperation.Description = "Retrieve a Manual from db injecting Business Service Layer in Delegate handler.";
-                    generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetManualById",Description="Get an existing Manual." }
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        //new() { Name = "GetManualById",Description="Get an existing Resource type Manual." },
+                        new() { Name = "API V1.0"}
                     };
                     return generatedOperation;
                 });
@@ -160,10 +165,13 @@ namespace eHandbook.api.EndPoints
                 {
                     //var parameter = generatedOperation.Parameters[0];
                     //parameter.Description = "No parameters";
-                    generatedOperation.Summary = "Minimal API Endpoint to fetch all Manuals.";
+                    generatedOperation.Summary = "Minimal API Endpoint to fetch all Manuals resources.";
                     generatedOperation.Description = "Retrieve all Manuals from db using Aplication Business Service Layer.";
-                    generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetAllManuals",Description="Get Manuals." }
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        //new() { Name = "GetAllManuals",Description="Get all Manuals Resources." },
+                        new() { Name = "API V1.0"
+                        }
                     };
                     return generatedOperation;
                 });
@@ -190,18 +198,21 @@ namespace eHandbook.api.EndPoints
                 {
                     //var parameter = generatedOperation.Parameters[0];
                     //parameter.Description = "No parameters";
-                    generatedOperation.Summary = "Minimal API Endpoint to fetch all Manuals.";
+                    generatedOperation.Summary = "Minimal API Endpoint to fetch all Manuals resources.";
                     generatedOperation.Description = "Retrieve All Manuals using using CQRS + Mediator Patterns to encapsulate and segregate http request/response" +
                                                      ",we can achieve this injecting to delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container.This is how we use DI here." +
                                                      "This applies for the rest of our Minimal APIs EndPoints.";
-                    generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetAllManuals",Description="Get Manuals." }
-                    };
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        //new() { Name = "GetAllManuals",Description="Get all Manuals Resources." },
+                        new() { Name = "API V2.0"}
+                     };
                     return generatedOperation;
                 });
 
             //--------------------------------------------Create a new Manual EndPoints.---------------------------------------------------------------------------------------
-
+            
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService) =>
              {
 
@@ -228,10 +239,12 @@ namespace eHandbook.api.EndPoints
                      //var parameter2 = generatedOperation.Parameters[1];
                      //parameter1.Description = "A description for Manual.";
                      //parameter2.Description = "The path where Manual will be Storage.";
-                     generatedOperation.Summary = "Minimal API Endpoint to add a new Manual.";
+                     generatedOperation.Summary = "Minimal API Endpoint to add a new Manual resource.";
                      generatedOperation.Description = "Create a new Manual injecting Business Layer.";
-                     generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "CreateNewManual",Description="Adding new Manual" }
+                     generatedOperation.Tags = new List<OpenApiTag>()
+                     {
+                        //new() { Name = "CreateNewManual",Description="Adding new Resource type Manual." },
+                        new() { Name = "API V1.0"}
                      };
                      return generatedOperation;
                  })
@@ -253,7 +266,7 @@ namespace eHandbook.api.EndPoints
                      return invocationContext => next(invocationContext);
                  });
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPost("api/V2/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, IMediator mediator) =>
             {
                 var newManual = new CreateManualCommand(manualCreateDto);
@@ -284,12 +297,14 @@ namespace eHandbook.api.EndPoints
                     //var parameter2 = generatedOperation.Parameters[1];
                     //parameter1.Description = "A description for Manual.";
                     //parameter2.Description = "The path where Manual will be Storage.";
-                    generatedOperation.Summary = "Minimal API Endpoint to add a new Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to add a new Manual resource.";
                     generatedOperation.Description = "Create a new manual using with CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
-                    generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "CreateNewManual",Description="Adding new Manual" }
+                    generatedOperation.Tags = new List<OpenApiTag>()
+                    {
+                        //new() { Name = "CreateNewManual",Description="Adding new Resource type Manual" },
+                        new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
                 })
@@ -334,10 +349,13 @@ namespace eHandbook.api.EndPoints
                     //var parameter2 = generatedOperation.Parameters[1];
                     //parameter1.Description = "A new description for Manual.";
                     //parameter2.Description = "The new path where Manual will be Storage.";
-                    generatedOperation.Summary = "Minimal API Endpoint to update an exisiting Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to update an exisiting Manual resource.";
                     generatedOperation.Description = "Update an existing Manual uInjecting Business Service Layer from ManualManagement Module.";
                     generatedOperation.Tags = new List<OpenApiTag>()
-                    { new() { Name = "UpdateManual" } };
+                    {
+                        //new() { Name = "UpdateManual",Description = "Upadate existing Resource type Manual, entirely." },
+                        new() { Name = "API V1.0"}
+                    };
                     return generatedOperation;
                 })
 
@@ -374,7 +392,7 @@ namespace eHandbook.api.EndPoints
                 });
 
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPut("api/V2/manuals/update", async ([FromBody] ManualToUpdateDto manualToUpdateDto, IMediator mediator) =>
             {
                 var manualToUpdate = new UpdateManualCommand(manualToUpdateDto);
@@ -390,12 +408,13 @@ namespace eHandbook.api.EndPoints
                 .WithOpenApi(generatedOperation =>
                 {
 
-                    generatedOperation.Summary = "Minimal API Endpoint to update an existing Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to update an existing Manual resource.";
                     generatedOperation.Description = "Update a manual using  CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "UpdateManual",Description="Updating a Manual" }
+                        //new() { Name = "UpdateManual",Description="Updating an existing Resource type Manual, entirely." },
+                        new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
                 });
@@ -404,7 +423,7 @@ namespace eHandbook.api.EndPoints
             //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
 
 
-            app.MapDelete("api/V1/manuals/delete/{Id}", async (Guid id, [FromServices] IManualService manualService) =>
+            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id") ]Guid id, [FromServices] IManualService manualService) =>
             {
                 var response = await manualService.SoftDeleteManualByIdAsync(id);
                 if (response == null)
@@ -419,19 +438,20 @@ namespace eHandbook.api.EndPoints
                 {
                     var parameter1 = generatedOperation.Parameters[0];
                     parameter1.Description = "The Manual Id.";
-                    generatedOperation.Summary = "Minimal API Endpoint to update the prop. isDeleted to True.No hard delete a Manual from db.";
+                    generatedOperation.Summary = "Minimal API Endpoint to Logical Delete a Manual resource, updating prop. isDeleted to True. No hard delete a Manual from db.";
                     generatedOperation.Description = "Soft Delete Manual by Id from Route using Aplication Business Service Layer from ManualManagement Module.";
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        new() { Name = "SoftDeleteManual",Description = "marks a record as no longer active or valid without actually deleting it from the database" }
+                        //new() { Name = "SoftDeleteManual",Description = "Marks a Manual resource as no longer active or valid without actually deleting it from the database" },
+                        new() { Name = "API V1.0"}
                     };
                     return generatedOperation;
                 });
 
-
-            app.MapDelete("api/V2/manuals/delete/{Id}", async (Guid id, IMediator mediator) =>
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            app.MapPut("api/V2/manuals/delete/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid id, IMediator mediator) =>
             {
-                var manualToDelete = new DeleteManualByIdCommand(id);
+                var manualToDelete = new SoftDeleteManualByIdCommand(id);
 
                 var response = await mediator.Send(manualToDelete);
                 if (response == null)
@@ -446,13 +466,14 @@ namespace eHandbook.api.EndPoints
                 {
                     var parameter1 = generatedOperation.Parameters[0];
                     parameter1.Description = "The Manual Id.";
-                    generatedOperation.Summary = "Minimal API Endpoint to soft delete(Logical) an existing Manual.";
+                    generatedOperation.Summary = "Minimal API Endpoint to delete(Logical) an existing Manual resource. updating prop. isDeleted to True. No hard delete a Manual from db.";
                     generatedOperation.Description = "Mark a manual as no active (IsDeleted) using CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        new() { Name = "SoftDeleteManual", Description = "marks a manual as no longer active or valid without actually deleting it from the database." }
+                        //new() { Name = "SoftDeleteManual", Description = "marks a manual resource as no longer active or valid without actually deleting it from the database." },
+                        new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
                 });
@@ -476,17 +497,18 @@ namespace eHandbook.api.EndPoints
                 .WithName("HardDeleteManual_v1")
                 .WithOpenApi(generatedOperation =>
                 {
-                    generatedOperation.Summary = "Minimal API Endpoint to hard delete an existing Manual from db using ManualService Layer.";
+                    generatedOperation.Summary = "Minimal API Endpoint to permanently delete an existing Manual resource from db injecting ManualService Layer.";
                     generatedOperation.Description = "Delete Manual using Aplication Business Service Layer from ManualManagement Module.";
                     generatedOperation.Tags = new List<OpenApiTag>() 
                     { 
-                        new() { Name = "HardDeleteManual", Description = "Delete a Manual from data base permanently." } 
+                        //new() { Name = "HardDeleteManual", Description = "Delete a Manual resource from data base permanently" },
+                        new() { Name = "API V1.0"}
                     };
                     return generatedOperation;
                 });
 
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapDelete("api/V2/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualCommand(manualDeleteDto);
@@ -504,22 +526,23 @@ namespace eHandbook.api.EndPoints
                 .WithName("HardDeleteManual_v2")
                 .WithOpenApi(generatedOperation =>
                 {
-                    generatedOperation.Summary = "Minimal API Endpoint to hard delete(Physical) an existing Manual from data base.";
+                    generatedOperation.Summary = "Minimal API Endpoint to hard delete(Physical) an existing Manual resource from data base.";
                     generatedOperation.Description = "Delete a Manual Permanently using CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
 
                     generatedOperation.Tags = new List<OpenApiTag>() 
                     {
-                        new() { Name = "HardDeleteManual", Description = "Delete a Manual from data base permanently." } 
+                        //new() { Name = "HardDeleteManual", Description = "Delete a Manual resource from data base permanently." },
+                        new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
                 });
 
             //----------------------------------------------Delete an exisiting Manual by Guid EndPoint_V2-------------------------------------------------------------------------------------
 
-
-            app.MapDelete("api/V2/manuals/deleteBy/{Id}", async (Guid id, IMediator mediator) =>
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            app.MapDelete("api/V2/manuals/deleteBy/{Id:Guid}", async ([FromRoute(Name = "Id")]Guid id, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualByIdCommand(id);
 
@@ -543,7 +566,8 @@ namespace eHandbook.api.EndPoints
 
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        new() { Name = "DeleteManualById_v2", Description = "Delete a Manual by a given Id from data base permanently." }
+                        //new() { Name = "DeleteManualById_v2", Description = "Delete a Manual resource by a given Id from data base permanently." },
+                        new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
                 });
