@@ -88,7 +88,8 @@ namespace eHandbook.api.EndPoints
                                                      ",we can achieve this injecting to delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container.This is how we use DI here." +
                                                      "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>() {
-                        new() { Name = "GetManualById",Description="Get an existing Manual." }
+                        //new() { Name = "GetManualById",Description="Get an existing Manual." }
+                        new() { Name = "API V2.0"}
                       };
                     return generatedOperation;
                 });
