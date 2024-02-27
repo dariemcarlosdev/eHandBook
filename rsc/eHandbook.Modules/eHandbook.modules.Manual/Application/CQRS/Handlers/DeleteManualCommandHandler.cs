@@ -1,10 +1,11 @@
 ﻿using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
     internal sealed class DeleteManualCommandHandler : IRequestHandler<DeleteManualCommand, ResponderService<string>>
     {

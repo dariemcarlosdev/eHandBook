@@ -1,10 +1,11 @@
 ﻿using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
     internal sealed class UpdateManualCommandHandler : IRequestHandler<UpdateManualCommand, ResponderService<ManualDto>>
     {
