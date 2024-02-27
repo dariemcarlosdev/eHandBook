@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\**" />
     <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Services\**" />
+    <None Remove="Controllers\**" />
     <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\CQRS\Queries\GetManualsWithFilters\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
