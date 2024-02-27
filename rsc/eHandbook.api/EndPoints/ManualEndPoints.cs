@@ -52,6 +52,7 @@ namespace eHandbook.api.EndPoints
             //-------------------------------------------Get Manual by ID End_Points.----------------------------------------------------------------------------------------
 
             //Use [Validate] attribute for using FilterFactory.
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
             app.MapGet("api/V2/manuals/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid Id, HttpRequest req, IMediator mediator) =>
             {
                 //if (string.IsNullOrEmpty(Id.ToString().ToUpper()))
@@ -113,6 +114,7 @@ namespace eHandbook.api.EndPoints
 
 
             //Some parameters binding options: [parameter, BindingSource] = id:route value,page:query string,customHeader:header,service:Provided by dependency injection
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
             app.MapGet("api/V1/manuals/{Id}", async (Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade) =>
             {
                 var result = await manualService.GetManualByIdAsync(Id);
@@ -211,7 +213,8 @@ namespace eHandbook.api.EndPoints
                 });
 
             //--------------------------------------------Create a new Manual EndPoints.---------------------------------------------------------------------------------------
-
+            
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService) =>
              {
 
@@ -265,7 +268,7 @@ namespace eHandbook.api.EndPoints
                      return invocationContext => next(invocationContext);
                  });
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPost("api/V2/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, IMediator mediator) =>
             {
                 var newManual = new CreateManualCommand(manualCreateDto);
@@ -391,7 +394,7 @@ namespace eHandbook.api.EndPoints
                 });
 
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPut("api/V2/manuals/update", async ([FromBody] ManualToUpdateDto manualToUpdateDto, IMediator mediator) =>
             {
                 var manualToUpdate = new UpdateManualCommand(manualToUpdateDto);
@@ -422,7 +425,7 @@ namespace eHandbook.api.EndPoints
             //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
 
 
-            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute]Guid id, [FromServices] IManualService manualService) =>
+            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id") ]Guid id, [FromServices] IManualService manualService) =>
             {
                 var response = await manualService.SoftDeleteManualByIdAsync(id);
                 if (response == null)
@@ -447,8 +450,8 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-
-            app.MapPut("api/V2/manuals/delete/{Id}", async ([FromRoute]Guid id, IMediator mediator) =>
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            app.MapPut("api/V2/manuals/delete/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid id, IMediator mediator) =>
             {
                 var manualToDelete = new SoftDeleteManualByIdCommand(id);
 
@@ -507,7 +510,7 @@ namespace eHandbook.api.EndPoints
                 });
 
 
-
+            //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapDelete("api/V2/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualCommand(manualDeleteDto);
@@ -540,8 +543,8 @@ namespace eHandbook.api.EndPoints
 
             //----------------------------------------------Delete an exisiting Manual by Guid EndPoint_V2-------------------------------------------------------------------------------------
 
-
-            app.MapDelete("api/V2/manuals/deleteBy/{Id}", async ([FromRoute]Guid id, IMediator mediator) =>
+            //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            app.MapDelete("api/V2/manuals/deleteBy/{Id:Guid}", async ([FromRoute(Name = "Id")]Guid id, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualByIdCommand(id);
 
