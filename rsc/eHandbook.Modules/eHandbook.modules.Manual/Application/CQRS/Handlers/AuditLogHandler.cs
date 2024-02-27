@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
     /// <summary>
     /// Handler for manage request business logic auditing logs when event happens(notification).

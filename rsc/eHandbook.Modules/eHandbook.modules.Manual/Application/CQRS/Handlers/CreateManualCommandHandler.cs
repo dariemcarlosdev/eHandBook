@@ -1,10 +1,11 @@
 ﻿using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
     /// <summary>
     /// This Command Handler, receives command CreateManualCommand, and contains the logic to handle the Command and create Manual entity accordingly.
