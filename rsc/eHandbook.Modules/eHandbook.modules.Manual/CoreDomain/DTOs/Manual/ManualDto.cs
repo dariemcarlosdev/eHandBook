@@ -4,7 +4,8 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
     public class ManualDto
     {
-        public Guid Id { get; set; }
+        //Taking out Id from ManualDto since this is not revelant for users, for security reasons.
+        //public Guid Id { get; set; }
         [Required]
         [MaxLength(150, ErrorMessage = "The Description length must be less than 50 characters")]
         public string? Description { get; set; }
