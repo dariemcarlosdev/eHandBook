@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
-
+{
     //Convert to Record.
     public class ManualToUpdateDto
     {
