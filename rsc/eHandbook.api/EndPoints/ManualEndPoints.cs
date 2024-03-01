@@ -12,7 +12,6 @@ using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace eHandbook.api.EndPoints
@@ -53,6 +52,7 @@ namespace eHandbook.api.EndPoints
 
             //Use [Validate] attribute for using FilterFactory.
             //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
+            //HTTP request GET method https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET
             app.MapGet("api/V2/manuals/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid Id, HttpRequest req, IMediator mediator) =>
             {
                 //if (string.IsNullOrEmpty(Id.ToString().ToUpper()))
@@ -69,17 +69,25 @@ namespace eHandbook.api.EndPoints
 
                 if (response == null)
                 {
-                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                    return Results.Problem(detail: "The request was successfully processes, there's no content to return though", statusCode: 204);
 
                 }
-
+                else
+                {
+                    if (response.Data == null)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+                //Status response code ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status
                 return Results.Ok(response);
             })
-                //API Enpoint document. in Swagger.
-                .WithName("GetManualById_V2")
+                .WithTags("Manual")
+                .WithName("GetManualById")
                 .WithOpenApi(generatedOperation =>
                 {
-                   
+
                     var parameter = generatedOperation.Parameters[0];
                     parameter.Description = "The Manual Id bound from request.";
                     parameter.AllowEmptyValue = false;
@@ -177,7 +185,7 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-
+            //HTTP GET request method  ref:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET
             app.MapGet("api/V2/manuals/", async (IMediator mediator) =>
             {
                 var getManuals = new GetManualsQuery();
@@ -187,14 +195,12 @@ namespace eHandbook.api.EndPoints
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
-
-                #region data members Not Used.
-                #endregion
-
+                //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status
                 return Results.Ok(response);
 
             })
-                .WithName("GetAllManuals_V2")
+                .WithTags("Manuals")
+                .WithName("GetAllManuals")
                 .WithOpenApi(generatedOperation =>
                 {
                     //var parameter = generatedOperation.Parameters[0];
@@ -212,7 +218,7 @@ namespace eHandbook.api.EndPoints
                 });
 
             //--------------------------------------------Create a new Manual EndPoints.---------------------------------------------------------------------------------------
-            
+
             //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService) =>
              {
@@ -233,7 +239,7 @@ namespace eHandbook.api.EndPoints
                  //       {"errors", new[] { result.Error} }
                  // });
              })
-                 .WithName("CreateManual")
+                 .WithName("CreateManual_v1")
                  .WithOpenApi(generatedOperation =>
                  {
                      //var parameter1 = generatedOperation.Parameters[0];
@@ -268,16 +274,25 @@ namespace eHandbook.api.EndPoints
                  });
 
             //Model data binding FromBody: Parameter of this action are bound from request body.
+            //The HTTP POST method ref:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/post
             app.MapPost("api/V2/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, IMediator mediator) =>
             {
                 var newManual = new CreateManualCommand(manualCreateDto);
                 var response = await mediator.Send(newManual);
                 if (response == null)
                 {
-                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                    return Results.Problem(detail: "The request was successfully processes, there's no Contect to return though", statusCode: 204);
                 }
-                //return Results.Created($"api/V2/manuals/create/{response.Data.Id}",response);
-                return Results.Ok(response);
+                else
+                {
+                    if (!response.Success)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+                //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
+                return Results.Created(" ", response);
 
 
                 //return result != null ? Results.Ok(result) : Results.Problem(
@@ -291,7 +306,8 @@ namespace eHandbook.api.EndPoints
                 //       {"errors", new[] { result.Error} }
                 // });
             })
-                .WithName("CreateManual_v2")
+                .WithTags("Manuals")
+                .WithName("CreateManual")
                 .WithOpenApi(generatedOperation =>
                 {
                     //var parameter1 = generatedOperation.Parameters[0];
@@ -340,7 +356,7 @@ namespace eHandbook.api.EndPoints
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
 
                 }
-
+                //Return a 200 OK if the update request was successful and returns the updated resource.
                 return Results.Ok(response);
             })
                 .WithName("UpdateManual_v1")
@@ -394,6 +410,7 @@ namespace eHandbook.api.EndPoints
 
 
             //Model data binding FromBody: Parameter of this action are bound from request body.
+            //HTTP PUT Request method ref:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/put
             app.MapPut("api/V2/manuals/update", async ([FromBody] ManualToUpdateDto manualToUpdateDto, IMediator mediator) =>
             {
                 var manualToUpdate = new UpdateManualCommand(manualToUpdateDto);
@@ -402,10 +419,23 @@ namespace eHandbook.api.EndPoints
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
+
+                else
+                {
+                    if (response.Data == null)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+
+                //Return a 200 OK if the update request was successful and returns the updated resource.the target resource does have a current representation and that representationis successfully modified
+                //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status, https://git.fitko.de/fit-connect/submission-api/-/issues/98
                 return Results.Ok(response);
 
             })
-                .WithName("UpdateManual_v2")
+                .WithTags("Manuals")
+                .WithName("UpdateManual")
                 .WithOpenApi(generatedOperation =>
                 {
 
@@ -420,11 +450,22 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
+            //.AddEndpointFilter(async (context, next) =>
+            // {
+
+            //     var description = (string?)context.Arguments[0];
+            //     if (string.IsNullOrWhiteSpace(description))
+            //     {
+            //         return Results.Problem("Empty TODO description not allowed!");
+            //     }
+            //     return await next(context);
+            // });
+
 
             //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
 
 
-            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id") ]Guid id, [FromServices] IManualService manualService) =>
+            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id")] Guid id, [FromServices] IManualService manualService) =>
             {
                 var response = await manualService.SoftDeleteManualByIdAsync(id);
                 if (response == null)
@@ -459,10 +500,20 @@ namespace eHandbook.api.EndPoints
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
                 }
-
+                else
+                {
+                    if (response.Data == null)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+                //Return a 200 OK if the update request was successful and returns the updated resource.the target resource does have a current representation and that representationis successfully modified
+                //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status, https://git.fitko.de/fit-connect/submission-api/-/issues/98
                 return Results.Ok(response);
             })
-                .WithName("SoftDeleteManual_v2")
+                .WithTags("Manuals")
+                .WithName("SoftDeleteManual")
                 .WithOpenApi(generatedOperation =>
                 {
                     var parameter1 = generatedOperation.Parameters[0];
@@ -493,14 +544,14 @@ namespace eHandbook.api.EndPoints
 
 
                 }
-                return Results.Ok(response);
+                return Results.NoContent();
             })
                 .WithName("HardDeleteManual_v1")
                 .WithOpenApi(generatedOperation =>
                 {
                     generatedOperation.Summary = "Minimal API Endpoint to permanently delete an existing Manual resource from db injecting ManualService Layer.";
                     generatedOperation.Description = "Delete Manual using Aplication Business Service Layer from ManualManagement Module.";
-                    generatedOperation.Tags = new List<OpenApiTag>() 
+                    generatedOperation.Tags = new List<OpenApiTag>()
                     { 
                         //new() { Name = "HardDeleteManual", Description = "Delete a Manual resource from data base permanently" },
                         new() { Name = "API V1.0"}
@@ -509,22 +560,36 @@ namespace eHandbook.api.EndPoints
                 });
 
 
+
+            //HTTP Delete Request Method Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE
             //Model data binding FromBody: Parameter of this action are bound from request body.
             app.MapDelete("api/V2/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualCommand(manualDeleteDto);
-                
+
                 var response = await mediator.Send(manualToDelete);
 
                 if (response == null)
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
 
-
                 }
+                else
+                {
+                    if (!response.Success)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+
+                //Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
+                //return Result.NoContent();
                 return Results.Ok(response);
-            })
-                .WithName("HardDeleteManual_v2")
+
+                //return Results.NoContent() ;
+            }).WithTags("Manuals")
+                .WithName("HardDeleteManual")
                 .WithOpenApi(generatedOperation =>
                 {
                     generatedOperation.Summary = "Minimal API Endpoint to hard delete(Physical) an existing Manual resource from data base.";
@@ -532,7 +597,7 @@ namespace eHandbook.api.EndPoints
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
 
-                    generatedOperation.Tags = new List<OpenApiTag>() 
+                    generatedOperation.Tags = new List<OpenApiTag>()
                     {
                         //new() { Name = "HardDeleteManual", Description = "Delete a Manual resource from data base permanently." },
                         new() { Name = "API V2.0"}
@@ -542,8 +607,9 @@ namespace eHandbook.api.EndPoints
 
             //----------------------------------------------Delete an exisiting Manual by Guid EndPoint_V2-------------------------------------------------------------------------------------
 
+            //HTTP Delete Request Method Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE
             //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
-            app.MapDelete("api/V2/manuals/deleteBy/{Id:Guid}", async ([FromRoute(Name = "Id")]Guid id, IMediator mediator) =>
+            app.MapDelete("api/V2/manuals/deleteBy/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid id, IMediator mediator) =>
             {
                 var manualToDelete = new DeleteManualByIdCommand(id);
 
@@ -551,12 +617,23 @@ namespace eHandbook.api.EndPoints
 
                 if (response == null)
                 {
-                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
-
+                    return Results.Problem(detail: "The request was successfully processes, there's no content to return though", statusCode: 204);
 
                 }
+
+                else
+                {
+                    if (response.Data == null)
+                    {
+                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
+                        return Results.Accepted("", response);
+                    }
+                }
+                //Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
+                //return Result.NoContent();
                 return Results.Ok(response);
             })
+                .WithTags("Manuals")
                 .WithName("DeleteManualById")
                 .WithOpenApi(generatedOperation =>
                 {
@@ -567,7 +644,6 @@ namespace eHandbook.api.EndPoints
 
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        //new() { Name = "DeleteManualById_v2", Description = "Delete a Manual resource by a given Id from data base permanently." },
                         new() { Name = "API V2.0"}
                     };
                     return generatedOperation;

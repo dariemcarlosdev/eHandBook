@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
-{
+
+    //Convert to Record.
     public class ManualToUpdateDto
     {
         public Guid Id { get; set; }
@@ -9,7 +10,5 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
         public string? Description { get; set; }
         [Required(ErrorMessage = "Manual path is required")]
         public string? Path { get; set; }
-
-        //Add propertuy IsDeleted to hadler SoftDelete Action on the Entity.
     }
 }
