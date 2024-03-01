@@ -5,10 +5,7 @@ using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Contracts;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Web.Http.ModelBinding;
 
 namespace eHandbook.modules.ManualManagement.Application.Service
 {
