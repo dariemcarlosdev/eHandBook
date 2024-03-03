@@ -81,12 +81,14 @@ namespace eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares
                 Title = "Internal Server Error.",
                 Type = $"https://example.com/problem-types/{exception.GetType().Name}",
                 Detail = $"Something went wrong. An internar Server Error has occurred",
+                //Instance = context.Request.Path, //try this to check Instance String result.
                 Instance = errorHandlerFeature switch
                 {
                     ExceptionHandlerFeature e => e.Path,
 
                     _ => "unknown"
                 },
+                // Status = context.Response.StatusCode, //try this to check what status Code is returned in response.
                 Status = StatusCodes.Status400BadRequest,
                 Extensions =
                 {
@@ -106,6 +108,7 @@ namespace eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares
                     problemDetails.Status = e.StatusCode /*StatusCodes.Status400BadRequest*/;
                     problemDetails.Title = "One or more errors occurred processing the request.";
                     problemDetails.Detail = "Request failed. More information can be found in Extended Details.";
+                    problemDetails.Instance = context.Request.Path;
                     break;
 
                 case KeyNotFoundException:
@@ -113,26 +116,31 @@ namespace eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares
                     problemDetails.Status = StatusCodes.Status403Forbidden;
                     problemDetails.Title = "One or more validation errors occurred";
                     problemDetails.Detail = "Request Failed with errors. An operation attempts to retrieve an element from a collection using a key that does not exist in that collection. More information can be found in Extended Details.";
+                    problemDetails.Instance = context.Request.Path;
                     break;
-                case AuthenticationException _:
+                case AuthenticationException:
                     problemDetails.Status = (int)HttpStatusCode.Forbidden;
                     problemDetails.Title = "Authentication Request Failed with errors";
                     problemDetails.Detail = "Authentication failed";
+                    problemDetails.Instance = context.Request.Path;
                     break;
-                case NotImplementedException _:
+                case NotImplementedException:
                     problemDetails.Status = (int)HttpStatusCode.NotImplemented;
                     problemDetails.Title = "Request Failed with errors.";
                     problemDetails.Detail = "One or more errors occurred. A request method or operations were not implemented.";
+                    problemDetails.Instance = context.Request.Path;
                     break;
-                case ValidationException v:
+                case ValidationException:
                     // custom application error
                     problemDetails.Status = StatusCodes.Status403Forbidden;
                     problemDetails.Title = "Request Failed with errors.";
                     problemDetails.Detail = $"Request Error. An input value does not match the expected data type, range or pattern of the data field. More information can be found in Extended Details.";
+                    problemDetails.Instance = context.Request.Path;
                     break;
                 default:
                     // default application error
                     problemDetails.Status = (int)HttpStatusCode.InternalServerError;
+                    problemDetails.Instance = context.Request.Path;
                     break;
             }
             var payload = JsonConvert.SerializeObject(problemDetails);
