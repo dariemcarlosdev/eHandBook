@@ -6,6 +6,7 @@ using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace eHandbook.modules.ManualManagement.Application.Service
 {
@@ -38,7 +39,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         #region Methods Implementation using UoW with Generic Repository.
 
         //Status: Implemented.Completed and Tested.
-        public async Task<ResponderService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest)
+        public async Task<ResponderService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest, CancellationToken cancellationToken)
 
         {
             ResponderService<ManualDto> _response = new();
@@ -76,7 +77,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
                 else
                 {
-                    await _unitOfWork.SaveAsync();
+                    await _unitOfWork.SaveAsync(cancellationToken);
                     _response.Success = true;
                     _response.Data = _mapper.Map<ManualDto>(_newManual);
                     _response.Message = "Reponse OK!. Manual Created successfuly.";
@@ -229,7 +230,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToUpdateDtoRequest"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> UpdateManualAsyn(ManualToUpdateDto manualToUpdateDtoRequest)
+        public async Task<ResponderService<ManualDto>> UpdateManualAsyn(ManualToUpdateDto manualToUpdateDtoRequest, CancellationToken cancellationToken)
         {
             //Create a empty response object.
             var _response = new ResponderService<ManualDto>();
@@ -262,7 +263,9 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 }
 
                 //Update ManualRequest
-                await _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync(cancellationToken);
+                    //When using Async/Await in library methods, it’s important to use ConfigureAwait(false) to avoid deadlocks. In this case it's not needed.
+                    //.ConfigureAwait(false);
 
                 // if Manual was udpated. UpdateManual return true.
                 _response.Success = true;
@@ -286,7 +289,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns>string</returns>
-        public async Task<ResponderService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest)
+        public async Task<ResponderService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
         {
             ResponderService<string> _response = new();
 
@@ -316,7 +319,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 }
 
                 // if Manual was deteled. DeleteManual return true.
-                await _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Success = true;
                 _response.Message = "Respose Ok. Manual Deleted successfully.";
 
@@ -339,7 +342,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             ResponderService<ManualDto> _response = new();
 
@@ -364,7 +367,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 }
 
                 // if Manual was deteled. DeleteManual return true.
-                await _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Data = _mapper.Map<ManualDto>(_manualexist);
                 _response.Success = true;
                 _response.Message = "Response OK. Manual was Deleted.";
@@ -386,7 +389,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             ResponderService<ManualDto> _response = new();
 
@@ -415,7 +418,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                     return _response;
                 }
 
-                await _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Success = true;
                 _response.Message = "Response Ok. Manual Deleted successfully.";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
@@ -438,7 +441,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns></returns>
-        public async Task<ResponderService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
         {
             ResponderService<ManualDto> _response = new();
             try
@@ -464,7 +467,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                     return _response;
                 }
 
-                await _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Success = true;
                 _response.Message = "Response Ok. Manual Deleted successfully.";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
