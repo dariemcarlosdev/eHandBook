@@ -9,6 +9,7 @@
 
         public GenericBaseRepository<T> GetRepository { get; }
         Task<bool> SaveAsync();
+        Task SaveAsync(CancellationToken cancellationToken);
         //Not implemented as it's not necessary for now. Non error
         //void Dispose();
         //void Rollback();
