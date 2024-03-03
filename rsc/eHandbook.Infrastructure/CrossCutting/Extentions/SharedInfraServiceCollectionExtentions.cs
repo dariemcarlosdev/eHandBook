@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using MediatR;
 using eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace eHandbook.Infrastructure.CrossCutting.Extentions
 {
@@ -15,6 +16,27 @@ namespace eHandbook.Infrastructure.CrossCutting.Extentions
         /// <returns></returns>
         public static IServiceCollection AddSharedInfraServices(this IServiceCollection services)
         {
+            //HTTP logging is a new built-in middleware that logs information about HTTP requests and HTTP responses including the headers and entire body.
+            /*
+             HTTP logging provides logs of:
+                HTTP Request information
+                Common properties
+                Headers
+                Body
+                HTTP Response information
+            To configure the HTTP logging middleware, you can specify HttpLoggingOptions in your call to AddSharedInfraServices()
+             */
+            services.AddHttpLogging(logging =>
+            {
+                // Customize HTTP logging here.
+                logging.LoggingFields = HttpLoggingFields.All;
+                logging.RequestHeaders.Add("My-Request-Header");
+                logging.ResponseHeaders.Add("My-Response-Header");
+                logging.MediaTypeOptions.AddText("application/javascript");
+                logging.RequestBodyLogLimit = 4096;
+                logging.ResponseBodyLogLimit = 4096;
+            });
+
             // Adding shared services to the DI container.
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
