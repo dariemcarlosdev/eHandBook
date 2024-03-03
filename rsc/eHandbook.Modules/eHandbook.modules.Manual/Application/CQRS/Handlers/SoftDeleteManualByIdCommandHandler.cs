@@ -26,7 +26,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
         public async Task<ResponderService<ManualDto>> Handle(SoftDeleteManualByIdCommand request, CancellationToken cancellationToken)
         {
-            var result = await _manualService.SoftDeleteManualByIdAsync(request.ManualGuid);
+            var result = await _manualService.SoftDeleteManualByIdAsync(request.ManualGuid,cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
             await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message! });
