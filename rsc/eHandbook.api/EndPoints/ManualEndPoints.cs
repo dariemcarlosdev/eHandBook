@@ -1,5 +1,4 @@
-﻿using Asp.Versioning.Conventions;
-using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
+﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
@@ -77,7 +76,10 @@ namespace eHandbook.api.EndPoints
                     if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
                 //Status response code ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status
@@ -122,9 +124,9 @@ namespace eHandbook.api.EndPoints
 
             //Some parameters binding options: [parameter, BindingSource] = id:route value,page:query string,customHeader:header,service:Provided by dependency injection
             //Model data binding FromRoute: Parameter of this action are bound from Route(URL) data.
-            app.MapGet("api/V1/manuals/{Id}", async (Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade) =>
+            app.MapGet("api/V1/manuals/{Id}", async (Guid Id, [FromServices] IManualService manualService, [FromQuery(Name = "p")] int p, [FromHeader(Name = "X-CUSTOM-HEADER")] string customHeade, CancellationToken cancellationToken) =>
             {
-                var result = await manualService.GetManualByIdAsync(Id);
+                var result = await manualService.GetManualByIdAsync(Id, cancellationToken);
 
                 return Results.Ok(result);
 
@@ -220,10 +222,10 @@ namespace eHandbook.api.EndPoints
             //--------------------------------------------Create a new Manual EndPoints.---------------------------------------------------------------------------------------
 
             //Model data binding FromBody: Parameter of this action are bound from request body.
-            app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService) =>
+            app.MapPost("api/V1/manuals/create", async ([FromBody] ManualToCreateDto manualCreateDto, [FromServices] IManualService manualService, CancellationToken cancellation) =>
              {
 
-                 var result = await manualService.AddNewManualAsync(manualCreateDto);
+                 var result = await manualService.AddNewManualAsync(manualCreateDto, cancellation);
 
                  return TypedResults.Ok(result);
 
@@ -285,10 +287,13 @@ namespace eHandbook.api.EndPoints
                 }
                 else
                 {
-                    if (!response.Success)
+                    if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
                 //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
@@ -347,9 +352,9 @@ namespace eHandbook.api.EndPoints
             //----------------------------------------------Update an exisitng Manual Endpoints-------------------------------------------------------------------------------------
 
 
-            app.MapPut("api/V1/manuals/update", async ([FromBody] ManualToUpdateDto manualUpdateDto, [FromServices] IManualService manualService) =>
+            app.MapPut("api/V1/manuals/update", async ([FromBody] ManualToUpdateDto manualUpdateDto, [FromServices] IManualService manualService, CancellationToken cancellation) =>
             {
-                var response = await manualService.UpdateManualAsyn(manualUpdateDto);
+                var response = await manualService.UpdateManualAsyn(manualUpdateDto, cancellation);
 
                 if (response == null)
                 {
@@ -425,7 +430,10 @@ namespace eHandbook.api.EndPoints
                     if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
 
@@ -465,9 +473,9 @@ namespace eHandbook.api.EndPoints
             //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
 
 
-            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id")] Guid id, [FromServices] IManualService manualService) =>
+            app.MapPut("api/V1/manuals/delete/{Id}", async ([FromRoute(Name = "Id")] Guid id, [FromServices] IManualService manualService, CancellationToken cancellation) =>
             {
-                var response = await manualService.SoftDeleteManualByIdAsync(id);
+                var response = await manualService.SoftDeleteManualByIdAsync(id, cancellation);
                 if (response == null)
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
@@ -505,7 +513,10 @@ namespace eHandbook.api.EndPoints
                     if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
                 //Return a 200 OK if the update request was successful and returns the updated resource.the target resource does have a current representation and that representationis successfully modified
@@ -535,9 +546,9 @@ namespace eHandbook.api.EndPoints
             //----------------------------------------------Delete an exisiting Manual EndPoints-------------------------------------------------------------------------------------
 
 
-            app.MapDelete("api/V1/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, [FromServices] IManualService manualService) =>
+            app.MapDelete("api/V1/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, [FromServices] IManualService manualService, CancellationToken cancellation) =>
             {
-                var response = await manualService.DeleteManualAsync(manualDeleteDto);
+                var response = await manualService.DeleteManualAsync(manualDeleteDto, cancellation);
                 if (response == null)
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
@@ -576,10 +587,13 @@ namespace eHandbook.api.EndPoints
                 }
                 else
                 {
-                    if (!response.Success)
+                    if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
 
@@ -626,7 +640,10 @@ namespace eHandbook.api.EndPoints
                     if (response.Data == null)
                     {
                         //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        return Results.Accepted("", response);
+                        //return Results.Accepted("", response);
+                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+                        //we’re still getting the whole response back, but the status code is 404 Not Found.
+                        return Results.NotFound(response);
                     }
                 }
                 //Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
