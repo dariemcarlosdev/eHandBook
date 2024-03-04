@@ -30,11 +30,11 @@ namespace eHandbook.Core.Persistence.Repositories.Common
             }
         }
 
-        public async Task<bool> SaveAsync()
+        public async Task<bool> SaveAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var isSaved = await _context!.SaveChangesAsync();
+                var isSaved = await _context!.SaveChangesAsync(cancellationToken);
                 return isSaved >= 0;
             }
             catch (DbEntityValidationException dbEx)

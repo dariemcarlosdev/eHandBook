@@ -149,10 +149,10 @@ namespace eHandbook.api.EndPoints
 
             //--------------------------------------------Get all manuals End_Points.---------------------------------------------------------------------------------------
 
-            app.MapGet("api/V1/manuals/", async ([FromServices] IManualService manualService) =>
+            app.MapGet("api/V1/manuals/", async ([FromServices] IManualService manualService, CancellationToken cancellation) =>
             {
 
-                var response = await manualService.GetAllManualsAsync();
+                var response = await manualService.GetAllManualsAsync(cancellation);
                 //var manual = await dbContext
                 //.Set<ManualEntity>()
                 //.AsNoTracking()
@@ -506,7 +506,7 @@ namespace eHandbook.api.EndPoints
                 var response = await mediator.Send(manualToDelete);
                 if (response == null)
                 {
-                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though.", statusCode: 204);
                 }
                 else
                 {

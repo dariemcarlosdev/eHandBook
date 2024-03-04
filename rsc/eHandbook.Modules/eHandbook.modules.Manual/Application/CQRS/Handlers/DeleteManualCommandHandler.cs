@@ -28,7 +28,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
                 Path = request.manualToDelete.Path
             };
 
-            var result = await _manualService.DeleteManualAsync(dto);
+            var result = await _manualService.DeleteManualAsync(dto, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
             await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message });

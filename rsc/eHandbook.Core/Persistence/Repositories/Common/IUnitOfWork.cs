@@ -8,10 +8,9 @@
     {
 
         public GenericBaseRepository<T> GetRepository { get; }
-        Task<bool> SaveAsync();
         // As best practrice I am using CancellationToken is used to cancel a task if it’s no longer needed or if it’s taking too long to complete.
         // This helps to prevent resource wastage and improve the overall performance of the application
-        Task SaveAsync(CancellationToken cancellationToken);
+        Task<bool> SaveAsync(CancellationToken cancellationToken);
         //Not implemented as it's not necessary for now. Non error
         //void Dispose();
         //void Rollback();

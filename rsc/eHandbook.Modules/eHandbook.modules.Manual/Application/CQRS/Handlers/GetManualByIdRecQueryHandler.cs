@@ -20,7 +20,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
         public async Task<ResponderService<ManualDto>> Handle(GetManualByIdQueryRec request, CancellationToken cancellationToken)
         {
-            return await _manualServices.GetManualByIdAsync(request.Id);
+            return await _manualServices.GetManualByIdAsync(request.Id, cancellationToken);
         }
     }
 }

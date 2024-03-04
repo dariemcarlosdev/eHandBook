@@ -145,10 +145,10 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence.Reposito
         /// </summary>
         /// <param name="manual"></param>
         /// <returns>bool</returns>
-        public async Task<bool> ManualExistAsync(ManualEntity manual)
+        public async Task<bool> ManualExistAsync(ManualEntity manual, CancellationToken cancellationToken)
         {
             EnsureValidation.AgainstNullorEmpty(manual, "Manual is null, cannot check the manual existence.");
-            return await DoesEntityExist(manual);
+            return await DoesEntityExist(manual, cancellationToken);
 
         }
 

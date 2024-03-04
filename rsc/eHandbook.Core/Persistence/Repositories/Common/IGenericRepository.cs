@@ -52,7 +52,7 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>
         /// <param name="entity"></param>
         /// <returns name="bool"></returns>
-        Task<bool> DoesEntityExist(TEntity entity);
+        Task<bool> DoesEntityExist(TEntity entity, CancellationToken cancellationToken);
 
         /// <summary>
         /// Count all Entties.
@@ -65,26 +65,26 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>
         /// <param name="expression"></param>
         /// <returns>IQueryable</returns>
-        Task<ICollection<TEntity>> GetAllEntitiesByConditionAsync(Expression<Func<TEntity, bool>> expression);
+        Task<ICollection<TEntity>> GetAllEntitiesByConditionAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
 
         /// <summary>
         /// Get all Entities Async.
         /// </summary>
         /// <returns></returns>
-        Task<ICollection<TEntity>> GetAllEntitiesAsync();
+        Task<ICollection<TEntity>> GetAllEntitiesAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Count all Entities async.
         /// </summary>
         /// <returns></returns>
-        Task<int> CountEntitiesAsync();
+        Task<int> CountEntitiesAsync(CancellationToken cancellationToken);
 
         /// <summary>  
         /// Gets a single record using lambda expression. (usually the unique identifier)  
         /// </summary>  
         /// <param name="expression">Criteria to match on</param>  
         /// <returns>A single record that matches the specified lamda expression</returns>  
-        Task<TEntity?> FindEntityAsync(Expression<Func<TEntity, bool>> expression);
+        Task<TEntity?> FindEntityAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
 
 
         #region GMleakOfImplement

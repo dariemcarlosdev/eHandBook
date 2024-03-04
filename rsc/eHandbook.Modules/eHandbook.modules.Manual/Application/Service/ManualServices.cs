@@ -46,7 +46,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         {
             ResponderService<ManualDto> _response = new();
 
-            var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(e => e.Description == manualCreateDtoRequest.Description)!.FirstOrDefaultAsync();
+            var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(e => e.Description == manualCreateDtoRequest.Description)!.FirstOrDefaultAsync(cancellationToken);
 
             try
             {
@@ -114,7 +114,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             try
             {
                 //check if manual record exists finding by condition using Id.
-                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(c => c.Id.Equals(id))!.FirstOrDefaultAsync();
+                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(c => c.Id.Equals(id))!.FirstOrDefaultAsync(cancellationToken);
 
                 if (_existingManual == null)
                 {
@@ -240,7 +240,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             try
             {
                 //Find the manual to be updated  and Check if Manual record exists.
-                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(m => m.Id.Equals(manualToUpdateDtoRequest.Id))!.FirstOrDefaultAsync();
+                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(m => m.Id.Equals(manualToUpdateDtoRequest.Id))!.FirstOrDefaultAsync(cancellationToken);
 
                 if (_existingManual == null)
                 {
@@ -299,7 +299,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             //ManualEntity _deleteManual = _mapper.Map<ManualEntity>(manualToDeleteDtoRequest);
 
             //Get manual Entity from repository.
-            ManualEntity? _deleteManual = await _unitOfWork.GetRepository.FindEntityAsync(e => e.Id == manualToDeleteDtoRequest.Id);
+            ManualEntity? _deleteManual = await _unitOfWork.GetRepository.FindEntityAsync(e => e.Id == manualToDeleteDtoRequest.Id,cancellationToken);
 
             try
             {
@@ -351,7 +351,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             try
             {
                 //check if Manual exist.
-                var _manualexist = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.SingleOrDefaultAsync();
+                var _manualexist = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.SingleOrDefaultAsync(cancellationToken);
 
                 if (_manualexist == null)
                 {
@@ -494,7 +494,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             try
             {
                 //check if record exist
-                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.FirstOrDefaultAsync();
+                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.FirstOrDefaultAsync(cancellationToken);
 
                 if (_existingManual == null)
                 {

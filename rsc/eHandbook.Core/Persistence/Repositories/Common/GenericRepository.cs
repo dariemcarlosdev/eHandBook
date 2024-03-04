@@ -192,9 +192,9 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>
         /// <param name="includeProperties"></param>
         /// <returns>IQueryable<TEntity></returns>
-        public IQueryable<TEntity> GetAllWithIncludeQueryble(params Expression<Func<TEntity, object>>[] includeProperties)
+        public IQueryable<TEntity> GetAllWithIncludeQueryble(CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> queryable = (IQueryable<TEntity>)GetAllEntitiesAsync();
+            IQueryable<TEntity> queryable = (IQueryable<TEntity>)GetAllEntitiesAsync(cancellationToken);
             foreach (Expression<Func<TEntity, object>> includeProperty in includeProperties)
             {
                 queryable = queryable.Include(includeProperty);
@@ -208,7 +208,7 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>
         /// <param name="expression"></param>
         /// <returns>IQueryable</returns>
-        public async Task<ICollection<TEntity>> GetAllEntitiesByConditionAsync(Expression<Func<TEntity, bool>> expression)
+        public async Task<ICollection<TEntity>> GetAllEntitiesByConditionAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
         {
             // This optimisation allows you to tell Entity Framework not to track the results of a query. This means that Entity Framework performs no additional processing or storage of the entities which are returned by the query.
             // However, it also means that you can't update these entities without reattaching them to the tracking graph.
@@ -216,7 +216,7 @@ namespace eHandbook.Core.Persistence.Repositories.Common
             // Please note that we cannot update these entities without attaching to the context. Mostly used with READ-ONLY queries.
             // eg. Sometimes we do not want to track some entities because the data is only used for viewing purposes and other operations such as insert, update, and delete are not done.
             // For example the view data in a read-only grid.
-            return await _dbSet.Where(expression).AsNoTracking().ToListAsync();
+            return await _dbSet.Where(expression).AsNoTracking().ToListAsync(cancellationToken);
         }
 
         //Refactored.
@@ -224,9 +224,9 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// Get all Entities Async.
         /// </summary>
         /// <returns></returns>
-        public async Task<ICollection<TEntity>> GetAllEntitiesAsync()
+        public async Task<ICollection<TEntity>> GetAllEntitiesAsync(CancellationToken cancellationToken)
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         //Refactored
@@ -256,10 +256,10 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>  
         /// <param name="expression">Criteria to match on</param>  
         /// <returns>A single record that matches the specified lamda expression</returns>  
-        public async Task<TEntity?> FindEntityAsync(Expression<Func<TEntity, bool>> expression)
+        public async Task<TEntity?> FindEntityAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
         {
             // Return first element of a collection that satisfy a specified lambda expression.
-            return await _dbSet.AsNoTracking().SingleOrDefaultAsync(expression);
+            return await _dbSet.AsNoTracking().SingleOrDefaultAsync(expression, cancellationToken);
 
         }
 
@@ -268,10 +268,10 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>bool</returns>
-        public async Task<bool> DoesEntityExist(TEntity entity)
+        public async Task<bool> DoesEntityExist(TEntity entity, CancellationToken cancellationToken)
         {
 
-            var result = await _dbSet.AsNoTracking().AnyAsync(e => e == entity);
+            var result = await _dbSet.AsNoTracking().AnyAsync(e => e == entity, cancellationToken);
             return result;
 
         }
@@ -283,9 +283,9 @@ namespace eHandbook.Core.Persistence.Repositories.Common
         }
 
         //Refactored
-        public async Task<int> CountEntitiesAsync()
+        public async Task<int> CountEntitiesAsync(CancellationToken cancellationToken)
         {
-            return await _dbSet.CountAsync();
+            return await _dbSet.CountAsync(cancellationToken);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace eHandbook.modules.ManualManagement.Application.Contracts
         /// Async Service to Get All Manual Entities which are not marked as deleted.
         /// </summary>
         /// <returns>List of ManualDto</returns>
-        Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync();
+        Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Service for Update a Manual Entity in DataBase. Set entity IsUpdated to True.

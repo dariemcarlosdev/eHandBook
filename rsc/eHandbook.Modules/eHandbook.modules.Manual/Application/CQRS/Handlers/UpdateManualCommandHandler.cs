@@ -28,7 +28,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
             };
 
-            var result = await _manualService.UpdateManualAsyn(dto);
+            var result = await _manualService.UpdateManualAsyn(dto, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
             await _mediator.Publish(new ManualUpdateNotification() { updateResponse = result.Message });
