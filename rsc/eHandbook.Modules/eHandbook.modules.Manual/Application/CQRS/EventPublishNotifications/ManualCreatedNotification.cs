@@ -13,7 +13,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifi
 
     public class ManualDeletedNotification : INotification
     {
-        public  string deleteResponse { get; set; }
+        public string deleteResponse { get; set; }
     }
 
     public class ManualUpdateNotification : INotification

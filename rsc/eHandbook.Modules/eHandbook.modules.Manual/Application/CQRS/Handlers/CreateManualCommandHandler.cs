@@ -29,7 +29,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
                 Path = request.manualToCreate.Path,
             };
 
-            var result = await _manualServices.AddNewManualAsync(newManual,cancellationToken);
+            var result = await _manualServices.AddNewManualAsync(newManual, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
             await _mediator.Publish(new ManualCreatedNotification() { manual = result.Data! });

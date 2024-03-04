@@ -4,11 +4,6 @@ using eHandbook.modules.ManualManagement.Application.CQRS.Commands.SoftDeleteMan
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
@@ -26,7 +21,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
         public async Task<ResponderService<ManualDto>> Handle(SoftDeleteManualByIdCommand request, CancellationToken cancellationToken)
         {
-            var result = await _manualService.SoftDeleteManualByIdAsync(request.ManualGuid,cancellationToken);
+            var result = await _manualService.SoftDeleteManualByIdAsync(request.ManualGuid, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
             await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message! });

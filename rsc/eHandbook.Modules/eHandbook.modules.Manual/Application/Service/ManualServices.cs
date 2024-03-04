@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using eHandbook.Core.Persistence.Repositories.Common;
 using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
@@ -8,7 +7,6 @@ using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Contracts;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace eHandbook.modules.ManualManagement.Application.Service
 {
@@ -195,12 +193,12 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name=""></param>
         /// <returns>IEnumerableManualDto</returns>
-        public async Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync()
+        public async Task<ResponderService<IEnumerable<ManualDto>>> GetAllManualsAsync(CancellationToken cancellationToken)
         {
             ResponderService<IEnumerable<ManualDto>> _response = new();
             try
             {
-                var manuals = await _unitOfWork.GetRepository.GetAllEntitiesAsync();
+                var manuals = await _unitOfWork.GetRepository.GetAllEntitiesAsync(cancellationToken);
 
                 if (manuals == null)
                 {
@@ -266,8 +264,8 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
                 //Update ManualRequest
                 await _unitOfWork.SaveAsync(cancellationToken);
-                    //When using Async/Await in library methods, it’s important to use ConfigureAwait(false) to avoid deadlocks. In this case it's not needed.
-                    //.ConfigureAwait(false);
+                //When using Async/Await in library methods, it’s important to use ConfigureAwait(false) to avoid deadlocks. In this case it's not needed.
+                //.ConfigureAwait(false);
 
                 // if Manual was udpated. UpdateManual return true.
                 _response.Success = true;
@@ -299,7 +297,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
             //ManualEntity _deleteManual = _mapper.Map<ManualEntity>(manualToDeleteDtoRequest);
 
             //Get manual Entity from repository.
-            ManualEntity? _deleteManual = await _unitOfWork.GetRepository.FindEntityAsync(e => e.Id == manualToDeleteDtoRequest.Id,cancellationToken);
+            ManualEntity? _deleteManual = await _unitOfWork.GetRepository.FindEntityAsync(e => e.Id == manualToDeleteDtoRequest.Id, cancellationToken);
 
             try
             {
@@ -344,7 +342,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id,CancellationToken cancellationToken)
+        public async Task<ResponderService<ManualDto>> DeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             ResponderService<ManualDto> _response = new();
 
@@ -487,7 +485,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         }
 
 
-        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id,JsonPatchDocument<ManualEntity> document, CancellationToken cancellationToken)
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, JsonPatchDocument<ManualEntity> document, CancellationToken cancellationToken)
         {
             ResponderService<ManualDto> _response = new();
 

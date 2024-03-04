@@ -4,11 +4,6 @@ using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualB
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
