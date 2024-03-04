@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Azure;
 using eHandbook.Core.Persistence.Repositories.Common;
 using eHandbook.Core.Services.Common.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Contracts;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Contracts;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
@@ -104,7 +106,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        public async Task<ResponderService<ManualDto>> GetManualByIdAsync(Guid id)
+        public async Task<ResponderService<ManualDto>> GetManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
 
             ResponderService<ManualDto> _response = new();
@@ -460,6 +462,54 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 ////Update prop. IsDeleted to True.
                 _existingManual!.IsDeleted = true;
 
+                if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
+                {
+                    _response.Success = false;
+                    _response.Message = "Repository Error soft deleting Manual.";
+                    return _response;
+                }
+
+                await _unitOfWork.SaveAsync(cancellationToken);
+                _response.Success = true;
+                _response.Message = "Response Ok. Manual Deleted successfully.";
+                _response.Data = _mapper.Map<ManualDto>(_existingManual);
+
+
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Data = null;
+                _response.Message = "Error";
+                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return _response;
+        }
+
+
+        public async Task<ResponderService<ManualDto>> SoftDeleteManualByIdAsync(Guid id,JsonPatchDocument<ManualEntity> document, CancellationToken cancellationToken)
+        {
+            ResponderService<ManualDto> _response = new();
+
+            try
+            {
+                //check if record exist
+                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.FirstOrDefaultAsync();
+
+                if (_existingManual == null)
+                {
+                    _response.Success = false;
+                    _response.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.Data = null;
+                    return _response;
+                }
+
+                //var manual = await _unitOfWork.GetRepository.FindEntityAsync(c => c.Id == id);
+
+                ////Update prop. IsDeleted to True.
+                // _existingManual!.IsDeleted = true;
+
+                document.ApplyTo(_existingManual);
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
                     _response.Success = false;
