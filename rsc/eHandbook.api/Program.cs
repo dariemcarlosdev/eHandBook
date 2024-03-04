@@ -18,6 +18,33 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Set the JSON serializer options
+/*
+ public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers()
+            .AddJsonOptions(options =>
+               options.JsonSerializerOptions.PropertyNamingPolicy = null);
+}
+ This works well for controllers. .NET 6 introduced minimal APIs for hosting and routing in web applications. This is an easier way to create small web APIs. 
+This new model does not use controllers, so you cannot use the AddJsonOptions method. AddJsonOptions configures Microsoft.AspNetCore.Http.Json.JsonOptions using the Dependency Injection (source).
+So, you can do the same directly.In the following example, I configure the JSON serializer options using the Configure method:
+ */
+//builder.Services.ConfigureOptions<Microsoft.AspNetCore.Http.Json.JsonOptions>(); Test if this also work.
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+
+    options.SerializerOptions.PropertyNamingPolicy = null;
+    options.SerializerOptions.PropertyNameCaseInsensitive = false;
+    options.SerializerOptions.WriteIndented = true;
+
+});
+
+
+builder.Services.AddAuthorization();
+builder.Services.AddControllers();
+
 
 builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
 
@@ -56,7 +83,6 @@ builder.Services.AddSingleton<UpdateMyAuditableEntitiesInterceptor>();
 //builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
-builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -160,7 +186,7 @@ if (app.Environment.IsDevelopment())
 
     //Minimal APIs for Manual Service call.
     app.MapManualEndPoints();
-    
+
     app.UseMiddleware<GlobalExceptionErrorHandlerMiddleware>()
     .UseTiming();
 }
