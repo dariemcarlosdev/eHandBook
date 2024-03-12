@@ -48,6 +48,7 @@ namespace eHandbook.modules.ManualManagement.Application.Service
 
             try
             {
+
                 //Check if Manual record exist.
                 if (_existingManual != null)
                 {
@@ -246,6 +247,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                     _response.Success = false;
                     _response.Message = "Manual do not exist, hence cannot be updated.";
                     _response.Data = null;
+                    _response.MyCustomErrorMessages = new List<string>()
+                    {
+                    "The server cannot find the requested resource.Resource missing."
+                    };
                     return _response;
 
                 }
@@ -307,6 +312,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 {
                     _response.Success = false;
                     _response.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MyCustomErrorMessages = new List<string>()
+                    {
+                    "The server cannot find the requested resource.Resource missing."
+                    };
                     return _response;
                 }
 
@@ -322,6 +331,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Success = true;
                 _response.Message = "Respose Ok. Manual Deleted successfully.";
+                _response.MyCustomErrorMessages = new List<string>()
+                {
+                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
+                };
 
             }
             catch (Exception ex)
@@ -355,6 +368,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                 {
                     _response.Success = false;
                     _response.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MyCustomErrorMessages = new List<string>()
+                    {
+                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
+                    };
                     return _response;
                 }
 
@@ -403,6 +420,10 @@ namespace eHandbook.modules.ManualManagement.Application.Service
                     _response.Success = false;
                     _response.Message = "Manual not exist, hence it cannot be deleted.";
                     _response.Data = null;
+                    _response.MyCustomErrorMessages = new List<string>()
+                    {
+                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
+                    };
                     return _response;
                 }
 

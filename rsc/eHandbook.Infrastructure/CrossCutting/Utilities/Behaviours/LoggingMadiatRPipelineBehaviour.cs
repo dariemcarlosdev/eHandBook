@@ -7,8 +7,9 @@ namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
 {
     //Our pipeline behavior is an implementation of IPipelineBehavior<TRequest, TResponse>. It represents a similar pattern to filters in ASP.NET MVC/Web API,
     //or middlewares in asp.net core. Before each request, all pipeline behaviours are called, if there are any, which wrap requests.
-    //Assuming I want to log requests being executed via MediatR.It provides functionality to validate or logging logic before and after 
+    //Assuming I want to log requests being executed via MediatR. MediatR pipeline behaviors provides functionality to validate or logging logic before and after 
     //your command or query handlers execute.So handler no need to write repeated logic for logging or validation.
+    //ref:https://medium.com/@mlkpatel0/net-core-mediatr-with-notification-publish-and-behaviors-469d1433607a#:~:text=MediatR%20pipeline%20behaviors%20were%20introduced,command%20or%20query%20handlers%20execute.
 
     /// <summary>
     ///  This behaviour class implements the IPipelineBehavior<TRequest, TResponse> interface, and  can operate on any request.
