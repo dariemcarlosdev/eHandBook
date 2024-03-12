@@ -169,7 +169,9 @@ app.UseSerilogRequestLogging(options =>
 
 if (app.Environment.IsDevelopment())
 {
-    app.SeedSqlServer()
+    app
+     //Seeding database Commented out for increase app startup time.     
+     //.SeedSqlServer()
 
     // Enable middleware to serve generated Swagger as a JSON endpoint.    
     .UseSwagger()
