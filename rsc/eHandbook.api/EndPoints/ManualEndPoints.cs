@@ -85,6 +85,7 @@ namespace eHandbook.api.EndPoints
                 //Status response code ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status
                 return Results.Ok(response);
             })
+                //.RequireAuthorization("PolicyName")
                 .WithTags("Manual")
                 .WithName("GetManualById")
                 .WithOpenApi(generatedOperation =>

@@ -41,11 +41,6 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 
 });
 
-
-builder.Services.AddAuthorization();
-builder.Services.AddControllers();
-
-
 builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
 
 //With AddValidatorsFromAssembly(),all the validators defined in the executing assembly will be automatically registered, eliminating the need to manually register each validator. This approach ensures that all validators are available for request validation within our project.
@@ -151,6 +146,8 @@ builder.Services.AddHealthChecks()
 
 WebApplication app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline. Adding middlewares.
 
 //In the bellow code, the Serilog request logging middleware is added to log HTTP request information.
@@ -170,24 +167,19 @@ app.UseSerilogRequestLogging(options =>
 if (app.Environment.IsDevelopment())
 {
     app
-     //Seeding database Commented out for increase app startup time.     
-     //.SeedSqlServer()
+   //Seeding database Commented out for increase app startup time.     
+   //.SeedSqlServer()
 
-    // Enable middleware to serve generated Swagger as a JSON endpoint.    
-    .UseSwagger()
-    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-    // specifying the Swagger JSON endpoint.
-    .UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/V1/swagger.json", "V1.0");
-        options.SwaggerEndpoint("/swagger/V2/swagger.json", "V2.0");
+   // Enable middleware to serve generated Swagger as a JSON endpoint.    
+   .UseSwagger()
+   // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+   // specifying the Swagger JSON endpoint.
+   .UseSwaggerUI(options =>
+   {
+       options.SwaggerEndpoint("/swagger/V1/swagger.json", "V1.0");
+       options.SwaggerEndpoint("/swagger/V2/swagger.json", "V2.0");
 
-    });
-
-    //(Second Component).Using my custome middleware calling UseMiddleware and specify which middleware to use.
-
-    //Minimal APIs for Manual Service call.
-    app.MapManualEndPoints();
+   });
 
     app.UseMiddleware<GlobalExceptionErrorHandlerMiddleware>()
     .UseTiming();
@@ -208,6 +200,8 @@ else
 }
 
 
+
+
 //enable static file middleware for using wwwroot with static files.
 app.UseStaticFiles()
 
@@ -223,7 +217,6 @@ app.MapHealthChecks(
     //--- For Limiting who can call this endpoint.Leak of implementation.
     /*.RequireAuthorization().RequireHost().RequireCors()*/;
 
-app.UseAuthorization();
 
 
 //First approach.Global error Handler Defining Middleware
@@ -243,6 +236,9 @@ app.UseAuthorization();
 
 //});
 
-app.MapControllers();
+
+//Minimal APIs for Manual Service call.
+app.MapManualEndPoints();
+
 
 app.Run();
