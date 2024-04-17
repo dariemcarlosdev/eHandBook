@@ -2,7 +2,7 @@
 using MediatR;
 
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.ValidationPipeLineBehavior
+namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
 {
     public class ValidatorPipelineBehavior<TRequest, TResponse> : ValidatorPipelineBehaviorBase<TRequest, TResponse>, IPipelineBehavior<TRequest, TResponse>
     {

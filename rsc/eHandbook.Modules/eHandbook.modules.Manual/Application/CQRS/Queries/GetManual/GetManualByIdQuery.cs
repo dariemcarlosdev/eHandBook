@@ -1,4 +1,5 @@
-﻿using eHandbook.Core.Services.Common.ServiceResponder;
+﻿using eHandbook.Infrastructure.Abstractions.Caching;
+using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
@@ -9,10 +10,14 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     /// It is used to retrieve data or perform read-only operations.Queries can be designed and optimized specifically for read-intensive operations
     /// ,such as data retrieval, filtering, sorting, and aggregating.
     /// </summary>
-    //internal sealed class GetManualByIdQuery : IRequest<ResponderService<ManualDto>>
-    //{
-    //    public Guid Id { get; set; }
-    //}
+    //Before:
+    //internal sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
 
-    internal sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
+    //After Including Query Chaching Implementation
+    public sealed record GetManualByIdQuery(Guid ManualId) : IMyCachedQuery<ResponderService<ManualDto>>
+    {
+        public string CacheKey => $"manual-by-id-{ManualId}";
+
+        public TimeSpan? Expiration => null;
+    }
 }

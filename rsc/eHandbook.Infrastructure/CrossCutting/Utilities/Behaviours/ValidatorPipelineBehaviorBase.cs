@@ -1,7 +1,8 @@
-﻿using FluentValidation;
+﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Validations;
+using FluentValidation;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.ValidationPipeLineBehavior
+namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
 {
     public class ValidatorPipelineBehaviorBase<TRequest, TResponse>
     {
