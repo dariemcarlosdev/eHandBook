@@ -1,4 +1,4 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Logging.Contracts;
+﻿using eHandbook.Infrastructure.Abstractions.Loggin;
 using NLog;
 
 namespace eHandbook.Infrastructure.CrossCutting.Logging

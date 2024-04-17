@@ -1,4 +1,4 @@
-﻿using eHandbook.Core.Services.Common.ServiceResponder;
+﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 

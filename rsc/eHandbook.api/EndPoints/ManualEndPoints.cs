@@ -1,5 +1,5 @@
 ﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
-using eHandbook.modules.ManualManagement.Application.Contracts;
+using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
@@ -62,7 +62,7 @@ namespace eHandbook.api.EndPoints
                 //var manual = await mediator.Send(getManual);
 
                 //Now here I am using defined Records Querry
-                GetManualByIdQueryRec GetManualRecord = new GetManualByIdQueryRec(Id);
+                GetManualByIdQuery GetManualRecord = new GetManualByIdQuery(Id);
 
                 var response = await mediator.Send(GetManualRecord);
 

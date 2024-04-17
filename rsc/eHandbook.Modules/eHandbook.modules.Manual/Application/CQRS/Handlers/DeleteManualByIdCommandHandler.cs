@@ -1,5 +1,5 @@
-﻿using eHandbook.Core.Services.Common.ServiceResponder;
-using eHandbook.modules.ManualManagement.Application.Contracts;
+﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
@@ -22,7 +22,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
             var result = await _manualService.DeleteManualByIdAsync(request.ManualGuid, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
-            await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message });
+            await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message }, cancellationToken);
 
             return result;
         }

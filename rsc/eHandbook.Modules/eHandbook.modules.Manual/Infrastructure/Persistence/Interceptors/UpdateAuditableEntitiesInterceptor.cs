@@ -1,4 +1,4 @@
-﻿using eHandbook.Core.Domain.Common;
+﻿using eHandbook.Core.Domain.Abstractions;
 using eHandbook.Infrastructure.CrossCutting.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

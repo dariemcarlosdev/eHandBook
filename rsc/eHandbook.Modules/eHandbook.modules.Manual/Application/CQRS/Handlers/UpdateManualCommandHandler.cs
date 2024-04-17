@@ -1,5 +1,5 @@
-﻿using eHandbook.Core.Services.Common.ServiceResponder;
-using eHandbook.modules.ManualManagement.Application.Contracts;
+﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;

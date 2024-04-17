@@ -4,20 +4,19 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
     <Compile Remove="Controllers\**" />
     <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
     <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Services\**" />
+    <None Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
     <None Remove="Controllers\**" />
     <None Remove="Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\CQRS\Queries\GetManualsWithFilters\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +65,9 @@
       <!--This assembly attribute has one parameter which specified project that is supposed to be able to see internal members-->
       <_Parameter1>eHandbook.api</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\Behaviours\" />
   </ItemGroup>
 
 </Project>

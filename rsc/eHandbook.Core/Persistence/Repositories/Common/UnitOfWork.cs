@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using eHandbook.Core.Persistence.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Validation;
 
 namespace eHandbook.Core.Persistence.Repositories.Common

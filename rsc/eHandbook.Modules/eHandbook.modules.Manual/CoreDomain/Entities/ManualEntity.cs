@@ -1,4 +1,5 @@
-﻿using eHandbook.Core.Domain.Common;
+﻿using eHandbook.Core.Domain;
+using eHandbook.Core.Domain.Abstractions;
 using System.ComponentModel.DataAnnotations;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.Entities

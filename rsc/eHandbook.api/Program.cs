@@ -3,7 +3,7 @@ using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
 using eHandbook.Infrastructure.CrossCutting.Extentions;
 using eHandbook.Infrastructure.CrossCutting.HealthCheck;
 using eHandbook.Infrastructure.CrossCutting.Middlewares;
-using eHandbook.Infrastructure.CrossCutting.Options;
+using eHandbook.Infrastructure.CrossCutting.OptionsPattern;
 using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
@@ -55,8 +55,8 @@ builder.Services.AddTransient<GlobalExceptionErrorHandlerMiddleware>(); // middl
 
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
 builder.Services
-    .AddManualModuleServiceCollection()
-    .AddSharedInfraServices();
+    .AddManualModuleDIServiceCollection()
+    .AddSharedInfraDIServiceCollection();
 
 
 //--- Include in eHandbook.modules.ManualManagement.Infrastructure.Extensions.ManualModuleExtentions

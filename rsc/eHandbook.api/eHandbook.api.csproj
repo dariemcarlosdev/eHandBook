@@ -80,7 +80,6 @@
     <ProjectReference Include="..\eHandbook.Core\eHandbook.Core.csproj" />
     <ProjectReference Include="..\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj" />
     <ProjectReference Include="..\eHandbook.Modules\eHandbook.modules.Manual\eHandbook.modules.ManualManagement.csproj" />
-    <ProjectReference Include="..\eHandbook.Modules\eHandbook.Modules.Users\eHandbook.Modules.UserManagement.csproj" />
   </ItemGroup>
 
 </Project>
