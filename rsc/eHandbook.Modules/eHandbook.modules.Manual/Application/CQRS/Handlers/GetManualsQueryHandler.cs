@@ -1,4 +1,5 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+﻿using eHandbook.Infrastructure.Abstractions.Handler;
+using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
