@@ -9,7 +9,6 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -44,7 +43,7 @@ namespace IdentityServer.Quickstart.Account
             IEventService events
             //We remove TestUser since here we are using asp.net Identity
             //,TestUserStore users = null
-            ,SignInManager<IdentityUser> signInManager
+            , SignInManager<IdentityUser> signInManager
             )
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
@@ -117,7 +116,7 @@ namespace IdentityServer.Quickstart.Account
             {
                 //Changing Logic for using ASP.NET Identity Users
                 var user = await _signInManager.UserManager.FindByNameAsync(model.Username);
-                
+
                 if (user is not null)
                 {
                     var userLogin = await _signInManager.CheckPasswordSignInAsync(user, model.Password, true);
@@ -129,7 +128,7 @@ namespace IdentityServer.Quickstart.Account
                     if (userLogin == Microsoft.AspNetCore.Identity.SignInResult.Success)
                     {
                         //var user = _users.FindByUsername(model.Username);
-                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, 
+                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName,
                             user.Id, user.UserName, clientId: context?.Client.ClientId));
 
                         // only set explicit expiration here if user chooses "remember me". 
@@ -182,7 +181,7 @@ namespace IdentityServer.Quickstart.Account
                     }
                 }
 
-             
+
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);

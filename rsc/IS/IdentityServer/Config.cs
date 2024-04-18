@@ -7,10 +7,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text.Json;
 
 namespace IdentityServer
@@ -79,11 +76,10 @@ namespace IdentityServer
             {
                  new IdentityResources.OpenId(), //OpenId Scope is always required if we are using Open Id.
                  new IdentityResources.Profile(),
-                 new IdentityResource
-                 {
-                    Name = "role",
-                    UserClaims = new List<string> {"role"}
-                 }
+                 new IdentityResources.Email(),
+                 new IdentityResource("appUser_claim",new[]{ "appUser_claim" })
+
+
             };
 
         //Scopes.
@@ -100,7 +96,7 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> ApiResources =>
         new List<ApiResource>
         {
-           new ApiResource("weatherapi")
+           new ApiResource("weatherapi","Weather API")
            {
             Scopes = new List<string>{
                 "weatherapi.read",
@@ -108,7 +104,8 @@ namespace IdentityServer
             },
             ApiSecrets = new List<Secret> { new Secret("ScopeSecret".Sha256()) },
             UserClaims = new List<string>{"role" }
-           }
+           },
+            new ApiResource("identityApi","Identity Claims Api",new []{"appUser_claim"}),
         };
 
 
@@ -132,35 +129,46 @@ namespace IdentityServer
 
             // no interactive user, use the clientid/secret for authentication
             AllowedGrantTypes = GrantTypes.ClientCredentials,
+            //AllowedCorsOrigins = new List<string>(){ "https://localhost:5002" },
             // scopes that client has access to
             AllowedScopes = { "weatherapi.read","weatherapi.write" }
             },
         
         // interactive ASP.NET Core MVC client using code flow + pkce.
          //since the flows in OIDC are always interactive, we need to add some redirect URLs to our configuration.
+         //A client must be configured in Identity Server that has access to the API Resource and the Identity Resource.
         new Client
         {
             ClientId = "interactive.client",
             ClientSecrets = { new Secret("secret".Sha256()) },
-
+            
+            // Use Code flow with PKCE (most secure)
             AllowedGrantTypes = GrantTypes.Code,
-
+            RequirePkce = true,
+            
             // where to redirect to after login
-            RedirectUris = { "https://localhost:5002/signin-oidc" },
-            FrontChannelLogoutUri ="https://localhost:5002/signout-oidc",
+            RedirectUris = { "https://localhost:5002/signin-oidc" },       
+            
             // where to redirect to after logout
             PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
-            AllowOfflineAccess = true,
+
+            // Allowed Scopes - include Api Resources and Identity Resources that may be accessed by this client
+            // The identityApi scope provides access to the API, the appUser_claim scope provides access to the custom Identity Resource
             AllowedScopes = new List<string>
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                "weatherapi.read"
+                "weatherapi.read",
+                "identityApi",
+                "appUser_claim"
             },
-            RequirePkce = true,
-            RequireConsent = true,
-            AllowPlainTextPkce = false
-        }
+
+                // AllowOfflineAccess includes the refresh token
+               // The application will get a new access token after the old one expires without forcing the user to sign in again.
+               // Token management is done by the middleware, but the client must be allowed access here and the offline_access scope must be added in the OIDC settings in client Startup.ConfigureServices
+            AllowOfflineAccess = true,
+
+       }
         };
     }
 }

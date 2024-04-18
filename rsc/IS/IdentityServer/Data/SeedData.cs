@@ -68,16 +68,17 @@ namespace IdentityServer.Data
         {
             var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            var angella = userMgr.FindByNameAsync("angella").Result;
-            if (angella == null)
+            var user = userMgr.FindByNameAsync("dariem").Result;
+            if (user == null)
             {
-                angella = new IdentityUser
+                user = new IdentityUser
                 {
-                    UserName = "angella",
-                    Email = "angella.freeman@email.com",
-                    EmailConfirmed = true
+                    UserName = "dariem",
+                    Email = "dariem.macias@email.com",
+                    EmailConfirmed = true,
+                    
                 };
-                var result = userMgr.CreateAsync(angella, "Pass123$").Result;
+                var result = userMgr.CreateAsync(user, "Pass123$").Result;
                 if (!result.Succeeded)
                 {
                     throw new Exception(result.Errors.First().Description);
@@ -85,14 +86,17 @@ namespace IdentityServer.Data
 
                 result =
                     userMgr.AddClaimsAsync(
-                        angella,
+                        user,
                         new Claim[]
                         {
-                            new Claim(JwtClaimTypes.Name, "Angella Freeman"),
-                            new Claim(JwtClaimTypes.GivenName, "Angella"),
-                            new Claim(JwtClaimTypes.FamilyName, "Freeman"),
-                            new Claim(JwtClaimTypes.WebSite, "http://angellafreeman.com"),
-                            new Claim("location", "somewhere")
+                            new Claim(JwtClaimTypes.Name, "Dariem Macias"),
+                            new Claim(JwtClaimTypes.GivenName, "Dariem"),
+                            new Claim(JwtClaimTypes.FamilyName, "Macias"),
+                            new Claim(JwtClaimTypes.WebSite, "http://dariem.com"),
+                            new Claim("location", "somewhere"),
+                            new Claim(JwtClaimTypes.Role,"Admin"),
+                            // Add user_scope claim for Identity to authorize UI and API actions. Dariem has this claim, Bob does not.
+                            new Claim("appUser_claim","identity")
                         }
                     ).Result;
                 if (!result.Succeeded)

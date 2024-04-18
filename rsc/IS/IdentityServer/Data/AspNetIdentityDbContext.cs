@@ -5,7 +5,7 @@ namespace IdentityServer.Data
 {
     public class AspNetIdentityDbContext : IdentityDbContext
     {
-        public AspNetIdentityDbContext(DbContextOptions<AspNetIdentityDbContext> options)
+        public AspNetIdentityDbContext(DbContextOptions<AspNetIdentityDbContext> options) 
             : base(options)
         {
         }

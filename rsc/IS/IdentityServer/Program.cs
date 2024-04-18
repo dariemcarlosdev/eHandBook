@@ -42,15 +42,17 @@ namespace IdentityServer
             {
                 args = args.Except(new[] { "/seed" }).ToArray();
             }
-
+    
             try
             {
                 var host = CreateHostBuilder(args).Build();
                 if (seed)
                 {
+                    Log.Information("Seeding Database");
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     var connectionString = config.GetConnectionString("DefaultConnection2");
                     SeedData.EnsureSeedData(connectionString);
+                    Log.Information("Done seeding database.");
                 }
                 host.Run();
                 return 0;

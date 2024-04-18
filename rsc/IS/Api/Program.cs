@@ -1,24 +1,22 @@
-using Microsoft.IdentityModel.Tokens;
+
+using Api;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Setting up IdentityServer4 Authorization Within the API.
 // accepts any access token issued by identity server
 builder.Services.AddAuthentication("Bearer")
             .AddIdentityServerAuthentication("Bearer", options =>
             {
                 //this options tell this application how to call IS.
-                options.Authority = "https://localhost:5001"; //the address that IS is listening on.
-               
+                options.Authority = "https://localhost:5001"; //the address that IS is listening on.               
                 options.ApiName = "weatherapi"; //specify api name, which is the resource tha's been protected.
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                //    ValidateAudience = false
-                //};
-            });
+                options.ApiName = "identityApi";
 
-// adds an authorization policy to make sure the token is for scope 'weatherapi'
+// adds authorization policy to make sure the token is for scope 'weatherapi'.
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ApiScope", policy =>
@@ -28,12 +26,22 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-
-builder.Services.AddControllers();
+//builder.Services.AddCors(options =>
+//{
+//    // this defines a CORS policy called "default"
+//    options.AddPolicy("default", policy =>
+//    {
+//        policy.WithOrigins("http://localhost:5100")
+//            .AllowAnyHeader()
+//            .AllowAnyMethod();
+//    });
+//});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 var app = builder.Build();
 
@@ -54,6 +62,6 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.Run();
