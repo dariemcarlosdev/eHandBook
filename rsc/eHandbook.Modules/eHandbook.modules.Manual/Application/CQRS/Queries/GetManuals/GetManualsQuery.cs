@@ -5,7 +5,7 @@ using MediatR;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals
 {
-    public sealed record GetManualsQuery() : IMyCachedQuery<ResponderService<IEnumerable<ManualDto>>>
+    public sealed record GetManualsQuery() : ICachedQuery<ResponderService<IEnumerable<ManualDto>>>
     {
         public string CacheKey => $"manuals-{Guid.NewGuid()}";
 

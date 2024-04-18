@@ -47,18 +47,20 @@ namespace eHandbook.Infrastructure.CrossCutting.Extentions
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
 
 
-            //ref: https://medium.com/@codebob75/mediatr-dependency-injection-net-6-71c42ae7c0dePolished project structure.Polished project structure.Polished project structure.Polished project structure.
+            //Registering MediatR with Dependency Injection at the application Domain looking for MediatR related object isntances scanning whole application..
+            //ref: https://medium.com/@codebob75/mediatr-dependency-injection-net-6-71c42ae7c0dePolished
+            //Use RegisterServicesFromAssembly and RegisterServicesFromAssemblies methods if you prefer to specify Assembly instances to the Type instances.For example, the following invocation will scan the whole application for the MediatR-related objects.
             .AddMediatR(cfg =>
             {
                 
                 cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
                 //Registering Pipeline Behaviour with Mediator Request Pipeline. So, QueryCachingPipelineBehaviour is gonna execute
                 //whenever I send a ICachedQuery instance thru the request pipeline.
-                cfg.AddOpenBehavior(typeof(QueryCachingPipelineBehaviour<,>));
+                cfg.AddOpenBehavior(typeof(QueryCachingMediatRPipelineBehaviour<,>));
             })
 
             //I'm using the <,> notation to specify the behavior that can be used for any generic type parameters.
-            .AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingMadiatRPipelineBehaviour<,>))
+            .AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingMediatRPipelineBehaviour<,>))
 
             .AddMemoryCache()
             .AddSingleton<ICacheService,CacheService>();

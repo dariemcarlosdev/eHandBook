@@ -1,7 +1,6 @@
 ﻿using eHandbook.Infrastructure.Abstractions.Caching;
 using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
-using MediatR;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
 {
@@ -14,7 +13,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     //internal sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
 
     //After Including Query Chaching Implementation
-    public sealed record GetManualByIdQuery(Guid ManualId) : IMyCachedQuery<ResponderService<ManualDto>>
+    public sealed record GetManualByIdQuery(Guid ManualId) : ICachedQuery<ResponderService<ManualDto>>
     {
         public string CacheKey => $"manual-by-id-{ManualId}";
 
