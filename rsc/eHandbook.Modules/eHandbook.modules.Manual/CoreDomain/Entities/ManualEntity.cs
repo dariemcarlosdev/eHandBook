@@ -15,8 +15,8 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
 
         #region Self-Props.
         [MaxLength(150, ErrorMessage = "The Description length must be less than 50 characters")]
-        public string? Description { get; set; }
-        public string? Path { get; set; } = string.Empty;
+        public required string? Description { get; set; }
+        public required string? Path { get; set; } = string.Empty;
 
         public List<Category> Categories { get; set; } = new List<Category>();
         #endregion
