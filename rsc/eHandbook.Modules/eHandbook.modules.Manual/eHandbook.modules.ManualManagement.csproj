@@ -45,6 +45,7 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.5.1-dev-00064" />
+    <PackageReference Include="Sieve" Version="2.5.5" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
