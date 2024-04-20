@@ -1,10 +1,5 @@
 ﻿using eHandbook.Infrastructure.Abstractions.Caching;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eHandbook.Infrastructure.CrossCutting.Caching
 {
@@ -38,7 +33,7 @@ namespace eHandbook.Infrastructure.CrossCutting.Caching
             T? result = await _memoryCache.GetOrCreateAsync(
                 key,
                 //lambda exp. that takes in a cache entry, to allow to configure expiration.
-                cacheEntry => 
+                cacheEntry =>
                 {
                     cacheEntry.SetAbsoluteExpiration(expiration ?? DefaultExpirationCache);
 

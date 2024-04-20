@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace eHandbook.modules.ManualManagement.Infrastructure.Configuration
+namespace eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs
 {
     /// <summary>
     /// better way for creating a Fluent API configuration by using the IEntityTypeConfiguration interface. 

@@ -1,4 +1,4 @@
-﻿namespace eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder
+﻿namespace eHandbook.Infrastructure.Services.ServiceResponder
 {
     /// <summary>
     /// Generic wrapper for web api response.       

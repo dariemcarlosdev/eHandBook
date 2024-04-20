@@ -10,13 +10,10 @@
   <ItemGroup>
     <Compile Remove="DbProviders\**" />
     <Compile Remove="Middleware\**" />
-    <Compile Remove="Utilities\**" />
     <EmbeddedResource Remove="DbProviders\**" />
     <EmbeddedResource Remove="Middleware\**" />
-    <EmbeddedResource Remove="Utilities\**" />
     <None Remove="DbProviders\**" />
     <None Remove="Middleware\**" />
-    <None Remove="Utilities\**" />
   </ItemGroup>
 
   <ItemGroup>

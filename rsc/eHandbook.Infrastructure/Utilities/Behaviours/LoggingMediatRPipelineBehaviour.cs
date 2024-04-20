@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text.Json;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
+namespace eHandbook.Infrastructure.Utilities.Behaviours
 {
     //Our pipeline behavior is an implementation of IPipelineBehavior<TRequest, TResponse>. It represents a similar pattern to filters in ASP.NET MVC/Web API,
     //or middlewares in asp.net core. Before each request, all pipeline behaviours are called, if there are any, which wrap requests.

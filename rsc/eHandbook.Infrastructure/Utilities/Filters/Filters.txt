@@ -1,4 +1,6 @@
-﻿Minimal API filters allow developers to implement business logic that supports:
+﻿
+Some ref here: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-8.0
+Minimal API filters allow developers to implement business logic that supports:
 
 Running code before and after the endpoint handler.
 Inspecting and modifying parameters provided during an endpoint handler invocation.
@@ -8,3 +10,4 @@ Filters can be helpful in the following scenarios:
 Validating the request parameters and body that are sent to an endpoint.
 Logging information about the request and response.
 Validating that a request is targeting a supported API version.
+

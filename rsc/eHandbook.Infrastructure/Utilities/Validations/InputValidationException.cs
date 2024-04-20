@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Validations;
+namespace eHandbook.Infrastructure.Utilities.Validations;
 
 [Serializable]
 internal class InputValidationException : Exception

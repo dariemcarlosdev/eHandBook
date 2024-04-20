@@ -1,4 +1,4 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+﻿using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;

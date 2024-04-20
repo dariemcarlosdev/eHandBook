@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Validations
+namespace eHandbook.Infrastructure.Utilities.Validations
 {
     internal class ValidatorDescriptor
     {

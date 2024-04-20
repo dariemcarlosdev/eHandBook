@@ -1,5 +1,5 @@
 ﻿using eHandbook.Infrastructure.Abstractions.Caching;
-using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 

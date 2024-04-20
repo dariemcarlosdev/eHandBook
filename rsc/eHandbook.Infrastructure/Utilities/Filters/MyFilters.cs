@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Filters
+namespace eHandbook.Infrastructure.Utilities.Filters
 {
     /// <summary>
     /// Filter added to SharedInfrastructorCollectionServices.

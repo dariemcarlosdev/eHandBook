@@ -2,7 +2,7 @@
 using MediatR;
 
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
+namespace eHandbook.Infrastructure.Utilities.Behaviours
 {
     public class ValidatorMediatRPipelineBehavior<TRequest, TResponse> : ValidatorMediatRPipelineBehaviorBase<TRequest, TResponse>, IPipelineBehavior<TRequest, TResponse>
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Filters
+namespace eHandbook.Infrastructure.Utilities.Filters
 {
     /// <summary>
     /// Moving our validation logic into a Custom validation filter according parameter type pased through out URI http request. 

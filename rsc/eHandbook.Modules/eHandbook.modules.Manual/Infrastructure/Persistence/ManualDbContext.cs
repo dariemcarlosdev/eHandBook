@@ -1,5 +1,6 @@
 ﻿using eHandbook.modules.ManualManagement.CoreDomain.Entities;
 using eHandbook.modules.ManualManagement.Infrastructure.Configuration;
+using eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence

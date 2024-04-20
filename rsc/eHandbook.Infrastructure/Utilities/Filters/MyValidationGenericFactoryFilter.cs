@@ -1,11 +1,11 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Validations;
+﻿using eHandbook.Infrastructure.Utilities.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Reflection;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Filters
+namespace eHandbook.Infrastructure.Utilities.Filters
 {
     /// <summary>
     /// This class exposes a factory function that can be passed to AddEndpointFilterFactory on a route group.

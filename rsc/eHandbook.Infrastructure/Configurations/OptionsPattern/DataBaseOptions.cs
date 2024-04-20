@@ -1,4 +1,4 @@
-﻿namespace eHandbook.Infrastructure.CrossCutting.OptionsPattern
+﻿namespace eHandbook.Infrastructure.Configurations.OptionsPattern
 {
     /// <summary>
     /// Used to store all the options we want to pulling up from appsettings.{environment}.json configuration file.

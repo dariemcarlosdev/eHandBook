@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Principal;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities
+namespace eHandbook.Infrastructure.Utilities
 {
 
     /// <summary>

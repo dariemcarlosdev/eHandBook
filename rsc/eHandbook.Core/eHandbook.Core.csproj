@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <Compile Remove="Common\**" />
+    <Compile Remove="Extensions\**" />
     <Compile Remove="Extentions\**" />
     <Compile Remove="Validations\FluentValidations\**" />
     <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Extentions\**" />
     <EmbeddedResource Remove="Validations\FluentValidations\**" />
     <None Remove="Common\**" />
+    <None Remove="Extensions\**" />
     <None Remove="Extentions\**" />
     <None Remove="Validations\FluentValidations\**" />
   </ItemGroup>
@@ -50,7 +53,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Business\Abstrations\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

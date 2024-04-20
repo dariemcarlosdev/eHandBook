@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 
 
-namespace eHandbook.Infrastructure.CrossCutting.OptionsPattern
+namespace eHandbook.Infrastructure.Configurations.OptionsPattern
 {
     /// <summary>
     /// Class inherit from IConfigureOptions, that is resolved inside the ASP.NET Core at the runtime, which means we have access to DI inside of this class.

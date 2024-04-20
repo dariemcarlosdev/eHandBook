@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using eHandbook.Core.Persistence.Abstractions;
-using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
+using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;

@@ -1,5 +1,5 @@
 ﻿using eHandbook.Core.Domain.Abstractions;
-using eHandbook.Infrastructure.CrossCutting.Utilities;
+using eHandbook.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;

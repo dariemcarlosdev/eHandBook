@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Behaviours
+namespace eHandbook.Infrastructure.Utilities.Behaviours
 {
 
     /// <summary>

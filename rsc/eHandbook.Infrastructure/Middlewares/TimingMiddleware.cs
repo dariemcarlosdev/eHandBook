@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace eHandbook.Infrastructure.CrossCutting.Middlewares
+namespace eHandbook.Infrastructure.Middlewares
 {
     /// <summary>
     /// Custome Middleware for log http request processing time.

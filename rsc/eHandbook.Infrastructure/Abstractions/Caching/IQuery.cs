@@ -1,5 +1,4 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Services.ServiceResponder;
-using MediatR;
+﻿using MediatR;
 
 namespace eHandbook.Infrastructure.Abstractions.Caching
 {

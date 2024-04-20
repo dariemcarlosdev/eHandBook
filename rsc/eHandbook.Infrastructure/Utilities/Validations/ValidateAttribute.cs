@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eHandbook.Infrastructure.CrossCutting.Utilities.Validations
+namespace eHandbook.Infrastructure.Utilities.Validations
 {
     /// <summary>
     /// Creatng my own attribute.This class inherits from Attribute so it can be used as a sort of "tag" in our code. Conversions:
