@@ -2,17 +2,19 @@
 using eHandbook.Core.Persistence.Abstractions;
 using eHandbook.Core.Persistence.Repositories.Common;
 using eHandbook.Infrastructure.Abstractions.Loggin;
+using eHandbook.Infrastructure.Configurations.OptionsPattern;
 using eHandbook.Infrastructure.CrossCutting.Logging;
-using eHandbook.Infrastructure.CrossCutting.OptionsPattern;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.Services;
 using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Sieve.Services;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
 {
@@ -50,6 +52,10 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Extensions
 
             //inject Service layer  inside  Manual Module the .NET Core’s IOC container
             .AddScoped<IManualService, ManualServices>()
+
+            //Injecting/registering MyCustomSieveProcessor to take adavantage of Dependency Injection. The ISieveProcessor interface to resolve to our CustomSieveProcessor implementation.
+            //pkg ref:https://github.com/Biarity/Sieve
+            .AddSingleton<ISieveProcessor, MyCustomSieveProcessor>()
 
             //Adding the logger service  inside Manual Module the .NET Core’s IOC container
             .AddScoped<ILoggerManager, LoggerManager>()

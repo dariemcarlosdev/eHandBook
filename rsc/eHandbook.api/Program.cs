@@ -1,9 +1,9 @@
 using eHandbook.api.EndPoints;
+using eHandbook.Infrastructure.Configurations.OptionsPattern;
 using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
-using eHandbook.Infrastructure.CrossCutting.Extentions;
 using eHandbook.Infrastructure.CrossCutting.HealthCheck;
-using eHandbook.Infrastructure.CrossCutting.Middlewares;
-using eHandbook.Infrastructure.CrossCutting.OptionsPattern;
+using eHandbook.Infrastructure.Extentions;
+using eHandbook.Infrastructure.Middlewares;
 using eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValidation;
 using eHandbook.modules.ManualManagement.Infrastructure.Extensions;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
@@ -14,11 +14,15 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using NLog;
 using Serilog;
+using Sieve.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Set the JSON serializer options
+// Add services to the container.
+
+
+// Setting the JSON serializer options
 /*
  public void ConfigureServices(IServiceCollection services)
 {
@@ -31,7 +35,6 @@ This new model does not use controllers, so you cannot use the AddJsonOptions me
 So, you can do the same directly.In the following example, I configure the JSON serializer options using the Configure method:
  */
 //builder.Services.ConfigureOptions<Microsoft.AspNetCore.Http.Json.JsonOptions>(); Test if this also work.
-
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
 
@@ -41,16 +44,14 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 
 });
 
-builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
-
 //With AddValidatorsFromAssembly(),all the validators defined in the executing assembly will be automatically registered, eliminating the need to manually register each validator. This approach ensures that all validators are available for request validation within our project.
+//This cross-cutting concerns can be set in Sharead Infrastructure project.
+builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-// Add services to the container.
 
 // (First Component) Registering my Middleware Service for Global Errrors Exception Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
 // at the runtime our middleware is going to be resolved from the IMiddleware factory
-
+//This cross-cutting concerns can be set in Sharead Infrastructure project.
 builder.Services.AddTransient<GlobalExceptionErrorHandlerMiddleware>(); // middleware working
 
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
@@ -58,29 +59,19 @@ builder.Services
     .AddManualModuleDIServiceCollection()
     .AddSharedInfraDIServiceCollection();
 
-
-//--- Include in eHandbook.modules.ManualManagement.Infrastructure.Extensions.ManualModuleExtentions
-
-//builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdRequestValidator>();
-
-//Add Entity framework services.
+//Add Entity framework services using Option Pattern.
 builder.Services.ConfigureOptions<DataBaseOptionsSetUp>();
 
 //Probably to improve app arquitecture it needs to be include in shared Infrastructure.
+//This cross-cutting concerns can be set in Sharead Infrastructure project.
 builder.Services.AddSingleton<UpdateMyAuditableEntitiesInterceptor>();
-
-
-//--- Services Included in DI Container AddSharedInfraServices Ext.Method of SharedInfrastructureExtensions class.
-
-//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-//builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //here this dependency works well.
-//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+//Configuring Sieve package for using config set in appsettings.json
+
+builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
 
 // Register the Swagger generator, defining 1 or more Swagger documents
 builder.Services.AddSwaggerGen(c =>

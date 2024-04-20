@@ -1,4 +1,4 @@
-﻿using eHandbook.Infrastructure.CrossCutting.Utilities.Filters;
+﻿using eHandbook.Infrastructure.Utilities.Filters;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
 using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
@@ -12,6 +12,8 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace eHandbook.api.EndPoints
 {
@@ -189,14 +191,20 @@ namespace eHandbook.api.EndPoints
                 });
 
             //HTTP GET request method  ref:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET
-            app.MapGet("api/V2/manuals/", async (IMediator mediator) =>
+            app.MapGet("api/V2/manuals/", async (IMediator mediator, [AsParameters] SieveModel sieveModel, [FromServices] ISieveProcessor sieveProcessor) =>
             {
                 var getManuals = new GetManualsQuery();
                 var response = await mediator.Send(getManuals);
 
+                //The sieveModel object is passed to Apply method along with our Data reponse (list of Dtos), defines the properties that we use to filter, sort, etc, stored as a comma-separated list of field names with an operator.
+                // To be able to apply filter, pag, sorting, atc our list has to be of type IQueryable(), otherwise we will not be able to.
+                //finally we return this sorted, filtered, and paginated list and assign it to Response Data. Now, our Response Data will be already Sorted, Filtered, atc...
+                var dataFilter = sieveProcessor.Apply(sieveModel, response.Data.AsQueryable());
+                response.Data = dataFilter;
+
                 if (response == null)
                 {
-                    return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);
+                    return Results.Problem(detail: "The request was successfully processes, with empty response though.", statusCode: 204);
                 }
                 //ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200#status
                 return Results.Ok(response);
@@ -667,6 +675,18 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
+        }
+
+        private static IQueryable<ManualDto> manuals()
+        {
+            return new List<ManualDto>
+            {
+                new()
+                {
+                    Description ="",
+                    Path ="dasd"
+                }
+            }.AsQueryable();
         }
     }
 }
