@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using eHandbook.Infrastructure.Abstractions.Caching;
 using eHandbook.Infrastructure.CrossCutting.Caching;
 using eHandbook.Infrastructure.Utilities.Behaviours;
+using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
 
 namespace eHandbook.Infrastructure.Extentions
 {
@@ -40,6 +41,11 @@ namespace eHandbook.Infrastructure.Extentions
             });
 
             // Adding shared services to the DI container.
+
+            // (First Component) Registering my Middleware Service for Global Errrors Exception Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
+            // at the runtime our middleware is going to be resolved from the IMiddleware factory
+            //This cross-cutting concerns can be set in Sharead Infrastructure project.
+            services.AddTransient<GlobalExceptionErrorHandlerMiddleware>(); // middleware working
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             //With AddValidatorsFromAssembly(), all the validators defined in the executing assembly will be automatically registered,

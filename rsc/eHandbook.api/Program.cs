@@ -49,10 +49,6 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 builder.Services.AddValidatorsFromAssemblyContaining<GetManualByIdReqQueryValidator>(ServiceLifetime.Singleton);
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-// (First Component) Registering my Middleware Service for Global Errrors Exception Handeling as a Service, This is cuz we are implementing IMiddleware Interface and
-// at the runtime our middleware is going to be resolved from the IMiddleware factory
-//This cross-cutting concerns can be set in Sharead Infrastructure project.
-builder.Services.AddTransient<GlobalExceptionErrorHandlerMiddleware>(); // middleware working
 
 //Initialize Services Collection for Manual Module and shared Infrastructure DI Container Service Collection.
 builder.Services
