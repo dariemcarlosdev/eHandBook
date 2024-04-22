@@ -9,10 +9,12 @@ using MediatR;
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
     /// <summary>
-    /// This Command Handler, receives command CreateManualCommand, and contains the logic to handle the Command and create Manual entity accordingly.
+    /// This Command Handler, receives command CreateManualCommand request, and contains the logic to handle-process the request
+    /// and perform the necessary actions(create, validations) or data retrieval.
     /// </summary>
     internal sealed class CreateManualCommandHandler : IRequestHandler<CreateManualCommand, ResponderService<ManualDto>>
     {
+        //Validation inside Handler.
         // inject the corresponding validator via the constructor using the IValidator<T> interface.
         // This allows us to access the validator instance and validate the command or query by calling the ValidateAsync method.
         // If the validation fails, we throw a ValidationException and provide the validation errors.
