@@ -1,6 +1,6 @@
 using eHandbook.api.EndPoints;
 using eHandbook.Infrastructure.Configurations.OptionsPattern;
-using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
+using eHandbook.Infrastructure.CrossCutting.ExceptionsHandler.Middlewares;
 using eHandbook.Infrastructure.CrossCutting.HealthCheck;
 using eHandbook.Infrastructure.Extentions;
 using eHandbook.Infrastructure.Middlewares;

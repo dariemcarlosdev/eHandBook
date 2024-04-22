@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Security.Authentication;
 
-namespace eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares
+namespace eHandbook.Infrastructure.CrossCutting.ExceptionsHandler.Middlewares
 {
     /// <summary>
     /// Defining Custom Factory MiddleWare by convention for Global Error Handling. The Factory Middleware class will be resolved at runtime from dependency injection

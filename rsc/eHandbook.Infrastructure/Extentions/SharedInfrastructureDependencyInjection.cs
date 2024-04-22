@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using eHandbook.Infrastructure.Abstractions.Caching;
 using eHandbook.Infrastructure.CrossCutting.Caching;
 using eHandbook.Infrastructure.Utilities.Behaviours;
-using eHandbook.Infrastructure.CrossCutting.Exceptions.Middlewares;
+using eHandbook.Infrastructure.CrossCutting.ExceptionsHandler.Middlewares;
 
 namespace eHandbook.Infrastructure.Extentions
 {
