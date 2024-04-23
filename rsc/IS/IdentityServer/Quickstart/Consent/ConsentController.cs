@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System;
-using IdentityServer.Quickstart;
 
 namespace IdentityServer.Quickstart.Consent
 {

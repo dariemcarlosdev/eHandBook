@@ -1,11 +1,9 @@
 ﻿using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MvcClient.Models;
 using MvcClient.Services;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace MvcClient.Controllers
 {
@@ -48,7 +46,7 @@ namespace MvcClient.Controllers
                 {
                     var model = result.Content.ReadAsStringAsync().Result;
                     data = JsonConvert.DeserializeObject<List<WeatherData>>(model);
-                    
+
                     return View(data);
                 }
 
@@ -57,7 +55,7 @@ namespace MvcClient.Controllers
                     throw new Exception("Unable to get content");
                 }
             }
-        
+
         }
 
         public IActionResult Logout()

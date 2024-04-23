@@ -1,6 +1,5 @@
 using Microsoft.IdentityModel.Logging;
 using MvcClient.Services;
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +16,7 @@ builder.Services.AddAuthentication(options =>
 
     //so we're going to use OIDC as the challenge mechanism for users, and what this means is that we're are going to call off into identity server
     //and get identity server to do the user authentication for us.
-    options.DefaultChallengeScheme = "oidc"; 
+    options.DefaultChallengeScheme = "oidc";
 })
     .AddCookie("Cookies"
     //, options => 
@@ -54,7 +53,7 @@ builder.Services.AddAuthentication(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //Configure Options pattern to extract appsettings.json IdentityServerSettings, into IdentityServerOptions instance, and provide strongly typed application settings.
-builder.Services.Configure<IdentityServerOptions>(builder.Configuration.GetSection("IdentityServerSettings")) ;
+builder.Services.Configure<IdentityServerOptions>(builder.Configuration.GetSection("IdentityServerSettings"));
 //here Another way :
 //builder.Services.ConfigureOptions<IdentityServerOptionsSetup>();
 

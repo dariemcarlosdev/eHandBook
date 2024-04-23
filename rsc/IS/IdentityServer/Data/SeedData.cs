@@ -1,6 +1,4 @@
 ﻿using IdentityModel;
-using IdentityServer.Data;
-using IdentityServer;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.EntityFramework.Storage;
@@ -76,7 +74,7 @@ namespace IdentityServer.Data
                     UserName = "dariem",
                     Email = "dariem.macias@email.com",
                     EmailConfirmed = true,
-                    
+
                 };
                 var result = userMgr.CreateAsync(user, "Pass123$").Result;
                 if (!result.Succeeded)

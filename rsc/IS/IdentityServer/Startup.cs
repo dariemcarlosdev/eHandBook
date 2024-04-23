@@ -58,12 +58,12 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<AspNetIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            
-           
+
+
 
             var builder = services.AddIdentityServer(options =>
            {
-               
+
                options.Events.RaiseErrorEvents = true;
                options.Events.RaiseInformationEvents = true;
                options.Events.RaiseFailureEvents = true;
@@ -152,7 +152,7 @@ namespace IdentityServer
                 app.UseDatabaseErrorPage();
             }
 
-           
+
 
             // uncomment if you want to add MVC
             app.UseStaticFiles();

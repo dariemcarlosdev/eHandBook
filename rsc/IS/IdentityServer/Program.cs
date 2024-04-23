@@ -42,7 +42,7 @@ namespace IdentityServer
             {
                 args = args.Except(new[] { "/seed" }).ToArray();
             }
-    
+
             try
             {
                 var host = CreateHostBuilder(args).Build();
