@@ -56,13 +56,6 @@ namespace eHandbook.api.EndPoints
             //HTTP request GET method https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET
             app.MapGet("api/V2/manuals/{Id:Guid}", async ([FromRoute(Name = "Id")] Guid Id, HttpRequest req, IMediator mediator) =>
             {
-                //if (string.IsNullOrEmpty(Id.ToString().ToUpper()))
-                //{
-                //    throw new BadHttpRequestException("id is required");
-                //}
-                //var getManual = new GetManualByIdQuery { Id = ManualId };
-                //var manual = await mediator.Send(getManual);
-
                 //Now here I am using defined Records Querry
                 GetManualByIdQuery GetManualRecord = new GetManualByIdQuery(Id);
 
@@ -77,10 +70,6 @@ namespace eHandbook.api.EndPoints
                 {
                     if (response.Data == null)
                     {
-                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        //return Results.Accepted("", response);
-                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
-                        //we’re still getting the whole response back, but the status code is 404 Not Found.
                         return Results.NotFound(response);
                     }
                 }
@@ -144,7 +133,6 @@ namespace eHandbook.api.EndPoints
                     generatedOperation.Description = "Retrieve a Manual from db injecting Business Service Layer in Delegate handler.";
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        //new() { Name = "GetManualById",Description="Get an existing Resource type Manual." },
                         new() { Name = "API V1.0"}
                     };
                     return generatedOperation;
@@ -214,16 +202,13 @@ namespace eHandbook.api.EndPoints
                 .WithName("GetAllManuals")
                 .WithOpenApi(generatedOperation =>
                 {
-                    //var parameter = generatedOperation.Parameters[0];
-                    //parameter.Description = "No parameters";
                     generatedOperation.Summary = "Minimal API Endpoint to fetch all Manuals resources.";
                     generatedOperation.Description = "Retrieve All Manuals using using CQRS + Mediator Patterns to encapsulate and segregate http request/response" +
                                                      ",we can achieve this injecting to delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container.This is how we use DI here." +
                                                      "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        //new() { Name = "GetAllManuals",Description="Get all Manuals Resources." },
-                        new() { Name = "API V2.0"}
+                       new() { Name = "API V2.0"}
                      };
                     return generatedOperation;
                 });
@@ -267,9 +252,9 @@ namespace eHandbook.api.EndPoints
                      return generatedOperation;
                  })
 
+                 //Check use of AddEndpointFilterFactory.
                  //Here I am only going to construct and add a filter to the endpoint if the signature of the endpoint delegate contains the required argument type
                  //This approach still suffers from the fact that we need to call AddEndpointFilterFactory on each endpoint. to use our defined generic Filter.
-
                  .AddEndpointFilterFactory((filterFactoryContext, next) =>
                  {
                      //cheking the MethodInfo of the endpoint and then attach new instance of generic MyCustomValidationFilter.
@@ -324,38 +309,15 @@ namespace eHandbook.api.EndPoints
                 .WithName("CreateManual")
                 .WithOpenApi(generatedOperation =>
                 {
-                    //var parameter1 = generatedOperation.Parameters[0];
-                    //var parameter2 = generatedOperation.Parameters[1];
-                    //parameter1.Description = "A description for Manual.";
-                    //parameter2.Description = "The path where Manual will be Storage.";
                     generatedOperation.Summary = "Minimal API Endpoint to add a new Manual resource.";
                     generatedOperation.Description = "Create a new manual using with CQRS + Mediator Patterns" +
                                                      "by injecting to the RouteMethod's delegate handler service type IMediator (Resolvable Type), registered with the DI in our Service Container" +
                                                      ".This is how we use DI here." + "This applies for the rest of our Minimal APIs EndPoints.";
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        //new() { Name = "CreateNewManual",Description="Adding new Resource type Manual" },
                         new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
-                })
-
-                //Here I am only going to construct and add a filter to the endpoint if the signature of the endpoint delegate contains the required argument type
-                //This approach still suffers from the fact that we need to call AddEndpointFilterFactory on each endpoint. to use our defined generic Filter.
-
-                .AddEndpointFilterFactory((filterFactoryContext, next) =>
-                {
-                    //cheking the MethodInfo of the endpoint and then attach new instance of generic MyCustomValidationFilter.
-
-                    var isTypeOf = filterFactoryContext.MethodInfo.GetParameters().Any(p => p.ParameterType == typeof(ManualToCreateDto));
-                    if (isTypeOf)
-                    {
-                        var myCustomValidationfilter = new MyValidationGenericFilter<ManualToCreateDto>();
-                        return invocationContext => myCustomValidationfilter.InvokeAsync(invocationContext, next);
-                    }
-
-                    //if the signature of the endpoint delegate does not contain the required argument type(CreateManualDto), pass - thru filter
-                    return invocationContext => next(invocationContext);
                 });
 
             //----------------------------------------------Update an exisitng Manual Endpoints-------------------------------------------------------------------------------------
@@ -376,10 +338,6 @@ namespace eHandbook.api.EndPoints
                 .WithName("UpdateManual_v1")
                 .WithOpenApi(generatedOperation =>
                 {
-                    //var parameter1 = generatedOperation.Parameters[0];
-                    //var parameter2 = generatedOperation.Parameters[1];
-                    //parameter1.Description = "A new description for Manual.";
-                    //parameter2.Description = "The new path where Manual will be Storage.";
                     generatedOperation.Summary = "Minimal API Endpoint to update an exisiting Manual resource.";
                     generatedOperation.Description = "Update an existing Manual uInjecting Business Service Layer from ManualManagement Module.";
                     generatedOperation.Tags = new List<OpenApiTag>()
@@ -388,38 +346,6 @@ namespace eHandbook.api.EndPoints
                         new() { Name = "API V1.0"}
                     };
                     return generatedOperation;
-                })
-
-                //This factory pattern is useful to register a filter that depends on the signature of the target endpoint handler.I wanted to verify that the handler an endpoint filter
-                //is attached to, has a first parameter that evaluates to a UpdateManualDto type.
-
-                .AddEndpointFilterFactory((filterFactoryContext, next) =>
-                {
-                    //EndpointFilterFactoryContext object provides access to the MethodInfo associated with the endpoint's handler and caching some of the information provided in the MethodInfo in a filter.
-
-                    var param = filterFactoryContext.MethodInfo.GetParameters();
-
-                    //The signature of the handler is examined by inspecting MethodInfo for the expected type signature.
-
-                    if (param.Length > 0 && param[0].ParameterType == typeof(ManualToUpdateDto))
-                    {
-                        //If the expected signature is found(if evaluation is True), the validation filter is registered onto the endpoint. 
-
-                        return async invocationContext =>
-                        {
-                            var updateManualParam = invocationContext.GetArgument<ManualToUpdateDto>(0);
-
-                            if (updateManualParam == null)
-                            {
-                                return Results.Problem("The Request argument is not valid.");
-                            }
-                            return await next(invocationContext);
-                        };
-                    }
-
-                    //If a matching signature isn't found, then a pass-through filter is registered.
-
-                    return invocationContext => next(invocationContext);
                 });
 
 
@@ -467,18 +393,6 @@ namespace eHandbook.api.EndPoints
                     return generatedOperation;
                 });
 
-            //.AddEndpointFilter(async (context, next) =>
-            // {
-
-            //     var description = (string?)context.Arguments[0];
-            //     if (string.IsNullOrWhiteSpace(description))
-            //     {
-            //         return Results.Problem("Empty TODO description not allowed!");
-            //     }
-            //     return await next(context);
-            // });
-
-
             //----------------------------------------------SoftDelete an existing Manual Endpoints-------------------------------------------------------------------------------------
 
 
@@ -521,11 +435,7 @@ namespace eHandbook.api.EndPoints
                 {
                     if (response.Data == null)
                     {
-                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        //return Results.Accepted("", response);
-                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
-                        //we’re still getting the whole response back, but the status code is 404 Not Found.
-                        return Results.NotFound(response);
+                      return Results.NotFound(response);
                     }
                 }
                 //Return a 200 OK if the update request was successful and returns the updated resource.the target resource does have a current representation and that representationis successfully modified
@@ -598,10 +508,6 @@ namespace eHandbook.api.EndPoints
                 {
                     if (response.Data == null)
                     {
-                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        //return Results.Accepted("", response);
-                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
-                        //we’re still getting the whole response back, but the status code is 404 Not Found.
                         return Results.NotFound(response);
                     }
                 }
@@ -622,7 +528,6 @@ namespace eHandbook.api.EndPoints
 
                     generatedOperation.Tags = new List<OpenApiTag>()
                     {
-                        //new() { Name = "HardDeleteManual", Description = "Delete a Manual resource from data base permanently." },
                         new() { Name = "API V2.0"}
                     };
                     return generatedOperation;
@@ -648,10 +553,6 @@ namespace eHandbook.api.EndPoints
                 {
                     if (response.Data == null)
                     {
-                        //StatusCode#202:The request has been accepted for processing, but the processing has not been completed.
-                        //return Results.Accepted("", response);
-                        //StatusCode#204:The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
-                        //we’re still getting the whole response back, but the status code is 404 Not Found.
                         return Results.NotFound(response);
                     }
                 }
@@ -677,17 +578,6 @@ namespace eHandbook.api.EndPoints
 
         }
 
-        private static IQueryable<ManualDto> manuals()
-        {
-            return new List<ManualDto>
-            {
-                new()
-                {
-                    Description ="",
-                    Path ="dasd"
-                }
-            }.AsQueryable();
-        }
     }
 }
 
