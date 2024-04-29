@@ -18,7 +18,7 @@
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5257"
     },
-    "https": {
+    "eHhandBookApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -26,7 +26,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7264;http://localhost:5257"
+      "applicationUrl": "https://localhost:7264;https://localhost:5257"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -34,7 +34,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "ancmHostingModel": "InProcess"
     },
     "Docker": {
       "commandName": "Docker",
