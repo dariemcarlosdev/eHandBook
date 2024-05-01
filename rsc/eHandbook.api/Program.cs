@@ -115,6 +115,8 @@ try
     //Configuring and use NLog and loading everything from NLog.config instead of appsettings.json.
     LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
+    builder.Services.AddCors();
+
     //registers the health check services.
     builder.Services.AddHealthChecks()
         .AddDbContextCheck<ManualDbContext>()
