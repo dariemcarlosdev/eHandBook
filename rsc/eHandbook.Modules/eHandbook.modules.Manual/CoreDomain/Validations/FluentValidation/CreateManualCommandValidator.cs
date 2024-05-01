@@ -1,5 +1,4 @@
 ﻿using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
-using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -10,29 +9,37 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValida
     /// Validator for CreateManualCommand request.Each validator can contain a whole lot of Strongly Typed validation logic around your models.
     /// As the name suggest the validation style is fluent, meaning you can chain all the validation rules together.
     /// </summary>
-    internal sealed class CreateManualCommandValidator : AbstractValidator<CreateManualCommand>
+    public sealed class CreateManualCommandValidator : AbstractValidator<CreateManualCommand>
     {
         private readonly ILogger<CreateManualCommandValidator> _logger;
 
         public CreateManualCommandValidator(ILogger<CreateManualCommandValidator> logger)
         {
-
             _logger = logger;
-            RuleFor(request => request.manualToCreate.Description)
+
+           
+            _logger.LogInformation("[ CREATEMANUALCOMMANDVALIDATOR ] : CALLING FLUENT VALUDATOR CREATEMANUALCOMMANDVALIDATOR.");
+
+            RuleFor(request => request.ManualToCreate.Description)
             .NotNull()
+            .WithMessage("A Descriptions is required.")
             .NotEmpty()
-            .WithMessage("A Descriptions is required.");
-            RuleFor(request => request.manualToCreate.Path)
+            .WithName("Description")
+            .OverridePropertyName("Description");
+
+            RuleFor(request => request.ManualToCreate.Path)
             .NotNull()
+            .WithMessage("A Path is required.")
             .NotEmpty()
-            .WithMessage("A Path is required.");
+            .WithName("Path")
+            .OverridePropertyName("Path");
             // Add more rules as needed
 
 
-            _logger.LogInformation("REQUEST CREATEMANUALVALIDATOR REGISTETED");
+
         }
 
-     
+
 
 
 
