@@ -1,7 +1,4 @@
-﻿using NLog.Layouts;
-using NUnit.Framework;
-
-namespace eHandbook.Infrastructure.Services.ServiceResponder
+﻿namespace eHandbook.Infrastructure.Services.ServiceResponder
 {
     /// <summary>
     /// Generic wrapper for web api response.It represents a standard structure for API responses.      
@@ -30,7 +27,7 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         /// <param name="message"></param>
         /// <returns></returns>
         public static ApiResponseService<T> Fail(string message)
-        { 
+        {
             return new ApiResponseService<T> { Succeeded = false, Message = message };
         }
 
@@ -41,7 +38,7 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         /// <param name="data"></param>
         /// <returns></returns>
         public static ApiResponseService<T> Success(T data)
-        { 
+        {
             return new ApiResponseService<T> { Succeeded = true, Data = data };
         }
     }
