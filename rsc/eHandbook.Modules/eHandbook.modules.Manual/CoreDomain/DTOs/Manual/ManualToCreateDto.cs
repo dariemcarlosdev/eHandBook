@@ -12,7 +12,6 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
         [property: MinLength(1)]
         [MaxLength(150, ErrorMessage = "The Description length must be less than 150 characters.")]
         public string? Description { get; set; }
-        [Required(ErrorMessage = "Manual path is required.")]
         public string? Path { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
-    internal sealed class UpdateManualCommandHandler : IRequestHandler<UpdateManualCommand, ResponderService<ManualDto>>
+    internal sealed class UpdateManualCommandHandler : IRequestHandler<UpdateManualCommand, ApiResponseService<ManualDto>>
     {
         private readonly IMediator _mediator;
         private readonly IManualService _manualService;
@@ -18,7 +18,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
             _manualService = manualService;
         }
 
-        public async Task<ResponderService<ManualDto>> Handle(UpdateManualCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponseService<ManualDto>> Handle(UpdateManualCommand request, CancellationToken cancellationToken)
         {
             ManualToUpdateDto dto = new ManualToUpdateDto
             {

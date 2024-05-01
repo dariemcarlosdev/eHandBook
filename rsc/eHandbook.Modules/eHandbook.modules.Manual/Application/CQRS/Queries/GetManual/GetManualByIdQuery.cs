@@ -13,7 +13,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
     //internal sealed record GetManualByIdQueryRec(Guid Id) : IRequest<ResponderService<ManualDto>>;
 
     //After Including Query Chaching Implementation
-    public sealed record GetManualByIdQuery(Guid ManualId) : ICachedQuery<ResponderService<ManualDto>>
+    public sealed record GetManualByIdQuery(Guid ManualId) : ICachedQuery<ApiResponseService<ManualDto>>
     {
         public string CacheKey => $"manual-by-id-{ManualId}";
 

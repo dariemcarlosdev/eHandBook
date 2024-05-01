@@ -435,7 +435,7 @@ namespace eHandbook.api.EndPoints
                 {
                     if (response.Data == null)
                     {
-                      return Results.NotFound(response);
+                        return Results.NotFound(response);
                     }
                 }
                 //Return a 200 OK if the update request was successful and returns the updated resource.the target resource does have a current representation and that representationis successfully modified

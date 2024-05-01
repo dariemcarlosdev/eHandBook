@@ -12,7 +12,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
     /// This Command Handler, receives command CreateManualCommand request, and contains the logic to handle-process the request
     /// and perform the necessary actions(create, validations) or data retrieval.
     /// </summary>
-    internal sealed class CreateManualCommandHandler : IRequestHandler<CreateManualCommand, ResponderService<ManualDto>>
+    internal sealed class CreateManualCommandHandler : IRequestHandler<CreateManualCommand, ApiResponseService<ManualDto>>
     {
         //Validation inside Handler.
         // inject the corresponding validator via the constructor using the IValidator<T> interface.
@@ -30,7 +30,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
             _validator = validator;
         }
 
-        public async Task<ResponderService<ManualDto>> Handle(CreateManualCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponseService<ManualDto>> Handle(CreateManualCommand request, CancellationToken cancellationToken)
         {
             var varlidatorResult = await _validator.ValidateAsync(request);
 
@@ -43,8 +43,8 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
             var newManual = new ManualToCreateDto
             {
-                Description = request.manualToCreate.Description,
-                Path = request.manualToCreate.Path,
+                Description = request.ManualToCreate.Description,
+                Path = request.ManualToCreate.Path,
             };
 
             var result = await _manualServices.AddNewManualAsync(newManual, cancellationToken);

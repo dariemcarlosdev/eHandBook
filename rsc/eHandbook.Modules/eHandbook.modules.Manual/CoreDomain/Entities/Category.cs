@@ -3,9 +3,9 @@ using eHandbook.Core.Domain.Abstractions;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
 {
-    public class Category : BaseEntity , IAuditableEntity
+    public class Category : BaseEntity, IAuditableEntity
     {
-   
+
         string CategoryName { get; set; }
         string CategoryDescription { get; set; }
 

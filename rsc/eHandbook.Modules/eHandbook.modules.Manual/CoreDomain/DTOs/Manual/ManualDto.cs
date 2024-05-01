@@ -1,5 +1,4 @@
 ﻿using eHandbook.modules.ManualManagement.CoreDomain.Entities;
-using Sieve.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 {
-    internal sealed class DeleteManualByIdCommandHandler : IRequestHandler<DeleteManualByIdCommand, ResponderService<ManualDto>>
+    internal sealed class DeleteManualByIdCommandHandler : IRequestHandler<DeleteManualByIdCommand, ApiResponseService<ManualDto>>
     {
         private readonly IManualService _manualService;
         private readonly IMediator _mediator;
@@ -17,7 +17,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
             _manualService = manualService;
             _mediator = mediator;
         }
-        public async Task<ResponderService<ManualDto>> Handle(DeleteManualByIdCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponseService<ManualDto>> Handle(DeleteManualByIdCommand request, CancellationToken cancellationToken)
         {
             var result = await _manualService.DeleteManualByIdAsync(request.ManualGuid, cancellationToken);
 
