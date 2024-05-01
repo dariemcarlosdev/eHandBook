@@ -1,7 +1,7 @@
-using System;
 using IdentityServer.Quickstart.Account;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace IdentityServer.Quickstart
 {

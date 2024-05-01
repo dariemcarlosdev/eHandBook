@@ -5,8 +5,8 @@ using IdentityServer4.EntityFramework.Storage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace IdentityServer.Data
