@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Reflection.Metadata;
+using System.Reflection;
 using System.Text.Json;
 
 namespace eHandbook.Infrastructure.Utilities.Behaviours
 {
-    //Our pipeline behavior is an implementation of IPipelineBehavior<TRequest, TResponse>. It represents a similar pattern to filters in ASP.NET MVC/Web API,
+    //Our Loging pipeline behavior is an implementation of IPipelineBehavior<TRequest, TResponse>. It represents a similar pattern to filters in ASP.NET MVC/Web API,
     //or middlewares in asp.net core.Pipeline Behaviors serve as the MediatR library’s middleware, encapsulating the request handling process.
     //Before each request, all pipeline behaviours are called, if there are any, will wrap around the request handling process.
     //Assuming I want to log requests being executed via MediatR. MediatR pipeline behaviors provides functionality to validate or logging logic before and after 
@@ -18,9 +18,9 @@ namespace eHandbook.Infrastructure.Utilities.Behaviours
     /// </summary>
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
-    internal class LoggingMediatRPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+    internal class LoggingMediatRPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull, IRequest<TResponse>
-        where TResponse: notnull
+        where TResponse : notnull
     {
         private readonly ILogger<LoggingMediatRPipelineBehaviour<TRequest, TResponse>> _logger;
 
@@ -41,23 +41,34 @@ namespace eHandbook.Infrastructure.Utilities.Behaviours
 
             try
             {
-                _logger.LogInformation("LoggingMadiatRPipelineBehaviour instanciated and calling Handle method.");
-                //logic before command or query handers execution. Loging output before next() delegate is called.
-                _logger.LogInformation($"[START] Handling Request: {typeof(TRequest).Name}");
+                //request:logic before command or query handers execution. Loging output before next() delegate is called.
+                _logger.LogInformation($"[ lOGGINGPIPELINEBEHAVIOUR -> BEFORE ] Handling Request: {typeof(TRequest).Name}");
+
+                Type myType = request.GetType();
+                var props = new List<PropertyInfo>(myType.GetProperties());
+
+                foreach (var prop in props)
+                {
+                    var propValue = prop.GetValue(request, null);
+                    _logger.LogInformation($"{prop.Name} : {propValue}");
+                }
 
                 try
                 {
+
                     //log output for request data comming in.
                     var requestData = JsonSerializer.Serialize(request);
-                    _logger.LogInformation($"[DATA] With data: {requestData}");
+                    _logger.LogInformation($"lOGGINGPIPELINEBEHAVIOUR ] ----> [DATA] With data: {requestData}");
                 }
                 catch (Exception)
                 {
-                    _logger.LogInformation("[Serialization ERROR] Could not serialize the request.");
+                    _logger.LogInformation($"[lOGGINGPIPELINEBEHAVIOUR ] ----> [ JSON SERIALIZATION ERROR] Could not serialize the request.");
                 }
 
                 // Proceed with the handler
                 response = await next();
+
+                _logger.LogInformation($"[ lOGGINGPIPELINEBEHAVIOUR -> AFTER ] Handling Request: {typeof(TRequest).Name}");
 
             }
             finally
@@ -70,9 +81,9 @@ namespace eHandbook.Infrastructure.Utilities.Behaviours
                 _logger.LogInformation(
                     $"Handled {typeof(TResponse).Name}; Execution time = {timmer.ElapsedMilliseconds}ms");
             }
-            //Log the Response information.
+            //Response:Log the Response information.
             var responseData = JsonSerializer.Serialize(response);
-            _logger.LogInformation($"[END] Handeling Response: {responseData}");
+            _logger.LogInformation($"lOGGINGPIPELINEBEHAVIOUR ] ----> [END] Handeling Response: {responseData}");
             return response;
         }
     }
