@@ -115,7 +115,15 @@ try
     //Configuring and use NLog and loading everything from NLog.config instead of appsettings.json.
     LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
-    builder.Services.AddCors();
+
+    //Ensure CORS is configured to allow calls from the Blazor app
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy",
+            builder => builder.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowAnyHeader());
+        });
 
     //registers the health check services.
     builder.Services.AddHealthChecks()
@@ -174,7 +182,7 @@ try
 
         //Cors Policy defination. Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
         //for now we are allowing all origins
-        .UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        .UseCors("CorsPolicy");
 
 
     //enable static file middleware for using wwwroot with static files.
