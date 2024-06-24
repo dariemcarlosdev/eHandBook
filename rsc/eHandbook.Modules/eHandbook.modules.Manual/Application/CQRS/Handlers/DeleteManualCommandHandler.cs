@@ -31,7 +31,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
             var result = await _manualService.DeleteManualAsync(dto, cancellationToken);
 
             //Triggering Notifications, pushing manual once saved in db. 
-            await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.Message });
+            await _mediator.Publish(new ManualDeletedNotification() { deleteResponse = result.MetaData.Message });
 
             return result;
         }

@@ -52,8 +52,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //Check if Manual record exist.
                 if (_existingManual != null)
                 {
-                    _response.Message = "This Manual already Exist, hence cannot be created.";
-                    _response.Succeeded = false;
+                    _response.MetaData.Message = "This Manual already Exist, hence cannot be created.";
+                    _response.MetaData.Succeeded = false;
                     _response.Data = null;
                     return _response;
                 }
@@ -70,8 +70,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //Add new Manual Record
                 if (!await _unitOfWork.GetRepository.CreateEntityAsync(_newManual))
                 {
-                    _response.Message = "Repository Error. A new manual could not be created.";
-                    _response.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error. A new manual could not be created.";
+                    _response.MetaData.Succeeded = false;
                     _response.Data = null;
                     return _response;
                 }
@@ -79,19 +79,19 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 else
                 {
                     await _unitOfWork.SaveAsync(cancellationToken);
-                    _response.Succeeded = true;
+                    _response.MetaData.Succeeded = true;
                     _response.Data = _mapper.Map<ManualDto>(_newManual);
-                    _response.Message = "Reponse OK!. Manual Created successfuly.";
+                    _response.MetaData.Message = "Reponse OK!. Manual Created successfuly.";
 
                 }
 
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error Response.";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error Response.";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
 
             }
 
@@ -118,24 +118,24 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 if (_existingManual == null)
                 {
 
-                    _response.Succeeded = false;
-                    _response.Message = "Manual Not Found.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual Not Found.";
                     _response.Data = null;
                     return _response;
                 }
 
-                _response.Succeeded = true;
-                _response.Message = "Manual Found by ID.Reponse OK";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Manual Found by ID.Reponse OK";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
 
 
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return _response;
@@ -158,22 +158,22 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         //                if (manual == null)
         //                {
 
-        //                     _response.Succeeded = false;
-        //                    _response.Message = "Manual Not Found";
+        //                     _response.MetaData.Succeeded = false;
+        //                    _response.MetaData.Message = "Manual Not Found";
         //                    return _response;
         //                }
 
-        //                 _response.Succeeded = true;
-        //                _response.Message = "Get Manual by Id Reponse OK";
+        //                 _response.MetaData.Succeeded = true;
+        //                _response.MetaData.Message = "Get Manual by Id Reponse OK";
         //                _response.Data = manual;
         //#pragma warning restore CS8603 // Possible null reference return.
 
         //            }
         //            catch (Exception ex)
         //            {
-        //                 _response.Succeeded = false;
+        //                 _response.MetaData.Succeeded = false;
         //                _response.Data = null;
-        //                _response.Message = "Error Response getting manual by Id";
+        //                _response.MetaData.Message = "Error Response getting manual by Id";
         //                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
         //            }
 
@@ -196,7 +196,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// <returns>IEnumerableManualDto</returns>
         public async Task<ApiResponseService<IEnumerable<ManualDto>>> GetAllManualsAsync(CancellationToken cancellationToken)
         {
-            ApiResponseService<IEnumerable<ManualDto>> _response = new();
+            ApiResponseService<IEnumerable<ManualDto>> _response = new() { MetaData = new()};
             try
             {
                 var manuals = await _unitOfWork.GetRepository.GetAllEntitiesAsync(cancellationToken);
@@ -204,21 +204,21 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 if (manuals == null)
                 {
 
-                    _response.Succeeded = false;
-                    _response.Message = "Manuals cannot be fetched.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manuals cannot be fetched.";
                     return _response;
                 }
 
-                _response.Succeeded = true;
-                _response.Message = "Manuals fetched OK.";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Manuals fetched OK.";
                 _response.Data = _mapper.Map<ICollection<ManualDto>>(manuals);
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error Response fetching all manuals.";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error Response fetching all manuals.";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
 
@@ -244,10 +244,10 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 if (_existingManual == null)
                 {
 
-                    _response.Succeeded = false;
-                    _response.Message = "Manual do not exist, hence cannot be updated.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual do not exist, hence cannot be updated.";
                     _response.Data = null;
-                    _response.MyCustomErrorMessages = new List<string>()
+                    _response.MetaData.MyCustomErrorMessages = new List<string>()
                     {
                     "The server cannot find the requested resource.Resource missing."
                     };
@@ -261,8 +261,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual/*, manualToUpdateDtoRequest)*/))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error updating Manual";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error updating Manual";
                     _response.Data = null;
                     return _response;
                 }
@@ -273,16 +273,16 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //.ConfigureAwait(false);
 
                 // if Manual was udpated. UpdateManual return true.
-                _response.Succeeded = true;
+                _response.MetaData.Succeeded = true;
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
-                _response.Message = "Manual Updated Ok";
+                _response.MetaData.Message = "Manual Updated Ok";
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error updating Manual.";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error updating Manual.";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return _response;
@@ -310,9 +310,9 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_deleteManual == null)
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.MyCustomErrorMessages = new List<string>()
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MetaData.MyCustomErrorMessages = new List<string>()
                     {
                     "The server cannot find the requested resource.Resource missing."
                     };
@@ -321,17 +321,17 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (!_unitOfWork.GetRepository.DeleteEntity(_deleteManual))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error deleting Manual";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error deleting Manual";
                     _response.Data = null;
                     return _response;
                 }
 
                 // if Manual was deteled. DeleteManual return true.
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.Succeeded = true;
-                _response.Message = "Respose Ok. Manual Deleted successfully.";
-                _response.MyCustomErrorMessages = new List<string>()
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Respose Ok. Manual Deleted successfully.";
+                _response.MetaData.MyCustomErrorMessages = new List<string>()
                 {
                     "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
                 };
@@ -339,10 +339,10 @@ namespace eHandbook.modules.ManualManagement.Application.Services
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error deleting Manual.";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error deleting Manual.";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return _response;
@@ -366,9 +366,9 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_manualexist == null)
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.MyCustomErrorMessages = new List<string>()
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MetaData.MyCustomErrorMessages = new List<string>()
                     {
                     "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
                     };
@@ -377,8 +377,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (!_unitOfWork.GetRepository.DeleteEntity(_manualexist))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error deleting Manual";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error deleting Manual";
                     _response.Data = null;
                     return _response;
                 }
@@ -386,15 +386,15 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 // if Manual was deteled. DeleteManual return true.
                 await _unitOfWork.SaveAsync(cancellationToken);
                 _response.Data = _mapper.Map<ManualDto>(_manualexist);
-                _response.Succeeded = true;
-                _response.Message = "Response OK. Manual was Deleted.";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Response OK. Manual was Deleted.";
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error deleting Manual.";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error deleting Manual.";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return _response;
@@ -417,10 +417,10 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_existingManual == null)
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
                     _response.Data = null;
-                    _response.MyCustomErrorMessages = new List<string>()
+                    _response.MetaData.MyCustomErrorMessages = new List<string>()
                     {
                     "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
                     };
@@ -434,24 +434,24 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error soft deleting Manual.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
                     return _response;
                 }
 
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.Succeeded = true;
-                _response.Message = "Response Ok. Manual Deleted successfully.";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
 
 
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
             return _response;
         }
@@ -472,8 +472,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_existingManual == null)
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Manual not exist.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual not exist.";
                     _response.Data = null;
                     return _response;
                 }
@@ -483,24 +483,24 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error soft deleting Manual.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
                     return _response;
                 }
 
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.Succeeded = true;
-                _response.Message = "Response Ok. Manual Deleted successfully.";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
 
 
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
             return _response;
         }
@@ -517,8 +517,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_existingManual == null)
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Manual not exist, hence it cannot be deleted.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
                     _response.Data = null;
                     return _response;
                 }
@@ -531,24 +531,24 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 document.ApplyTo(_existingManual);
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
-                    _response.Succeeded = false;
-                    _response.Message = "Repository Error soft deleting Manual.";
+                    _response.MetaData.Succeeded = false;
+                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
                     return _response;
                 }
 
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.Succeeded = true;
-                _response.Message = "Response Ok. Manual Deleted successfully.";
+                _response.MetaData.Succeeded = true;
+                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
                 _response.Data = _mapper.Map<ManualDto>(_existingManual);
 
 
             }
             catch (Exception ex)
             {
-                _response.Succeeded = false;
+                _response.MetaData.Succeeded = false;
                 _response.Data = null;
-                _response.Message = "Error";
-                _response.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.MetaData.Message = "Error";
+                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
             return _response;
         }
