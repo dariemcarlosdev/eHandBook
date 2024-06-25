@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\**" />
     <Compile Remove="Common\**" />
     <Compile Remove="Extensions\**" />
     <Compile Remove="Extentions\**" />
     <Compile Remove="Validations\FluentValidations\**" />
+    <EmbeddedResource Remove="Application\**" />
     <EmbeddedResource Remove="Common\**" />
     <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Extentions\**" />
     <EmbeddedResource Remove="Validations\FluentValidations\**" />
+    <None Remove="Application\**" />
     <None Remove="Common\**" />
     <None Remove="Extensions\**" />
     <None Remove="Extentions\**" />
@@ -49,10 +52,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Business\Abstrations\" />
   </ItemGroup>
 
 </Project>
