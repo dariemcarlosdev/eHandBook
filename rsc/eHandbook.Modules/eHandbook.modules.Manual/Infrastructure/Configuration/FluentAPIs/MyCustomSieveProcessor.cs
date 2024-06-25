@@ -21,19 +21,19 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Configuration.Fluent
                 .CanSort();
             mapper.Property<ManualDto>(p => p.Path)
                 .CanFilter();
-            mapper.Property<ManualDto>(p => p.CreatedBy)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.CreatedBy)
                 .CanFilter()
                 .CanSort();
-            mapper.Property<ManualDto>(p => p.CreatedOn)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.CreatedOn)
                 .CanSort();
-            mapper.Property<ManualDto>(p => p.UpdatedBy)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.UpdatedBy)
                 .CanFilter()
                 .CanSort();
-            mapper.Property<ManualDto>(p => p.UpdatedOn)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.UpdatedOn)
                 .CanSort();
-            mapper.Property<ManualDto>(p => p.DeletedOn)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.DeletedOn)
                 .CanSort();
-            mapper.Property<ManualDto>(p => p.DeletedBy)
+            mapper.Property<ManualDto>(p => p.AuditableDetails.DeletedBy)
                 .CanFilter()
                 .CanSort();
             return mapper;
