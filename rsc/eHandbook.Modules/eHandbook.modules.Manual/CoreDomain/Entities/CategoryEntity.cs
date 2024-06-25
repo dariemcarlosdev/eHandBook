@@ -3,7 +3,7 @@ using eHandbook.Core.Domain.Abstractions;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
 {
-    public class Category : BaseEntity, IAuditableEntity
+    internal class CategoryEntity : BaseEntity, IAuditableEntity
     {
 
         string CategoryName { get; set; }

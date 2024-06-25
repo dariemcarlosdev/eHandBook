@@ -18,7 +18,7 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
         public required string? Description { get; set; }
         public required string? Path { get; set; } = string.Empty;
 
-        public List<Category> Categories { get; set; } = new List<Category>();
+        internal List<CategoryEntity> Categories { get; set; } = new List<CategoryEntity>();
         #endregion
 
         #region Audit Capability.
