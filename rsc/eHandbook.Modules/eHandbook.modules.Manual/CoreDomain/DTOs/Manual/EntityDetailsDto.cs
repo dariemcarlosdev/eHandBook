@@ -2,15 +2,15 @@
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
-    internal class EntityDetailsDto : IAuditableEntity
+    public class EntityDetailsDto : IAuditableEntity
     {
-        public string? CreatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime? CreatedOn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? UpdatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime? UpdatedOn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsUpdated { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime? DeletedOn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? DeletedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsDeleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string? CreatedBy { get; set; }
+        public DateTime? CreatedOn { get ; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedOn { get; set; }
+        public bool IsUpdated { get; set; }
+        public DateTime? DeletedOn { get; set; }
+        public string? DeletedBy { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
