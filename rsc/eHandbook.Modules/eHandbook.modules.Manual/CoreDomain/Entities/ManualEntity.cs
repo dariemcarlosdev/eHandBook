@@ -18,10 +18,10 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
         public required string? Description { get; set; }
         public required string? Path { get; set; } = string.Empty;
 
-        internal List<CategoryEntity> Categories { get; set; } = new List<CategoryEntity>();
+        internal List<CategoryEntity> Categories { get; set; } = [];
         #endregion
 
-        #region Audit Capability.
+        #region Audit Capability Properties.
         public string? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string? UpdatedBy { get; set; }
