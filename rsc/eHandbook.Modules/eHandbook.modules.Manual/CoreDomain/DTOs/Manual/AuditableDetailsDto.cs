@@ -2,7 +2,7 @@
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
-    public class EntityDetailsDto : IAuditableEntity
+    public class AuditableDetailsDto : IAuditableEntity
     {
         public string? CreatedBy { get; set; }
         public DateTime? CreatedOn { get ; set; }

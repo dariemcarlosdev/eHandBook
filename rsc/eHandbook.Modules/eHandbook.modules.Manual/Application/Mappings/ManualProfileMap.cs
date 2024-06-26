@@ -31,7 +31,7 @@ namespace eHandbook.modules.ManualManagement.Application.Mappings
                 .AfterMap((src, dest) => {
                     if (dest.AuditableDetails == null)
                     {
-                        dest.AuditableDetails = new EntityDetailsDto();
+                        dest.AuditableDetails = new AuditableDetailsDto();
                     }
                 }).ReverseMap();
         }
