@@ -29,10 +29,7 @@ namespace eHandbook.modules.ManualManagement.Application.Mappings
 
                 //configuring AutoMapper to initialize the nested EntityDetailsDto object if it's null. 
                 .AfterMap((src, dest) => {
-                    if (dest.AuditableDetails == null)
-                    {
-                        dest.AuditableDetails = new AuditableDetailsDto();
-                    }
+                    dest.AuditableDetails ??= new AuditableDetailsDto();
                 }).ReverseMap();
         }
     }
