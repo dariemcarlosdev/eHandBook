@@ -5,9 +5,11 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
     public class ManualDto
     {
-        [Required]
+        //Create Id property type GUID
+        public  Guid Id { get; set; }
+        [Required(ErrorMessage = "Manual Description is required")]
         public string? Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Manual Path is required")]
         //include regular expretion for path validation.
         public string? Path { get; set; }
         public AuditableDetailsDto? AuditableDetails { get; set; }
