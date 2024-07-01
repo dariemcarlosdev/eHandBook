@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 
-namespace eHandbook.modules.ManualManagement.Application.Mappings
+namespace eHandbook.modules.ManualManagement.Infrastructure.Configuration.Mappings
 {
     /// <summary>
     /// AutoMapper is a simple library that helps us to transform one object type into another. 
@@ -28,7 +28,8 @@ namespace eHandbook.modules.ManualManagement.Application.Mappings
                 .ForPath(dest => dest.AuditableDetails.DeletedBy, opt => opt.MapFrom(src => src.DeletedBy))
 
                 //configuring AutoMapper to initialize the nested EntityDetailsDto object if it's null. 
-                .AfterMap((src, dest) => {
+                .AfterMap((src, dest) =>
+                {
                     dest.AuditableDetails ??= new AuditableDetailsDto();
                 }).ReverseMap();
         }
