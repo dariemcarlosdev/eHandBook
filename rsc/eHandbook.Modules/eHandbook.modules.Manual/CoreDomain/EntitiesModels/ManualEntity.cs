@@ -2,7 +2,7 @@
 using eHandbook.Core.Domain.Abstractions;
 using System.ComponentModel.DataAnnotations;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
+namespace eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels
 {
     public sealed class ManualEntity : BaseEntity, IAuditableEntity
     {

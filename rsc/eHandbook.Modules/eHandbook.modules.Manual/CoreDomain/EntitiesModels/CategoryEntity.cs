@@ -1,7 +1,7 @@
 ﻿using eHandbook.Core.Domain;
 using eHandbook.Core.Domain.Abstractions;
 
-namespace eHandbook.modules.ManualManagement.CoreDomain.Entities
+namespace eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels
 {
     public class CategoryEntity : BaseEntity, IAuditableEntity
     {

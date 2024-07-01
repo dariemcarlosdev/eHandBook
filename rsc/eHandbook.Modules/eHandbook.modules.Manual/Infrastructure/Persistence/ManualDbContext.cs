@@ -1,4 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+﻿using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs;
 using Microsoft.EntityFrameworkCore;
 

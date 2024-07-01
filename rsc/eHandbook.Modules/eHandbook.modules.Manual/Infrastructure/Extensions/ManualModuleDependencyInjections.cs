@@ -6,7 +6,7 @@ using eHandbook.Infrastructure.Configurations.OptionsPattern;
 using eHandbook.Infrastructure.CrossCutting.Logging;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.Application.Services;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence;
 using eHandbook.modules.ManualManagement.Infrastructure.Persistence.Interceptors;

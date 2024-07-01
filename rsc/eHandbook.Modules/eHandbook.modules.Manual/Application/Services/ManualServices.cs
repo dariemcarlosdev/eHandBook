@@ -3,7 +3,7 @@ using eHandbook.Core.Persistence.Abstractions;
 using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using eHandbook.modules.ManualManagement.Infrastructure.Abstractions.Persistence;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;

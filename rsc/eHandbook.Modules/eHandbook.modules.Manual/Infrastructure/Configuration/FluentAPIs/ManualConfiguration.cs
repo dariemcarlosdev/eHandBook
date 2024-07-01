@@ -1,4 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+﻿using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;

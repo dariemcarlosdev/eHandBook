@@ -1,5 +1,5 @@
 ﻿using eHandbook.Core.Persistence.Abstractions;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Abstractions.Persistence
 {

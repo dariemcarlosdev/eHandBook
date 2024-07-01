@@ -1,6 +1,6 @@
 ﻿using eHandbook.Core.Persistence.Repositories.Common;
 using eHandbook.Core.Validations.Common.GuardValidation;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence.Repository
