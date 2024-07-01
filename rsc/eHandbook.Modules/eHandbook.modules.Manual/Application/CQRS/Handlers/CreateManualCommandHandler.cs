@@ -41,11 +41,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
             // Perform Manual creation logic
 
-            var newManual = new ManualToCreateDto
-            {
-                Description = request.ManualToCreate.Description,
-                Path = request.ManualToCreate.Path,
-            };
+            var newManual = new ManualToCreateDto(request.ManualToCreate.Description, request.ManualToCreate.Path);
 
             var result = await _manualServices.AddNewManualAsync(newManual, cancellationToken);
 

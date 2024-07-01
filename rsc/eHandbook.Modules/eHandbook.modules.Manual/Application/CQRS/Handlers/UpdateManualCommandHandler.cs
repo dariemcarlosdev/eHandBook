@@ -20,13 +20,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
         public async Task<ApiResponseService<ManualDto>> Handle(UpdateManualCommand request, CancellationToken cancellationToken)
         {
-            ManualToUpdateDto dto = new ManualToUpdateDto
-            {
-                Id = request.manualToUpdate.Id,
-                Description = request.manualToUpdate.Description,
-                Path = request.manualToUpdate.Path
-
-            };
+            ManualToUpdateDto dto = new ManualToUpdateDto(request.manualToUpdate.Id, request.manualToUpdate.Description, request.manualToUpdate.Path);
 
             var result = await _manualService.UpdateManualAsyn(dto, cancellationToken);
 

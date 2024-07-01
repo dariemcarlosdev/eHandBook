@@ -21,12 +21,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Handlers
 
         public async Task<ApiResponseService<string>> Handle(DeleteManualCommand request, CancellationToken cancellationToken)
         {
-            ManualToDeleteDto dto = new ManualToDeleteDto
-            {
-                Id = request.manualToDelete.Id,
-                Description = request.manualToDelete.Description,
-                Path = request.manualToDelete.Path
-            };
+            ManualToDeleteDto dto = new ManualToDeleteDto(request.manualToDelete.Id, request.manualToDelete.Description, request.manualToDelete.Path);
 
             var result = await _manualService.DeleteManualAsync(dto, cancellationToken);
 
