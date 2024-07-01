@@ -22,8 +22,7 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence
         public ManualDbContext(DbContextOptions<ManualDbContext> options)
             : base(options)
         {
-            //Disable Object Tracking unless it is Required
-            ChangeTracker.QueryTrackingBehavior =
+               ChangeTracker.QueryTrackingBehavior =
                 QueryTrackingBehavior.NoTracking;
             //Disable Lazy Loading and Use Eager Loading for Improved Performance.
             ChangeTracker.LazyLoadingEnabled = false;
@@ -33,7 +32,7 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence
         /// Defined Manual Class as one of the Entity we intend to work with.
         /// </summary>
         public DbSet<ManualEntity> Manuals { get; set; }
-
+      
         //Using Fluent API approach.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
