@@ -26,6 +26,7 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Configuration.Mappin
                 .ForPath(dest => dest.AuditableDetails.IsUpdated, opt => opt.MapFrom(src => src.IsUpdated))
                 .ForPath(dest => dest.AuditableDetails.DeletedOn, opt => opt.MapFrom(src => src.DeletedOn))
                 .ForPath(dest => dest.AuditableDetails.DeletedBy, opt => opt.MapFrom(src => src.DeletedBy))
+                .ForPath(dest => dest.AuditableDetails.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
 
                 //configuring AutoMapper to initialize the nested EntityDetailsDto object if it's null. 
                 .AfterMap((src, dest) =>
