@@ -42,7 +42,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         public async Task<ApiResponseService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest, CancellationToken cancellationToken)
 
         {
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
 
             var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(e => e.Description == manualCreateDtoRequest.Description)!.FirstOrDefaultAsync(cancellationToken);
 
@@ -108,7 +108,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         public async Task<ApiResponseService<ManualDto>> GetManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
 
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
 
             try
             {
@@ -357,7 +357,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// <returns>ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> DeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
 
             try
             {
@@ -408,7 +408,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// <returns>ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
 
             try
             {
@@ -464,7 +464,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// <returns></returns>
         public async Task<ApiResponseService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
         {
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
             try
             {
                 //check if record exist
@@ -508,7 +508,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
         public async Task<ApiResponseService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, JsonPatchDocument<ManualEntity> document, CancellationToken cancellationToken)
         {
-            ApiResponseService<ManualDto> _response = new();
+            ApiResponseService<ManualDto> _response = new() { MetaData = new()};
 
             try
             {
