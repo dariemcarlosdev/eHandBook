@@ -516,7 +516,6 @@ namespace eHandbook.api.EndPoints
                 //return Result.NoContent();
                 return Results.Ok(response);
 
-                //return Results.NoContent() ;
             }).WithTags("Manuals")
                 .WithName("HardDeleteManual")
                 .WithOpenApi(generatedOperation =>
