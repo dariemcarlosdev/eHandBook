@@ -60,7 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App.SPA", "App.SPA", "{ED0D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Client", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Client\eHandbook.BlazorWebApp.Client.csproj", "{56D4D0D1-5D82-4E10-A723-D74BD14D556D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{1B4F34AF-200A-461B-9BE0-AD236D70AD9F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorDemosApps", "BlazorDemosApps", "{1B4F34AF-200A-461B-9BE0-AD236D70AD9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingPizza", "rsc\BlazorApp\BlazingPizzaGuitRepo\BlazingPizza.csproj", "{B4A60998-0EA4-4229-82F6-D81AFB649240}"
 EndProject
@@ -69,6 +69,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Server", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Server\eHandbook.BlazorWebApp.Server.csproj", "{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Shared", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Shared\eHandbook.BlazorWebApp.Shared.csproj", "{9C1599BA-FB20-49AC-B596-87AA88390959}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.SharedTest", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.SharedTest\eHandbook.BlazorWebApp.SharedTest\eHandbook.BlazorWebApp.SharedTest.csproj", "{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -136,6 +138,10 @@ Global
 		{9C1599BA-FB20-49AC-B596-87AA88390959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1599BA-FB20-49AC-B596-87AA88390959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1599BA-FB20-49AC-B596-87AA88390959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
