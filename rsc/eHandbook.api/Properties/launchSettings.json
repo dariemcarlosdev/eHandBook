@@ -1,24 +1,14 @@
 {
   "profiles": {
-    "SelfHost": {
+    "SelfHostLaunch": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:6001"
+      "applicationUrl": "https://localhost:7001"
     },
-    "http": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5257"
-    },
-    "eHhandBookApi": {
+    "eHhandBookApiSwaggerLaunch": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -37,7 +27,7 @@
       },
       "ancmHostingModel": "InProcess"
     },
-    "Docker": {
+    "eHandBookDockerLaunch": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
