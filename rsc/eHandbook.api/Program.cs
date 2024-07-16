@@ -113,7 +113,8 @@ try
     });
 
     //Configuring and use NLog and loading everything from NLog.config instead of appsettings.json.
-    LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+    
+    //LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 
     //Ensure CORS is configured to allow calls from the Blazor app
