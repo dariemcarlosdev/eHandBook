@@ -36,7 +36,7 @@
         /// <returns></returns>
         public static ApiResponseService<T> Success(T data)
         {
-            return new ApiResponseService<T> { Data = data , MetaData = { Succeeded = true }};
+            return new ApiResponseService<T> { Data = data, MetaData = { Succeeded = true } };
         }
     }
     ///--------------------------------------------------------------------------------------------------

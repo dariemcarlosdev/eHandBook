@@ -1,5 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {

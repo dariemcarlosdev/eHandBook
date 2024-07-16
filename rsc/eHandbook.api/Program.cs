@@ -12,7 +12,6 @@ using FluentValidation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
-using NLog;
 using Serilog;
 using Sieve.Models;
 using System.Reflection;
@@ -113,7 +112,7 @@ try
     });
 
     //Configuring and use NLog and loading everything from NLog.config instead of appsettings.json.
-    
+
     //LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 
@@ -124,7 +123,7 @@ try
             builder => builder.AllowAnyOrigin()
                               .AllowAnyMethod()
                               .AllowAnyHeader());
-        });
+    });
 
     //registers the health check services.
     builder.Services.AddHealthChecks()

@@ -17,7 +17,7 @@ namespace eHandbook.modules.ManualManagement.CoreDomain.Validations.FluentValida
         {
             _logger = logger;
 
-           
+
             _logger.LogInformation("[ CREATEMANUALCOMMANDVALIDATOR ] : CALLING FLUENT VALUDATOR CREATEMANUALCOMMANDVALIDATOR.");
 
             RuleFor(request => request.ManualToCreate.Description)

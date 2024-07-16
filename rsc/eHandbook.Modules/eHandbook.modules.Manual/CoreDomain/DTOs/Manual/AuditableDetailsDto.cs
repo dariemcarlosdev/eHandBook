@@ -1,6 +1,4 @@
-﻿using eHandbook.Core.Domain.Abstractions;
-
-namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
+﻿namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
     //convert to read-init properties
     /// <summary>
