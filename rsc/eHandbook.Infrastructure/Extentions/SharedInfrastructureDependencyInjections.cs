@@ -2,11 +2,9 @@
 using eHandbook.Infrastructure.CrossCutting.Caching;
 using eHandbook.Infrastructure.CrossCutting.ExceptionsHandler.Middlewares;
 using eHandbook.Infrastructure.Utilities.Behaviours;
-using eHandbook.Infrastructure.Utilities.Validations;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

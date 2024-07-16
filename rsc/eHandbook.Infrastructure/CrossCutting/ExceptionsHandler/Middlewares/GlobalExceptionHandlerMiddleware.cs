@@ -1,12 +1,10 @@
 ﻿using eHandbook.Infrastructure.Utilities.Validations;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Security.Authentication;
 
@@ -121,7 +119,7 @@ namespace eHandbook.Infrastructure.CrossCutting.ExceptionsHandler.Middlewares
                         x.ErrorMessage,
                         x.AttemptedValue
 
-                    }) ;
+                    });
                     //var failures = e.Data.Values;
                     problemDetails.Status = StatusCodes.Status403Forbidden;
                     problemDetails.Detail = "Input values do not match with expected data type, range or pattern of the data fields.";
