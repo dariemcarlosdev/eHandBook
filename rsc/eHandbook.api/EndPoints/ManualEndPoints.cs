@@ -462,7 +462,7 @@ namespace eHandbook.api.EndPoints
 
 
 
-            //----------------------------------------------Delete an exisiting Manual EndPoints-------------------------------------------------------------------------------------
+            //----------------------------------------------Hard Delete an exisiting Manual EndPoints-------------------------------------------------------------------------------------
 
 
             app.MapDelete("api/V1/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, [FromServices] IManualService manualService, CancellationToken cancellation) =>
