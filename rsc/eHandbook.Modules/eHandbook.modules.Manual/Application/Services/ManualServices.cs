@@ -429,8 +429,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 //var manual = await _unitOfWork.GetRepository.FindEntityAsync(c => c.Id == id);
 
-                ////Update prop. IsDeleted to True.
-                _existingManual!.IsDeleted = true;
+               
 
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
@@ -438,7 +437,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                     _response.MetaData.Message = "Repository Error soft deleting Manual.";
                     return _response;
                 }
-
+                ////Update prop. IsDeleted to True.
+                _existingManual.IsDeleted = true;
                 await _unitOfWork.SaveAsync(cancellationToken);
                 _response.MetaData.Succeeded = true;
                 _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
