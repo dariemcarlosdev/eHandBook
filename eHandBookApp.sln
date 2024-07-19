@@ -43,8 +43,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App.Blazor", "App.Blazor", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Client", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Client\eHandbook.BlazorWebApp.Client.csproj", "{56D4D0D1-5D82-4E10-A723-D74BD14D556D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorDemosApps", "BlazorDemosApps", "{1B4F34AF-200A-461B-9BE0-AD236D70AD9F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Server", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Server\eHandbook.BlazorWebApp.Server.csproj", "{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Shared", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Shared\eHandbook.BlazorWebApp.Shared.csproj", "{9C1599BA-FB20-49AC-B596-87AA88390959}"
