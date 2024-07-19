@@ -1,0 +1,8 @@
+﻿IPipelineBehavior is part of the MediatR library and is used to build a pipeline for handling requests and responses within our application. 
+This is an “inner” pipeline that is typically used once a request has already been routed to a specific controller or endpoint(in case of using MinimalApis).
+
+So, in the overall flow of a request through your application:
+
+Middleware components are executed in the order they are added to the pipeline. This includes any global exception handling, logging, or other cross-cutting concerns that are implemented as middleware.
+Once the request is routed to a controller action or endpoint, if you’re using MediatR, the IPipelineBehavior components are then executed in the order they are configured.
+Therefore, Middleware is executed first, and then the IPipelineBehavior is executed after the request has been routed to a controller action or endpoint.

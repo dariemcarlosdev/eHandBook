@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using eHandbook.Core.Persistence.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Validation;
 
 namespace eHandbook.Core.Persistence.Repositories.Common
@@ -30,11 +31,11 @@ namespace eHandbook.Core.Persistence.Repositories.Common
             }
         }
 
-        public async Task<bool> SaveAsync()
+        public async Task<bool> SaveAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var isSaved = await _context!.SaveChangesAsync();
+                var isSaved = await _context!.SaveChangesAsync(cancellationToken);
                 return isSaved >= 0;
             }
             catch (DbEntityValidationException dbEx)

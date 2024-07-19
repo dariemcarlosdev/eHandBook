@@ -1,4 +1,4 @@
-﻿using eHandbook.Core.Services.Common.ServiceResponder;
+﻿using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
@@ -9,6 +9,6 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateMan
     /// Description and Path, which are used to provide the necessary information for creating a Manual. 
     /// It implements the IRequest<CreateManualDto> interface from the MediatR library, indicating that it expects a response of type CreateManualDto once it is handled. 
     /// </summary>
-    public sealed record CreateManualCommand(ManualToCreateDto manual) : IRequest<ResponderService<ManualDto>>;
+    public sealed record CreateManualCommand(ManualToCreateDto ManualToCreate) : IRequest<ApiResponseService<ManualDto>>;
 
 }

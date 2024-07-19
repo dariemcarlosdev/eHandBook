@@ -72,6 +72,8 @@ This approach provides the benefits of CQRS while accommodating the modular stru
 
 In simple terms, CQRS helps us to:
 
+In essence, it represents a request-response pipeline. This gives us the ability to easily introduce additional behavior around each request that is going through the pipeline,
+without actually modifying the original request.
 Enforce single-responsibility principle (SRP) which states that every module, class or function in a computer program should have responsibility over a single part of that program’s functionality.
-Manage frequent changes to your application.
-Manage read heavy applications by introducing two databases, one for read and one for write.
+Manage frequent changes to your application.Manage read heavy applications by introducing two databases, one for read and one for write.
+

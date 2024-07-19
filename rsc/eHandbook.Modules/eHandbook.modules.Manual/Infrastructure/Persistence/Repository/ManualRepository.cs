@@ -1,6 +1,6 @@
 ﻿using eHandbook.Core.Persistence.Repositories.Common;
 using eHandbook.Core.Validations.Common.GuardValidation;
-using eHandbook.modules.ManualManagement.CoreDomain.Entities;
+using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence.Repository
@@ -145,10 +145,10 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence.Reposito
         /// </summary>
         /// <param name="manual"></param>
         /// <returns>bool</returns>
-        public async Task<bool> ManualExistAsync(ManualEntity manual)
+        public async Task<bool> ManualExistAsync(ManualEntity manual, CancellationToken cancellationToken)
         {
             EnsureValidation.AgainstNullorEmpty(manual, "Manual is null, cannot check the manual existence.");
-            return await DoesEntityExist(manual);
+            return await DoesEntityExist(manual, cancellationToken);
 
         }
 

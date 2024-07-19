@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications
 {
     /// <summary>
-    /// Handler for manage request business logic sending emails when event happens(notification).
+    /// AuditLog Handler.Handler for manage request business logic sending emails when event happens(notification).
     /// /// It implement INotificationHandler<ManualAddedNotification> signifying it can handle this event.
     /// </summary>
     public sealed class EmailHandler : INotificationHandler<ManualCreatedNotification>
@@ -14,7 +14,7 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifi
 
         public Task Handle(ManualCreatedNotification notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Email sent");
+            _logger.LogInformation("Email sent.");
             return Task.CompletedTask;
         }
     }

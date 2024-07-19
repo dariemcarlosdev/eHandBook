@@ -1,5 +1,5 @@
-﻿using eHandbook.modules.ManualManagement.CoreDomain.Entities;
-using eHandbook.modules.ManualManagement.Infrastructure.Configuration;
+﻿using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
+using eHandbook.modules.ManualManagement.Infrastructure.Configuration.FluentAPIs;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence
@@ -22,9 +22,8 @@ namespace eHandbook.modules.ManualManagement.Infrastructure.Persistence
         public ManualDbContext(DbContextOptions<ManualDbContext> options)
             : base(options)
         {
-            //Disable Object Tracking unless it is Required
             ChangeTracker.QueryTrackingBehavior =
-                QueryTrackingBehavior.NoTracking;
+             QueryTrackingBehavior.NoTracking;
             //Disable Lazy Loading and Use Eager Loading for Improved Performance.
             ChangeTracker.LazyLoadingEnabled = false;
         }

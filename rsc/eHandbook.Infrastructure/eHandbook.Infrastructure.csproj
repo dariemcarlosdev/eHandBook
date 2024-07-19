@@ -4,18 +4,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="DbProviders\**" />
     <Compile Remove="Middleware\**" />
-    <Compile Remove="Utilities\**" />
     <EmbeddedResource Remove="DbProviders\**" />
     <EmbeddedResource Remove="Middleware\**" />
-    <EmbeddedResource Remove="Utilities\**" />
     <None Remove="DbProviders\**" />
     <None Remove="Middleware\**" />
-    <None Remove="Utilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CrossCutting\ExceptionsHandler\Middlewares\m1idhvj1.30c~" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,10 +54,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CrossCutting\Caching\" />
   </ItemGroup>
 
 </Project>

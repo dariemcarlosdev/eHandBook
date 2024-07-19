@@ -1,3 +1,6 @@
+
+ref: https://www.c-sharpcorner.com/UploadFile/damubetha/solid-principles-in-C-Sharp/
+
 The Interface Segregation Principle (ISP) is one of the SOLID principles of object-oriented design and is not specific to ASP.NET Core or any particular project type. ISP states that clients should not be forced to depend on interfaces they do not use. In other words, it suggests that you should design your interfaces in a way that is specific to the needs of the clients that use them, rather than creating large, monolithic interfaces that contain methods that may not be relevant to all clients.
 
 When it comes to applying ISP in a modular monolithic ASP.NET Core project, you can follow these guidelines:

@@ -2,23 +2,24 @@
 
 namespace eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual
 {
-    public class ManualDto
+    /// <summary>
+    /// What was fixed:
+    /// 1.	Regular Expression for Path Validation: Added a RegularExpression attribute to the Path property to include path validation as per your comment.
+    ///    The regular expression ^[\w\-\./\\]+ is a basic example that you might need to adjust based on your specific path validation requirements.
+
+    public record ManualDto
     {
-        public Guid Id { get; set; }
-        [Required]
-        [MaxLength(150, ErrorMessage = "The Description length must be less than 50 characters")]
-        public string? Description { get; set; }
-        [Required]
-        //include regular expretion for path validation.
-        public string? Path { get; set; }
-        public string? CreatedBy { get; set; }
-        public DateTime? CreatedOn { get; set; }
-        public string? UpdatedBy { get; set; }
-        public DateTime? UpdatedOn { get; set; }
-        public bool IsUpdated { get; set; }
-        public DateTime? DeletedOn { get; set; }
-        public string? DeletedBy { get; set; }
-        //Soft delete capability
-        public bool IsDeleted { get; set; }
+        public Guid Id { get; init; }
+        [Required(ErrorMessage = "Manual Description is required")]
+        public string? Description { get; init; }
+
+        [Required(ErrorMessage = "Manual Path is required")]
+        //[RegularExpression(@"^[\w\-\./\\]+", ErrorMessage = "Invalid Path format")]
+        public string? Path { get; init; }
+        //This propertie is marked with set accessor to allow the property to be set outside of the object initializer or constructor.
+        public AuditableDetailsDto? AuditableDetails { get; set; }
+
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using eHandbook.Core.Domain.Common;
+﻿using eHandbook.Core.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.Core.Persistence.Extensions

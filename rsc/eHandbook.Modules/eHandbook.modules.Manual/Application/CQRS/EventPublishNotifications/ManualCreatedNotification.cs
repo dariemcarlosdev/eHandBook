@@ -8,7 +8,19 @@ namespace eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifi
     /// </summary>
     public class ManualCreatedNotification : INotification
     {
-        public ManualDto manual { get; set; }
+        public ManualDto? manual { get; set; }
+
+    }
+
+    public class ManualDeletedNotification : INotification
+    {
+        public required string deleteResponse { get; set; }
+    }
+
+    public class ManualUpdateNotification : INotification
+    {
+        public required string updateResponse { get; set; }
+
     }
 
 }

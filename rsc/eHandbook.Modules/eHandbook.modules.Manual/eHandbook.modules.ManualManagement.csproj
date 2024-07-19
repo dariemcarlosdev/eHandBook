@@ -4,17 +4,22 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
+    <Compile Remove="Controllers\**" />
+    <Compile Remove="Infrastructure\Behaviours\**" />
     <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <EmbeddedResource Remove="Infrastructure\Behaviours\**" />
     <EmbeddedResource Remove="Services\**" />
+    <None Remove="Application\CQRS\Queries\GetManualsWithFilters\**" />
+    <None Remove="Controllers\**" />
+    <None Remove="Infrastructure\Behaviours\**" />
     <None Remove="Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\CQRS\Queries\GetManualsWithFilters\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +34,7 @@
     <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
     <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
@@ -42,6 +48,7 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.5.1-dev-00064" />
+    <PackageReference Include="Sieve" Version="2.5.5" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -55,6 +62,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\eHandbook.Core\eHandbook.Core.csproj" />
     <ProjectReference Include="..\..\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj" />
+  </ItemGroup>
+  <!--anabling Internal members on this project assembly to eHandbook.api project-->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <!--This assembly attribute has one parameter which specified project that is supposed to be able to see internal members-->
+      <_Parameter1>eHandbook.api</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

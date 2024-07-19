@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/eHandBookApp.sln
+/rsc/BlazorApp/FirstRazorLibrery/ExampleJsInterop.cs
+/rsc/BlazorApp/FirstRazorLibrery/FirstRazorLibrery.csproj
+/rsc/BlazorApp/FirstRazorLibrery/Modal.razor
+/rsc/BlazorApp/FirstRazorLibrery/Modal.razor.css
+/rsc/BlazorApp/FirstRazorLibrery/wwwroot/background.png
+/rsc/BlazorApp/FirstRazorLibrery/wwwroot/exampleJsInterop.js
+/rsc/BlazorApp/FirstRazorLibrery/_Imports.razor
