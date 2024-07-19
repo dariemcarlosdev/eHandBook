@@ -25,7 +25,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.1.14" />
-
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
   </ItemGroup>
 </Project>
