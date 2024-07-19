@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!--Configure a Razor class library for NuGet packaging-->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Dariem Developer</Authors>
+    <Version>0.1.0</Version>
+    <PackageId>Learn.MyFirstRazorClassLibrary</PackageId>
+    <Description>This is a Razor component library with a cool modal window component.</Description>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <!--The SupportedPlatform entry declares that this library can be used in a browser platform, namely WebAssembly.-->
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--The PackageReference to the Microsoft.AspNetCore.Components.Web library gives access to the base Blazor components that are shipped with the framework. 
+    This lets you use those simple components to help you build more complex components.-->
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.5" />
+  </ItemGroup>
+
+</Project>

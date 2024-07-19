@@ -1,0 +1,52 @@
+﻿@* This component has several nice features that you can share between your projects:
+
+A title.
+Cancel and Confirm buttons, with labels you can configure and click events you can manage.
+You can set the inner content of the component through the ChildContent parameter.
+You can control the display state of the dialog with the Show parameter. *@
+
+@if (Show)
+{
+
+    <div class="dialog-container">
+        <div class="dialog">
+            <div class="dialog-title">
+                <h2>@Title</h2>
+            </div>
+
+            <div class="dialog-body">
+                @ChildContent
+            </div>
+
+            <div class="dialog-buttons">
+                <button class="btn btn-secondary mr-auto" @onclick="OnCancel">@CancelText</button>
+                <button class="btn btn-success ml-auto" @onclick="OnConfirm">@ConfirmText</button>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string CancelText { get; set; } = "Cancel";
+
+    [Parameter]
+    public string ConfirmText { get; set; } = "Ok";
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool Show { get; set; }
+
+
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnConfirm { get; set; }
+
+}
