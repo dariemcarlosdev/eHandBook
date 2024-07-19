@@ -45,17 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Clie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorDemosApps", "BlazorDemosApps", "{1B4F34AF-200A-461B-9BE0-AD236D70AD9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingPizza", "rsc\BlazorApp\BlazingPizzaGuitRepo\BlazingPizza.csproj", "{B4A60998-0EA4-4229-82F6-D81AFB649240}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Server", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Server\eHandbook.BlazorWebApp.Server.csproj", "{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.Shared", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.Shared\eHandbook.BlazorWebApp.Shared.csproj", "{9C1599BA-FB20-49AC-B596-87AA88390959}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.BlazorWebApp.SharedTest", "..\eHandbook.Blazor\eHandbook.BlazorWebApp\eHandbook.BlazorWebApp.SharedTest\eHandbook.BlazorWebApp.SharedTest\eHandbook.BlazorWebApp.SharedTest.csproj", "{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstRazorLibrery", "rsc\BlazorApp\FirstRazorLibrery\FirstRazorLibrery.csproj", "{75BC365F-EF0B-4086-AF92-7A25CC4C90BA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorPizzaDemoApp", "rsc\BlazorApp\BlazorPizzaDemoApp\BlazorPizzaDemoApp.csproj", "{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +85,6 @@ Global
 		{56D4D0D1-5D82-4E10-A723-D74BD14D556D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56D4D0D1-5D82-4E10-A723-D74BD14D556D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56D4D0D1-5D82-4E10-A723-D74BD14D556D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4A60998-0EA4-4229-82F6-D81AFB649240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4A60998-0EA4-4229-82F6-D81AFB649240}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4A60998-0EA4-4229-82F6-D81AFB649240}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4A60998-0EA4-4229-82F6-D81AFB649240}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DE0CFD0-9C8C-4116-A256-E2061C5EF665}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,14 +97,6 @@ Global
 		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75BC365F-EF0B-4086-AF92-7A25CC4C90BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75BC365F-EF0B-4086-AF92-7A25CC4C90BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75BC365F-EF0B-4086-AF92-7A25CC4C90BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75BC365F-EF0B-4086-AF92-7A25CC4C90BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,12 +112,9 @@ Global
 		{1432729D-2F9C-4E2C-8BF7-7ECE31C5031A} = {62684FF9-C940-49BD-ABA7-E2BD91A63816}
 		{007E30B6-D57B-4F60-89D4-62A062CF5B85} = {AFCA1141-CB97-4E7F-A686-8FA79FEAEAA2}
 		{56D4D0D1-5D82-4E10-A723-D74BD14D556D} = {ED0DD398-4B05-4A84-B7D5-AABA6C3379AD}
-		{B4A60998-0EA4-4229-82F6-D81AFB649240} = {1B4F34AF-200A-461B-9BE0-AD236D70AD9F}
 		{2DE0CFD0-9C8C-4116-A256-E2061C5EF665} = {ED0DD398-4B05-4A84-B7D5-AABA6C3379AD}
 		{9C1599BA-FB20-49AC-B596-87AA88390959} = {ED0DD398-4B05-4A84-B7D5-AABA6C3379AD}
 		{DE7A78BC-77EF-4B23-AB6F-30FFFC95B760} = {ED0DD398-4B05-4A84-B7D5-AABA6C3379AD}
-		{75BC365F-EF0B-4086-AF92-7A25CC4C90BA} = {1B4F34AF-200A-461B-9BE0-AD236D70AD9F}
-		{54C9309A-89FD-4E8A-A8E8-4983ED4A80A4} = {1B4F34AF-200A-461B-9BE0-AD236D70AD9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F1D9803-C70D-4B63-9F6F-91B8BB6A5E00}
