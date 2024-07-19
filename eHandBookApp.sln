@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F3AB1291-54B6-46AC-A512-F61826D7C83A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook", "eHandbook", "{90DC800E-99BA-4A26-A210-B35E794D978B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHandbook.api", "rsc\eHandbook.api\eHandbook.api.csproj", "{C8417173-1441-4F3C-80D2-D12DE2A34E22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eHandbook.core", "eHandbook.core", "{62684FF9-C940-49BD-ABA7-E2BD91A63816}"

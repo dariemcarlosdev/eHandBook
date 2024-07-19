@@ -13,6 +13,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\**" />
+    <Compile Remove="Middlewares\**" />
+    <Content Remove="Controllers\**" />
+    <Content Remove="Middlewares\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <EmbeddedResource Remove="Middlewares\**" />
+    <None Remove="Controllers\**" />
+    <None Remove="Middlewares\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="nlog.config" />
   </ItemGroup>
 
@@ -68,11 +79,6 @@
     <ProjectReference Include="..\eHandbook.Infrastructure\eHandbook.Infrastructure.csproj" />
     <ProjectReference Include="..\eHandbook.Modules\eHandbook.modules.Manual\eHandbook.modules.ManualManagement.csproj" />
     <ProjectReference Include="..\eHandbook.Modules\eHandbook.Modules.Users\eHandbook.Modules.UserManagement.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 </Project>
