@@ -1,1 +1,1 @@
-eHandbook.Core Module: This folder contains core business logic that is shared across modules. It may include services, domain models, and other business-related components that are not specific to any particular module.
+eHandbook.Core: This folder contains core business logic that is shared across modules. It may include services, domain models, and other business-related components that are not specific to any particular module.
