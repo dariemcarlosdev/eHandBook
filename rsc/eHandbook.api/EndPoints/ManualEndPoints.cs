@@ -467,7 +467,7 @@ namespace eHandbook.api.EndPoints
 
             app.MapDelete("api/V1/manuals/delete", async ([FromBody] ManualToDeleteDto manualDeleteDto, [FromServices] IManualService manualService, CancellationToken cancellation) =>
             {
-                var response = await manualService.DeleteManualAsync(manualDeleteDto, cancellation);
+                var response = await manualService.HardDeleteManualAsync(manualDeleteDto, cancellation);
                 if (response == null)
                 {
                     return Results.Problem(detail: "The request was successfully processes, with empty response though", statusCode: 204);

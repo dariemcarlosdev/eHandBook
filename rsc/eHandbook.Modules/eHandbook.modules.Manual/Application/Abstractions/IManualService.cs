@@ -39,14 +39,14 @@ namespace eHandbook.modules.ManualManagement.Application.Abstractions
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
         /// <returns>string</returns>
-        Task<ApiResponseService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken);
+        Task<ApiResponseService<ManualDto>> HardDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken);
 
         /// <summary>
         /// DeleteManual() method overloading. This Service delete a Manual Entity found by Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ManualDto</returns>
-        Task<ApiResponseService<ManualDto>> DeleteManualByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<ApiResponseService<ManualDto>> HardDeleteManualByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Service to change prop. IsDeleted to tru in Manual Entity, no hard delete.
