@@ -120,6 +120,29 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         {
             return new ApiResponseService<T> { MetaData = { Succeeded = success } };
         }
+
+        ///--------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// This method creates a new instance of ApiResponseService<T> with the provided data and message, indicating a successful response.
+        /// </summary>
+        /// <param name="data">The data to be included in the response.</param>
+        /// <param name="message">The message to be included in the response.</param>
+        /// <returns>A new instance of ApiResponseService<T> representing a successful response with the provided data and message.</returns>
+        public static ApiResponseService<T> SuccessWithMessage(T data, string message)
+        {
+            return new ApiResponseService<T> { Data = data, MetaData = { Succeeded = true, Message = message } };
+        }
+
+        ///--------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Creates a new instance of ApiResponseService<T> with the provided success flag, indicating the success or failure of the API request.
+        /// </summary>
+        /// <param name="success">A boolean value indicating the success or failure of the API request.</param>
+        /// <returns>A new instance of ApiResponseService<T> with the Succeeded flag set to the provided success value.</returns>
+        public static ApiResponseService<T> IsSuccessFlagOnly(bool success)
+        {
+            return new ApiResponseService<T> { MetaData = { Succeeded = success } };
+        }
     }
 
 
