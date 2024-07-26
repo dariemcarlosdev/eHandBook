@@ -5,7 +5,6 @@ using eHandbook.modules.ManualManagement.Application.Abstractions;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using eHandbook.modules.ManualManagement.CoreDomain.EntitiesModels;
 using eHandbook.modules.ManualManagement.Infrastructure.Abstractions.Persistence;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 
 namespace eHandbook.modules.ManualManagement.Application.Services
@@ -39,11 +38,18 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         #region Methods Implementation using UoW with Generic Repository.
 
         //Status: Implemented.Completed and Tested.
+        /// <summary>
+        /// Create a new Manual in the database.
+        /// </summary>
+        /// <param name="manualCreateDtoRequest"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> AddNewManualAsync(ManualToCreateDto manualCreateDtoRequest, CancellationToken cancellationToken)
 
         {
             ApiResponseService<ManualDto> _response = new() { MetaData = new() };
 
+            // this is a query to check if the manual already exist in the database.
             var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(e => e.Description == manualCreateDtoRequest.Description)!.FirstOrDefaultAsync(cancellationToken);
 
             try
@@ -52,47 +58,35 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //Check if Manual record exist.
                 if (_existingManual != null)
                 {
-                    _response.MetaData.Message = "This Manual already Exist, hence cannot be created.";
-                    _response.MetaData.Succeeded = false;
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("This Manual already Exist, hence cannot be created.");
                     return _response;
                 }
 
-                var _newManual = new ManualEntity()
+                var _newManualEntity = new ManualEntity()
                 {
-
-
                     Description = manualCreateDtoRequest.Description,
                     Path = manualCreateDtoRequest.Path
-
                 };
 
                 //Add new Manual Record
-                if (!await _unitOfWork.GetRepository.CreateEntityAsync(_newManual))
+                if (!await _unitOfWork.GetRepository.CreateEntityAsync(_newManualEntity))
                 {
-                    _response.MetaData.Message = "Repository Error. A new manual could not be created.";
-                    _response.MetaData.Succeeded = false;
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("Repository Error. A new manual could not be created.");
                     return _response;
                 }
 
                 else
                 {
                     await _unitOfWork.SaveAsync(cancellationToken);
-                    _response.MetaData.Succeeded = true;
-                    _response.Data = _mapper.Map<ManualDto>(_newManual);
-                    _response.MetaData.Message = "Reponse OK!. Manual Created successfuly.";
-
+                    _response = ApiResponseService<ManualDto>.
+                        SuccessWithMessage(_mapper.Map<ManualDto>(_newManualEntity), "Reponse OK!. Manual Created successfuly.");
                 }
 
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error Response.";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error Response.", new List<string> { Convert.ToString(ex.Message) });
             }
 
             return _response;
@@ -104,7 +98,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Get Manual by Id Service.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>ManualDto</returns>
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> GetManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
 
@@ -117,75 +111,22 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_existingManual == null)
                 {
-
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual Not Found.";
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("Manual Not Found.");
                     return _response;
                 }
 
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Manual Found by ID.Reponse OK";
-                _response.Data = _mapper.Map<ManualDto>(_existingManual);
-
+                _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Manual Found by ID.Reponse OK");
 
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error Response getting manual by Id", new List<string> { Convert.ToString(ex.Message) });
             }
 
             return _response;
         }
-
-        /// <summary>
-        /// Get ManualByGuid Service.
-        /// </summary>
-        /// <param name="guid"></param>
-        /// <returns>ManualEntity</returns>
-        //        public async Task<ServiceResponse<ManualEntity>> GetManualByGuidAsync(Guid guid)
-        //        {
-        //            ServiceResponse<ManualEntity> _response = new();
-
-        //            try
-        //            {
-        //#pragma warning disable CS8603 // Possible null reference return.
-        //                var manual = await _unitOfWork.GetRepository.GetEntityByCondition(c => c.Guid.Equals(guid)).FirstOrDefaultAsync();
-
-        //                if (manual == null)
-        //                {
-
-        //                     _response.MetaData.Succeeded = false;
-        //                    _response.MetaData.Message = "Manual Not Found";
-        //                    return _response;
-        //                }
-
-        //                 _response.MetaData.Succeeded = true;
-        //                _response.MetaData.Message = "Get Manual by Id Reponse OK";
-        //                _response.Data = manual;
-        //#pragma warning restore CS8603 // Possible null reference return.
-
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                 _response.MetaData.Succeeded = false;
-        //                _response.Data = null;
-        //                _response.MetaData.Message = "Error Response getting manual by Id";
-        //                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-        //            }
-
-
-        //            return _response;
-        //        }
-
-
-        //implemented.It's already Tested.
-
-        //Stat7s
-
 
 
         //Status: Implemented.
@@ -193,7 +134,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Get All Manuals Service method implementation.
         /// </summary>
         /// <param name=""></param>
-        /// <returns>IEnumerableManualDto</returns>
+        /// <returns> This method return ApiResponseService type ManualDto IEnumerable</returns>
         public async Task<ApiResponseService<IEnumerable<ManualDto>>> GetAllManualsAsync(CancellationToken cancellationToken)
         {
             ApiResponseService<IEnumerable<ManualDto>> _response = new() { MetaData = new() };
@@ -203,24 +144,19 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (manuals == null)
                 {
-
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manuals cannot be fetched.";
+                    _response = ApiResponseService<IEnumerable<ManualDto>>.
+                        FailWithMessage("Manuals cannot be fetched.");
                     return _response;
                 }
 
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Manuals fetched OK.";
-                _response.Data = _mapper.Map<ICollection<ManualDto>>(manuals);
+                _response = ApiResponseService<IEnumerable<ManualDto>>.
+                    SuccessWithMessage(_mapper.Map<IEnumerable<ManualDto>>(manuals), "Manuals fetched OK.");
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error Response fetching all manuals.";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<IEnumerable<ManualDto>>.
+                    FailWithCustomMessages("Error Response fetching all manuals.", new List<string> { Convert.ToString(ex.Message) });
             }
-
 
             return _response;
         }
@@ -230,7 +166,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Update Manual in DataBase Service and persist the change.
         /// </summary>
         /// <param name="manualToUpdateDtoRequest"></param>
-        /// <returns>ManualDto</returns>
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> UpdateManualAsyn(ManualToUpdateDto manualToUpdateDtoRequest, CancellationToken cancellationToken)
         {
             //Create a empty response object.
@@ -241,48 +177,38 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //Find the manual to be updated  and Check if Manual record exists.
                 var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(m => m.Id.Equals(manualToUpdateDtoRequest.Id))!.FirstOrDefaultAsync(cancellationToken);
 
+                //Check if Manual record exist.
                 if (_existingManual == null)
                 {
 
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual do not exist, hence cannot be updated.";
-                    _response.Data = null;
-                    _response.MetaData.MyCustomErrorMessages = new List<string>()
-                    {
-                    "The server cannot find the requested resource.Resource missing."
-                    };
+                   _response = ApiResponseService<ManualDto>.
+                        FailWithCustomMessages("Manual do not exist, hence cannot be updated.", new List<string> { "The server cannot find the requested resource.Resource missing." });
                     return _response;
 
                 }
 
-
+                //this is where the manual properties are updated.
                 _existingManual.Description = manualToUpdateDtoRequest.Description;
                 _existingManual.Path = manualToUpdateDtoRequest.Path;
 
+                //this checks if the manual was updated in the repository.
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual/*, manualToUpdateDtoRequest)*/))
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error updating Manual";
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithMessage("Repository Error updating Manual");
                     return _response;
                 }
 
                 //Update ManualRequest
                 await _unitOfWork.SaveAsync(cancellationToken);
-                //When using Async/Await in library methods, it’s important to use ConfigureAwait(false) to avoid deadlocks. In this case it's not needed.
-                //.ConfigureAwait(false);
 
-                // if Manual was udpated. UpdateManual return true.
-                _response.MetaData.Succeeded = true;
-                _response.Data = _mapper.Map<ManualDto>(_existingManual);
-                _response.MetaData.Message = "Manual Updated Ok";
+                _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Manual Updated Ok");
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error updating Manual.";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error updating Manual.", new List<string> { Convert.ToString(ex.Message) });
             }
 
             return _response;
@@ -293,56 +219,41 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Delete a Manual from database Service and persist the change.
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
-        /// <returns>string</returns>
-        public async Task<ApiResponseService<string>> DeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
+        public async Task<ApiResponseService<ManualDto>> HardDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
         {
-            ApiResponseService<string> _response = new();
+            ApiResponseService<ManualDto> _response = new();
 
-            //mapping ManualDto to Delete to ManualEntity class to delete.
-            //ManualEntity _deleteManual = _mapper.Map<ManualEntity>(manualToDeleteDtoRequest);
-
-            //Get manual Entity from repository.
+            // this is a query to check if the manual already exist in the database.
             ManualEntity? _deleteManual = await _unitOfWork.GetRepository.FindEntityAsync(e => e.Id == manualToDeleteDtoRequest.Id, cancellationToken);
 
             try
             {
-                //check if Manual exist.
-
+                //Check if Manual record exist.
                 if (_deleteManual == null)
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.MetaData.MyCustomErrorMessages = new List<string>()
-                    {
-                    "The server cannot find the requested resource.Resource missing."
-                    };
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithMessage("Manual not exist, hence it cannot be deleted.");
                     return _response;
                 }
 
                 if (!_unitOfWork.GetRepository.DeleteEntity(_deleteManual))
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error deleting Manual";
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithMessage("Repository Error deleting Manual");
                     return _response;
                 }
 
                 // if Manual was deteled. DeleteManual return true.
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Respose Ok. Manual Deleted successfully.";
-                _response.MetaData.MyCustomErrorMessages = new List<string>()
-                {
-                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
-                };
-
+                    _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_deleteManual),"Manual Deleted successfully.");
+                
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error deleting Manual.";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error deleting Manual.", new List<string> { Convert.ToString(ex.Message) });
             }
 
             return _response;
@@ -354,8 +265,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Method Defined in ManualService Class.Delete Manual finding by Id from database and persist the change.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>ManualDto</returns>
-        public async Task<ApiResponseService<ManualDto>> DeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
+        public async Task<ApiResponseService<ManualDto>> HardDeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             ApiResponseService<ManualDto> _response = new() { MetaData = new() };
 
@@ -367,11 +278,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 if (_manualexist == null)
                 {
                     _response = ApiResponseService<ManualDto>.
-                        FailWithCustomMessages(
-                        "Manual not exist, hence it cannot be deleted.",
-                        new List<string>(){
-                            "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
-                        }
+                        FailWithMessage(
+                        "Manual not exist, hence it cannot be deleted."
                         );
                     return _response;
                    
@@ -416,7 +324,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Find a Manual and update Manual prop. Mark Entity prop. IsDeleted to tru, no hard delete.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>ManualDto</returns>
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             ApiResponseService<ManualDto> _response = new() { MetaData = new() };
@@ -426,43 +334,33 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 //check if record exist
                 var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.FirstOrDefaultAsync();
 
+                //check if an existing manual was found.
                 if (_existingManual == null)
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.Data = null;
-                    _response.MetaData.MyCustomErrorMessages = new List<string>()
-                    {
-                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
-                    };
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("Manual not exist, hence it cannot be deleted.");
                     return _response;
                 }
 
-                //var manual = await _unitOfWork.GetRepository.FindEntityAsync(c => c.Id == id);
-
-               
-
+                //check if update was successful.
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithMessage("Repository Error soft deleting Manual.");
                     return _response;
                 }
-                ////Update prop. IsDeleted to True.
-                _existingManual.IsDeleted = true;
-                await _unitOfWork.SaveAsync(cancellationToken);
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
-                _response.Data = _mapper.Map<ManualDto>(_existingManual);
 
+                //this is where prop. IsDeleted is updated to true.
+                _existingManual.IsDeleted = true;
+
+                await _unitOfWork.SaveAsync(cancellationToken);
+                _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Response Ok. Manual Deleted successfully.");
 
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error deleting Manual.", new List<string> { Convert.ToString(ex.Message) });
             }
             return _response;
         }
@@ -472,97 +370,45 @@ namespace eHandbook.modules.ManualManagement.Application.Services
         /// Find a giving Manual and if it's found, mark prop. IsDeleted to true.
         /// </summary>
         /// <param name="manualToDeleteDtoRequest"></param>
-        /// <returns></returns>
+        /// <returns>This method return ApiResponseService type ManualDto</returns>
         public async Task<ApiResponseService<ManualDto>> SoftDeleteManualAsync(ManualToDeleteDto manualToDeleteDtoRequest, CancellationToken cancellationToken)
         {
             ApiResponseService<ManualDto> _response = new() { MetaData = new() };
             try
             {
-                //check if record exist
+                //check if an existing manual was found.
                 var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == manualToDeleteDtoRequest.Id)!.FirstOrDefaultAsync();
 
+                //if existing manual was not found.
                 if (_existingManual == null)
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual not exist.";
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("Manual not exist, hence it cannot be deleted.");
                     return _response;
                 }
 
-                ////Update prop. IsDeleted to True.
+                //here prop. IsDeleted is updated to true.
                 _existingManual!.IsDeleted = true;
 
+                //check if update was successful.
                 if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
+                    _response = ApiResponseService<ManualDto>.FailWithMessage("Repository Error soft deleting Manual.");
                     return _response;
                 }
 
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
-                _response.Data = _mapper.Map<ManualDto>(_existingManual);
-
+                _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Response Ok. Manual Deleted successfully.");
 
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error deleting Manual.", new List<string> { Convert.ToString(ex.Message) });
             }
             return _response;
         }
 
-
-        public async Task<ApiResponseService<ManualDto>> SoftDeleteManualByIdAsync(Guid id, JsonPatchDocument<ManualEntity> document, CancellationToken cancellationToken)
-        {
-            ApiResponseService<ManualDto> _response = new() { MetaData = new() };
-
-            try
-            {
-                //check if record exist
-                var _existingManual = await _unitOfWork.GetRepository.FindEntityByQueryable(manual => manual.Id == id)!.FirstOrDefaultAsync(cancellationToken);
-
-                if (_existingManual == null)
-                {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.Data = null;
-                    return _response;
-                }
-
-                //var manual = await _unitOfWork.GetRepository.FindEntityAsync(c => c.Id == id);
-
-                ////Update prop. IsDeleted to True.
-                // _existingManual!.IsDeleted = true;
-
-                document.ApplyTo(_existingManual);
-                if (!_unitOfWork.GetRepository.UpdateEntity(_existingManual))
-                {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error soft deleting Manual.";
-                    return _response;
-                }
-
-                await _unitOfWork.SaveAsync(cancellationToken);
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Response Ok. Manual Deleted successfully.";
-                _response.Data = _mapper.Map<ManualDto>(_existingManual);
-
-
-            }
-            catch (Exception ex)
-            {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
-        }
-        #endregion
+      #endregion
     }
 }

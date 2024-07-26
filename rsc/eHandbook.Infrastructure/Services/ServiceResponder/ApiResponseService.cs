@@ -18,7 +18,7 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         //This is a boolean property named Succeeded.It indicates whether the API request was successful or not.
         public MetaData? MetaData { get; set; }
 
-        ///--------------------------------------------------------------------------------------------------
+        
         /// <summary>
         /// This is a static method that creates a new instance of  ApiResponseService<T> with Succeeded set to false and Message set to the input string errorMessage.
         /// This method can be used to return a failure response from the API.
