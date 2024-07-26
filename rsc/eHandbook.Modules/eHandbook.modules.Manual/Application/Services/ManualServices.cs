@@ -366,35 +366,46 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 if (_manualexist == null)
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Manual not exist, hence it cannot be deleted.";
-                    _response.MetaData.MyCustomErrorMessages = new List<string>()
-                    {
-                    "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
-                    };
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithCustomMessages(
+                        "Manual not exist, hence it cannot be deleted.",
+                        new List<string>(){
+                            "The server has successfully fulfilled the request and that there is no additional content to send in the response payload body."
+                        }
+                        );
                     return _response;
+                   
                 }
 
                 if (!_unitOfWork.GetRepository.DeleteEntity(_manualexist))
                 {
-                    _response.MetaData.Succeeded = false;
-                    _response.MetaData.Message = "Repository Error deleting Manual";
-                    _response.Data = null;
+                    _response = ApiResponseService<ManualDto>.
+                        FailWithMessage("Repository Error deleting Manual");
                     return _response;
+
+                    //_response.MetaData.Succeeded = false;
+                    //_response.MetaData.Message = "Repository Error deleting Manual";
+                    //_response.Data = null;
+                    //return _response;
                 }
 
                 // if Manual was deteled. DeleteManual return true.
                 await _unitOfWork.SaveAsync(cancellationToken);
-                _response.Data = _mapper.Map<ManualDto>(_manualexist);
-                _response.MetaData.Succeeded = true;
-                _response.MetaData.Message = "Response OK. Manual was Deleted.";
+                _response = ApiResponseService<ManualDto>.
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_manualexist),
+                    "Response Ok. Manual Deleted successfully."
+                    );
             }
             catch (Exception ex)
             {
-                _response.MetaData.Succeeded = false;
-                _response.Data = null;
-                _response.MetaData.Message = "Error deleting Manual.";
-                _response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                
+                _response = ApiResponseService<ManualDto>.
+                    FailWithCustomMessages("Error deleting Manual.", new List<string> { Convert.ToString(ex.Message) });
+
+                //_response.MetaData.Succeeded = false;
+                //_response.Data = null;
+                //_response.MetaData.Message = "Error deleting Manual.";
+                //_response.MetaData.MyCustomErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return _response;
