@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace eHandbook.Infrastructure.Services.ServiceResponder
@@ -12,6 +13,7 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
     /// <param name="Message">Response Message.</param>
     /// <param name="Error">Response Error message.</param>
     /// <param name="MyCustomErrorMessages">Exception error messages.</param>
+    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public class ApiResponseService<T>
     {
         //This is a property of type T named Data. It’s intended to hold the data returned by the API in case of a successful response.
@@ -101,6 +103,10 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
             return new ApiResponseService<T> { MetaData = new() { Succeeded = success } };
         }
 
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
+        }
     }
 
 
