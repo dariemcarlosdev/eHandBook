@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System.Text.Json.Serialization;
 
 namespace eHandbook.Infrastructure.Services.ServiceResponder
 {
@@ -14,8 +15,10 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
     public class ApiResponseService<T>
     {
         //This is a property of type T named Data. It’s intended to hold the data returned by the API in case of a successful response.
+        [JsonPropertyName("data")]
         public T? Data { get; set; }
         //This is a boolean property named Succeeded.It indicates whether the API request was successful or not.
+        [JsonPropertyName("metaData")]  
         public MetaData? MetaData { get; set; }
 
         
