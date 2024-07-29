@@ -50,7 +50,6 @@ try
     builder.Services.AddEndpointsApiExplorer();
 
     //Configuring Sieve package for using config set in appsettings.json
-
     builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
 
     // Register the Swagger generator, defining 1 or more Swagger documents
