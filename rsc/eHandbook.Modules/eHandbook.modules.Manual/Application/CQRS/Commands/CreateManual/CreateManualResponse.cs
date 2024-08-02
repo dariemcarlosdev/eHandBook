@@ -1,6 +1,6 @@
-﻿namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual
+﻿namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands
 {
     internal class CreateManualResponse
-    {
-    }
+{
+}
 }

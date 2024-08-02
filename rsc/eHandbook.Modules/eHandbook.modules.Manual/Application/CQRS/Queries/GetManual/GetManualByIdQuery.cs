@@ -2,7 +2,7 @@
 using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries
 {
     /// <summary>
     /// Query for retrieving the Person by ID. In CQRS, a query represents a request for data or information from the system without causing any changes to the system's state. 

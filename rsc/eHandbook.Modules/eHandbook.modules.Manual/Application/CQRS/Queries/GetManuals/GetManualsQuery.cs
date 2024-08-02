@@ -2,7 +2,7 @@
 using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Queries
 {
     public sealed record GetManualsQuery() : ICachedQuery<ApiResponseService<IEnumerable<ManualDto>>>
     {

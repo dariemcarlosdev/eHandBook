@@ -1,4 +1,4 @@
-﻿namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.SoftDeleteManualById
+﻿namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands
 {
     internal class SoftDeleteManualByIdCommandResponse
     {

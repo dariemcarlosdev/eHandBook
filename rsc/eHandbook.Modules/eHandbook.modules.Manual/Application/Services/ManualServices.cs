@@ -181,8 +181,8 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 if (_existingManual == null)
                 {
 
-                   _response = ApiResponseService<ManualDto>.
-                        FailWithCustomMessages("Manual do not exist, hence cannot be updated.", new List<string> { "The server cannot find the requested resource.Resource missing." });
+                    _response = ApiResponseService<ManualDto>.
+                         FailWithCustomMessages("Manual do not exist, hence cannot be updated.", new List<string> { "The server cannot find the requested resource.Resource missing." });
                     return _response;
 
                 }
@@ -246,9 +246,9 @@ namespace eHandbook.modules.ManualManagement.Application.Services
 
                 // if Manual was deteled. DeleteManual return true.
                 await _unitOfWork.SaveAsync(cancellationToken);
-                    _response = ApiResponseService<ManualDto>.
-                    SuccessWithMessage(_mapper.Map<ManualDto>(_deleteManual),"Manual Deleted successfully.");
-                
+                _response = ApiResponseService<ManualDto>.
+                SuccessWithMessage(_mapper.Map<ManualDto>(_deleteManual), "Manual Deleted successfully.");
+
             }
             catch (Exception ex)
             {
@@ -282,7 +282,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                         "Manual not exist, hence it cannot be deleted."
                         );
                     return _response;
-                   
+
                 }
 
                 if (!_unitOfWork.GetRepository.DeleteEntity(_manualexist))
@@ -306,7 +306,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
             }
             catch (Exception ex)
             {
-                
+
                 _response = ApiResponseService<ManualDto>.
                     FailWithCustomMessages("Error deleting Manual.", new List<string> { Convert.ToString(ex.Message) });
 
@@ -409,6 +409,6 @@ namespace eHandbook.modules.ManualManagement.Application.Services
             return _response;
         }
 
-      #endregion
+        #endregion
     }
 }

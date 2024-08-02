@@ -1,7 +1,7 @@
 ﻿using eHandbook.Infrastructure.Abstractions.Handler;
 using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
-using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals;
+using eHandbook.modules.ManualManagement.Application.CQRS.Queries;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;

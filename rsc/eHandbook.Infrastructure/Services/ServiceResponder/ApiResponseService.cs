@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace eHandbook.Infrastructure.Services.ServiceResponder
@@ -20,10 +19,10 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         [JsonPropertyName("data")]
         public T? Data { get; set; }
         //This is a boolean property named Succeeded.It indicates whether the API request was successful or not.
-        [JsonPropertyName("metaData")]  
+        [JsonPropertyName("metaData")]
         public MetaData? MetaData { get; set; }
 
-        
+
         /// <summary>
         /// This is a static method that creates a new instance of  ApiResponseService<T> with Succeeded set to false and Message set to the input string errorMessage.
         /// This method can be used to return a failure response from the API.
@@ -35,12 +34,14 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         /// </returns>
         public static ApiResponseService<T> FailWithMessage(string message)
         {
-            return new ApiResponseService<T> {
+            return new ApiResponseService<T>
+            {
                 Data = default,
-                MetaData = new() { 
-                    Message = message, 
-                    Succeeded = false 
-                } 
+                MetaData = new()
+                {
+                    Message = message,
+                    Succeeded = false
+                }
             };
         }
 
@@ -57,9 +58,11 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         ///</return>
         public static ApiResponseService<T> FailWithCustomMessages(string errorMessage, List<string> customErrorMessages)
         {
-            return new ApiResponseService<T> { 
+            return new ApiResponseService<T>
+            {
                 Data = default,
-                MetaData = new () {
+                MetaData = new()
+                {
                     Succeeded = false,
                     Message = errorMessage,
                     MyCustomErrorMessages = customErrorMessages
@@ -77,7 +80,7 @@ namespace eHandbook.Infrastructure.Services.ServiceResponder
         /// <returns>A new instance of ApiResponseService<T> representing a successful response with the provided data.</returns>
         public static ApiResponseService<T> Success(T data)
         {
-            return new ApiResponseService<T> { Data = data, MetaData = new () { Succeeded = true } };
+            return new ApiResponseService<T> { Data = data, MetaData = new() { Succeeded = true } };
         }
 
         ///--------------------------------------------------------------------------------------------------

@@ -1,12 +1,7 @@
 ﻿using eHandbook.Infrastructure.Utilities.Filters;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManualById;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.SoftDeleteManualById;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.UpdateManual;
-using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManual;
-using eHandbook.modules.ManualManagement.Application.CQRS.Queries.GetManuals;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands;
+using eHandbook.modules.ManualManagement.Application.CQRS.Queries;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using FluentValidation;
 using MediatR;
@@ -479,7 +474,7 @@ namespace eHandbook.api.EndPoints
                 {
                     //StatusCode#404: The server has not found anything matching the Request-URI. No indication is given of whether the condition is temporary or permanent.
                     return Results.NotFound(response);
-  
+
                 }
                 //else if the response data is null, return a 204 No Content status code.
                 else if (response.Data == null)

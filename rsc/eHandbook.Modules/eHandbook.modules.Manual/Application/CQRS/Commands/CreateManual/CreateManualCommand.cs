@@ -2,7 +2,7 @@
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
 
-namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual
+namespace eHandbook.modules.ManualManagement.Application.CQRS.Commands
 {
     /// <summary>
     /// The code defines a Command called CreateManualCommand. It represents the intention to create a Manual entity. The command has fallowing properties: 

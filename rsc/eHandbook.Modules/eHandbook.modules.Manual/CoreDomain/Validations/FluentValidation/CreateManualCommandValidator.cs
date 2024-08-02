@@ -1,4 +1,4 @@
-﻿using eHandbook.modules.ManualManagement.Application.CQRS.Commands.CreateManual;
+﻿using eHandbook.modules.ManualManagement.Application.CQRS.Commands;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 

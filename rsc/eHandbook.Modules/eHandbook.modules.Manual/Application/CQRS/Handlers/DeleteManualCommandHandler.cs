@@ -1,6 +1,6 @@
 ﻿using eHandbook.Infrastructure.Services.ServiceResponder;
 using eHandbook.modules.ManualManagement.Application.Abstractions;
-using eHandbook.modules.ManualManagement.Application.CQRS.Commands.DeleteManual;
+using eHandbook.modules.ManualManagement.Application.CQRS.Commands;
 using eHandbook.modules.ManualManagement.Application.CQRS.EventPublishNotifications;
 using eHandbook.modules.ManualManagement.CoreDomain.DTOs.Manual;
 using MediatR;
