@@ -203,7 +203,7 @@ namespace eHandbook.modules.ManualManagement.Application.Services
                 await _unitOfWork.SaveAsync(cancellationToken);
 
                 _response = ApiResponseService<ManualDto>.
-                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Manual Updated Ok");
+                    SuccessWithMessage(_mapper.Map<ManualDto>(_existingManual), "Reponse OK!. Manual Updated successfuly.");
             }
             catch (Exception ex)
             {
